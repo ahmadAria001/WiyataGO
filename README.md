@@ -3,7 +3,7 @@
 **A Gamified Web-Based Learning Platform with Skill-Tree Progression & Interactive Content Generation.**
 
 ## 📖 Abstract
-This project is a thesis implementation aimed at enhancing student engagement through gamification mechanics inspired by Duolingo. Unlike traditional LMS, [Nama Aplikasi] focuses on **Micro-learning** and **Visual Progression**. It empowers teachers to create interactive courses (Drag-and-drop, Matching pairs, Parsons Problems) without any coding knowledge.
+This project is a thesis implementation aimed at enhancing student engagement through gamification mechanics inspired by Duolingo. Unlike traditional LMS, WiyataGO focuses on **Micro-learning** and **Visual Progression**. It empowers teachers to create interactive courses (Drag-and-drop, Matching pairs, Parsons Problems) without any coding knowledge.
 
 ## ✨ Key Features
 *   **Gamified Student Interface:** Experience Points (XP), Health/Lives System, and Streak tracking to boost retention.
