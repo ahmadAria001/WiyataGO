@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WiyataGo - Lesson Editor</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df259",
+                        "background-light": "#f5f8f6",
+                        "background-dark": "#102216",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a3322",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #334155; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#0d1c12] dark:text-white h-screen flex overflow-hidden">
+<!-- Left Sidebar -->
+<aside class="w-64 flex-shrink-0 border-r border-[#cee8d7] dark:border-[#2a4d35] bg-surface-light dark:bg-surface-dark flex flex-col h-full z-10 transition-colors duration-200">
+<div class="p-6">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 shadow-sm" data-alt="Abstract geometric green pattern logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDdngR2hwhOs6SRvg68UPOuZc9vmBxWtz7L34el6SAvop8zJa-x28bCWUzmJWBReXdscQ3YRE5_fTT317Xmj-V4rgZ6Xtxx9jX7yinE-OTMy2E8XMI4sO9ePmJLd5d3D9pGe2e4AHKB4IW35RCFYn4qOueOhLLmXloSLbvE2Ne3SAMcdsjaTrmGV2eom0v7pS1OD0hl9iLcNKZvmxGUoThrHPGJxxvbA6qIovGV2qq71iyMVj2JDImRM50lmZA4CAzBsFhPY0I7EN4");'></div>
+<div class="flex flex-col">
+<h1 class="text-[#0d1c12] dark:text-white text-base font-bold leading-normal">WiyataGo</h1>
+<p class="text-[#499c65] dark:text-[#6bc48d] text-xs font-normal leading-normal">Teacher Panel</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-1 px-3 flex-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-[#254230] text-[#0d1c12] dark:text-gray-200 group transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl text-gray-500 dark:text-gray-400 group-hover:text-[#499c65]">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#e7f4eb] dark:bg-[#1f3d2b] text-[#0d1c12] dark:text-white" href="#">
+<span class="material-symbols-outlined text-2xl text-[#1a5e32] dark:text-primary fill-1">book_2</span>
+<span class="text-sm font-medium">Courses</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-[#254230] text-[#0d1c12] dark:text-gray-200 group transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl text-gray-500 dark:text-gray-400 group-hover:text-[#499c65]">group</span>
+<span class="text-sm font-medium">Students</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-[#254230] text-[#0d1c12] dark:text-gray-200 group transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl text-gray-500 dark:text-gray-400 group-hover:text-[#499c65]">bar_chart</span>
+<span class="text-sm font-medium">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-[#254230] text-[#0d1c12] dark:text-gray-200 group transition-colors" href="#">
+<span class="material-symbols-outlined text-2xl text-gray-500 dark:text-gray-400 group-hover:text-[#499c65]">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</div>
+<div class="p-4 border-t border-[#cee8d7] dark:border-[#2a4d35]">
+<div class="flex items-center gap-3 px-2">
+<div class="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-sm">
+                    JD
+                </div>
+<div class="flex flex-col">
+<span class="text-sm font-medium text-[#0d1c12] dark:text-white">Jane Doe</span>
+<span class="text-xs text-gray-500 dark:text-gray-400">Instructor</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-full relative overflow-hidden">
+<!-- Header -->
+<header class="flex-shrink-0 bg-surface-light dark:bg-surface-dark border-b border-[#cee8d7] dark:border-[#2a4d35] px-8 py-5 flex flex-col gap-4">
+<!-- Breadcrumbs -->
+<nav class="flex flex-wrap gap-2 text-sm">
+<a class="text-[#499c65] dark:text-[#6bc48d] hover:underline font-medium" href="#">Courses</a>
+<span class="text-gray-400">/</span>
+<a class="text-[#499c65] dark:text-[#6bc48d] hover:underline font-medium" href="#">Java Basics</a>
+<span class="text-gray-400">/</span>
+<span class="text-[#0d1c12] dark:text-white font-medium">Polymorphism</span>
+</nav>
+<div class="flex items-end justify-between gap-4 flex-wrap">
+<!-- Title Input -->
+<div class="flex-1 min-w-[300px]">
+<label class="block">
+<span class="sr-only">Lesson Title</span>
+<input class="w-full bg-transparent border-0 border-b-2 border-transparent hover:border-gray-200 focus:border-primary focus:ring-0 text-3xl font-bold text-[#0d1c12] dark:text-white placeholder-gray-300 dark:placeholder-gray-600 px-0 py-1 transition-colors" placeholder="Enter lesson title" type="text" value="Understanding Polymorphism"/>
+</label>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center h-10 px-4 rounded-lg border border-[#cee8d7] dark:border-[#2a4d35] hover:bg-gray-50 dark:hover:bg-[#254230] text-[#0d1c12] dark:text-white text-sm font-semibold transition-colors">
+<span class="material-symbols-outlined text-[20px] mr-2">visibility</span>
+                        Preview
+                    </button>
+<button class="flex items-center justify-center h-10 px-6 rounded-lg bg-primary hover:bg-[#0be050] text-[#0d1c12] text-sm font-bold shadow-sm transition-colors">
+                        Save Changes
+                    </button>
+</div>
+</div>
+</header>
+<!-- Content Scroll Area -->
+<div class="flex flex-1 overflow-hidden">
+<!-- Central Column: List Editor -->
+<div class="flex-1 overflow-y-auto p-8">
+<div class="max-w-4xl mx-auto flex flex-col gap-6">
+<!-- Toolbar -->
+<div class="flex items-center justify-between gap-4 bg-surface-light dark:bg-surface-dark p-2 rounded-xl shadow-sm border border-[#cee8d7] dark:border-[#2a4d35]">
+<div class="flex items-center flex-1 gap-2 pl-2">
+<span class="material-symbols-outlined text-gray-400">search</span>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-sm text-[#0d1c12] dark:text-white placeholder-gray-400 h-10" placeholder="Search questions..." type="text"/>
+</div>
+<div class="h-6 w-px bg-gray-200 dark:bg-gray-700"></div>
+<div class="flex items-center gap-2 pr-2">
+<select class="bg-transparent border-none focus:ring-0 text-sm text-gray-600 dark:text-gray-300 font-medium cursor-pointer py-0 pl-2 pr-8">
+<option>All Status</option>
+<option>Published</option>
+<option>Draft</option>
+</select>
+<button class="flex items-center gap-2 h-9 px-4 rounded-lg border border-primary text-primary hover:bg-primary/10 text-sm font-semibold transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+                                Tambah Soal Baru
+                            </button>
+</div>
+</div>
+<!-- Question List -->
+<div class="flex flex-col gap-3" id="question-list">
+<!-- Header for List -->
+<div class="flex items-center px-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+<div class="w-8"></div> <!-- Drag handle space -->
+<div class="flex-1">Question</div>
+<div class="w-24 text-center">Points</div>
+<div class="w-24 text-center">Status</div>
+<div class="w-10"></div> <!-- Actions space -->
+</div>
+<!-- Item 1 -->
+<div class="group relative flex items-center gap-4 p-3 bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-[#2a4d35] rounded-lg shadow-sm hover:border-primary/50 dark:hover:border-primary/50 transition-all cursor-default">
+<!-- Drag Handle -->
+<div class="cursor-grab active:cursor-grabbing text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-400 p-1">
+<span class="material-symbols-outlined">drag_indicator</span>
+</div>
+<!-- Content -->
+<div class="flex-1 flex items-center gap-3 min-w-0">
+<div class="size-9 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+</div>
+<div class="flex flex-col min-w-0">
+<h3 class="text-sm font-medium text-[#0d1c12] dark:text-white truncate">Introduction to Polymorphism</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400 truncate">Multiple Choice • "Which of the following best describes..."</p>
+</div>
+</div>
+<!-- Points -->
+<div class="w-24 flex justify-center">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200">
+<span class="material-symbols-outlined text-[14px] mr-1 text-amber-600">bolt</span>
+                                    100 XP
+                                </span>
+</div>
+<!-- Status -->
+<div class="w-24 flex justify-center">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded text-xs font-medium text-[#0d1c12] dark:text-white">
+<span class="size-2 rounded-full bg-primary animate-pulse"></span>
+                                    Published
+                                </span>
+</div>
+<!-- Actions -->
+<div class="w-10 flex justify-end">
+<button class="size-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-[#254230] text-gray-400 dark:text-gray-500 hover:text-[#0d1c12] dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="group relative flex items-center gap-4 p-3 bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-[#2a4d35] rounded-lg shadow-sm hover:border-primary/50 dark:hover:border-primary/50 transition-all cursor-default">
+<div class="cursor-grab active:cursor-grabbing text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-400 p-1">
+<span class="material-symbols-outlined">drag_indicator</span>
+</div>
+<div class="flex-1 flex items-center gap-3 min-w-0">
+<div class="size-9 rounded-lg bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">code</span>
+</div>
+<div class="flex flex-col min-w-0">
+<h3 class="text-sm font-medium text-[#0d1c12] dark:text-white truncate">Implementing Overriding</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400 truncate">Code Challenge • "Write a subclass that overrides..."</p>
+</div>
+</div>
+<div class="w-24 flex justify-center">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200">
+<span class="material-symbols-outlined text-[14px] mr-1 text-amber-600">bolt</span>
+                                    250 XP
+                                </span>
+</div>
+<div class="w-24 flex justify-center">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded text-xs font-medium text-gray-500 dark:text-gray-400">
+<span class="size-2 rounded-full bg-gray-300 dark:bg-gray-600"></span>
+                                    Draft
+                                </span>
+</div>
+<div class="w-10 flex justify-end">
+<button class="size-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-[#254230] text-gray-400 dark:text-gray-500 hover:text-[#0d1c12] dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="group relative flex items-center gap-4 p-3 bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-[#2a4d35] rounded-lg shadow-sm hover:border-primary/50 dark:hover:border-primary/50 transition-all cursor-default">
+<div class="cursor-grab active:cursor-grabbing text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-400 p-1">
+<span class="material-symbols-outlined">drag_indicator</span>
+</div>
+<div class="flex-1 flex items-center gap-3 min-w-0">
+<div class="size-9 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">quiz</span>
+</div>
+<div class="flex flex-col min-w-0">
+<h3 class="text-sm font-medium text-[#0d1c12] dark:text-white truncate">Super Keyword Usage</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400 truncate">Fill in Blank • "The keyword used to call parent..."</p>
+</div>
+</div>
+<div class="w-24 flex justify-center">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200">
+<span class="material-symbols-outlined text-[14px] mr-1 text-amber-600">bolt</span>
+                                    150 XP
+                                </span>
+</div>
+<div class="w-24 flex justify-center">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded text-xs font-medium text-[#0d1c12] dark:text-white">
+<span class="size-2 rounded-full bg-primary"></span>
+                                    Published
+                                </span>
+</div>
+<div class="w-10 flex justify-end">
+<button class="size-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-[#254230] text-gray-400 dark:text-gray-500 hover:text-[#0d1c12] dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Item 4 (Active State Simulation) -->
+<div class="group relative flex items-center gap-4 p-3 bg-surface-light dark:bg-surface-dark border border-primary ring-1 ring-primary/20 rounded-lg shadow-md transition-all cursor-default opacity-90">
+<div class="cursor-grab active:cursor-grabbing text-primary p-1">
+<span class="material-symbols-outlined">drag_indicator</span>
+</div>
+<div class="flex-1 flex items-center gap-3 min-w-0">
+<div class="size-9 rounded-lg bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">code</span>
+</div>
+<div class="flex flex-col min-w-0">
+<h3 class="text-sm font-medium text-[#0d1c12] dark:text-white truncate">Abstract Classes</h3>
+<p class="text-xs text-gray-500 dark:text-gray-400 truncate">Code Challenge • "Create an abstract class Animal..."</p>
+</div>
+</div>
+<div class="w-24 flex justify-center">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200">
+<span class="material-symbols-outlined text-[14px] mr-1 text-amber-600">bolt</span>
+                                    300 XP
+                                </span>
+</div>
+<div class="w-24 flex justify-center">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded text-xs font-medium text-gray-500 dark:text-gray-400">
+<span class="size-2 rounded-full bg-gray-300 dark:bg-gray-600"></span>
+                                    Draft
+                                </span>
+</div>
+<div class="w-10 flex justify-end">
+<button class="size-8 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-[#254230] text-gray-400 dark:text-gray-500 hover:text-[#0d1c12] dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Drop Zone Placeholder -->
+<div class="h-16 border-2 border-dashed border-[#cee8d7] dark:border-[#2a4d35] rounded-lg flex items-center justify-center bg-gray-50 dark:bg-[#15291b] text-gray-400 text-sm font-medium">
+                            Drop question here
+                        </div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar: Contextual Settings -->
+<aside class="w-80 border-l border-[#cee8d7] dark:border-[#2a4d35] bg-surface-light dark:bg-surface-dark overflow-y-auto p-6 hidden xl:block">
+<div class="flex flex-col gap-6">
+<div>
+<h2 class="text-sm font-bold text-[#0d1c12] dark:text-white uppercase tracking-wider mb-4">Lesson Details</h2>
+<!-- Stats Card -->
+<div class="p-4 rounded-xl bg-[#e7f4eb] dark:bg-[#1f3d2b] border border-[#cee8d7] dark:border-[#2a4d35] flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Total Questions</span>
+<span class="text-2xl font-bold text-[#0d1c12] dark:text-white">5</span>
+</div>
+<div class="size-10 rounded-full bg-white dark:bg-surface-dark flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined">list</span>
+</div>
+</div>
+<div class="h-px bg-[#cee8d7] dark:bg-[#2a4d35]"></div>
+<div class="flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Total XP Available</span>
+<span class="text-2xl font-bold text-[#0d1c12] dark:text-white">800</span>
+</div>
+<div class="size-10 rounded-full bg-white dark:bg-surface-dark flex items-center justify-center text-amber-500 shadow-sm">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<label class="block">
+<span class="text-sm font-medium text-[#0d1c12] dark:text-white mb-1 block">Difficulty Level</span>
+<div class="relative">
+<select class="w-full form-select rounded-lg border-[#cee8d7] dark:border-[#2a4d35] bg-white dark:bg-[#1a3322] text-[#0d1c12] dark:text-white focus:border-primary focus:ring-0 text-sm py-2.5">
+<option>Beginner</option>
+<option selected="">Intermediate</option>
+<option>Advanced</option>
+</select>
+</div>
+</label>
+<label class="block">
+<span class="text-sm font-medium text-[#0d1c12] dark:text-white mb-1 block">Time Limit (Minutes)</span>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-gray-400 text-[20px]">timer</span>
+<input class="w-full form-input rounded-lg border-[#cee8d7] dark:border-[#2a4d35] bg-white dark:bg-[#1a3322] text-[#0d1c12] dark:text-white focus:border-primary focus:ring-0 text-sm py-2.5 pl-10" type="number" value="45"/>
+</div>
+</label>
+<label class="block">
+<span class="text-sm font-medium text-[#0d1c12] dark:text-white mb-1 block">Prerequisite Lesson</span>
+<div class="relative">
+<select class="w-full form-select rounded-lg border-[#cee8d7] dark:border-[#2a4d35] bg-white dark:bg-[#1a3322] text-[#0d1c12] dark:text-white focus:border-primary focus:ring-0 text-sm py-2.5">
+<option>None</option>
+<option selected="">Java Basics: Classes</option>
+<option>Java Basics: Methods</option>
+</select>
+</div>
+</label>
+</div>
+<div class="p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-gray-400 mt-0.5">info</span>
+<p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                                Students must complete the prerequisite lesson with at least 80% score to unlock this lesson.
+                            </p>
+</div>
+</div>
+<div>
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-sm font-bold text-[#0d1c12] dark:text-white uppercase tracking-wider">Cover Image</h2>
+<button class="text-xs text-primary font-medium hover:underline">Change</button>
+</div>
+<div class="w-full aspect-video rounded-lg bg-cover bg-center relative group overflow-hidden" data-alt="Geometric code background illustration" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuADFE-ez3Zz-1AX95tAaaPxQfLgcLQv8OmqIsYX9m3LmgznBzCEozaGjUfD1gDLTg8PQ9luqkjOQV0qcrvCldG_Xmje8EqpUZl--G01VIiiLF92yEjaq9S9drTJBuDfqXvg0ekWBM9hjt6cCxh2ickFSbN8ArQ8mH7PzAHUadC8krbporOyonrew55wlydfrUlZo9sO6eDFOcZHhBEILyFbdfiFnkj9SlHyU8JnxHlryEdld-B6TvdhyL5Qjo1Ubc7sjD9c1mEk070");'>
+<div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors"></div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+</body></html>

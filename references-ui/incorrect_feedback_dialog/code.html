@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Incorrect Feedback Dialog - OOP Learning App</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#0df259",
+                "background-light": "#f5f8f6",
+                "background-dark": "#102216",
+                "error": "#ef4444",
+              },
+              fontFamily: {
+                "display": ["Lexend", "sans-serif"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen">
+<div class="relative flex h-screen w-full flex-col overflow-x-hidden">
+<!-- Navigation Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e7f4eb] dark:border-[#1e3a28] px-10 py-3 bg-white dark:bg-[#102216]">
+<div class="flex items-center gap-4 text-[#0d1c12] dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_535)">
+<path clip-rule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fill-rule="evenodd"></path>
+</g>
+<defs>
+<clippath id="clip0_6_535"><rect fill="white" height="48" width="48"></rect></clippath>
+</defs>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">OOP Learning App</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-[#0d1c12] dark:text-gray-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Belajar</a>
+<a class="text-[#0d1c12] dark:text-gray-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Papan Peringkat</a>
+<a class="text-[#0d1c12] dark:text-gray-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Profil</a>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="User profile avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBmG7w4oC9w_Hd-cggxZwroB4bzCRieRMalVhFkMCo5WZFK5SizGdmwmUgKGY7vbkX7fhqINlSs7UVfPKaXNYsLKYDI3GLFSiHI69ATzXFr3eCOFAUNX91VXdGqbWNw0Ozkb8PUA6KtdR4oBOkdJmYQpt_ZErNpNxGGUH5U2zxxoycbpD1YYZ7-0IUWedTbtI2-4JaMB-_UU11geucMuoCVJ3eCTTfT9yceqKUUX4AphbzcKm6t-ooKv4-G4fwpt1PTiMaaj3H1SlM");'></div>
+</div>
+</header>
+<!-- Main Content Area (Background Lesson) -->
+<main class="flex-1 flex flex-col items-center justify-center p-6 opacity-40 select-none">
+<div class="max-w-[800px] w-full space-y-8 text-center">
+<div class="h-2 w-full bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[65%]"></div>
+</div>
+<h3 class="text-2xl font-bold dark:text-white">Apa kegunaan dari kata kunci 'class' dalam Java?</h3>
+<div class="grid grid-cols-1 gap-4 mt-8">
+<div class="p-4 border-2 border-gray-200 dark:border-gray-800 rounded-xl text-left dark:text-gray-400">A. Untuk membuat variabel lokal</div>
+<div class="p-4 border-2 border-error/50 bg-error/5 rounded-xl text-left dark:text-error/90">B. Untuk mendefinisikan sebuah objek blueprint</div>
+</div>
+</div>
+</main>
+<!-- Shadcn-style Modal Overlay -->
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+<!-- Feedback Dialog Container -->
+<div class="w-full max-w-[520px] bg-white dark:bg-[#162a1c] rounded-2xl shadow-2xl overflow-hidden border border-white/10">
+<!-- Feedback Header -->
+<div class="pt-8 flex flex-col items-center text-center px-6">
+<div class="size-20 bg-error/10 text-error rounded-full flex items-center justify-center mb-4">
+<span class="material-symbols-outlined !text-5xl font-bold">close</span>
+</div>
+<h1 class="text-error text-[28px] font-bold leading-tight mb-2 font-display">Wah, Belum Tepat!</h1>
+<h2 class="text-[#0d1c12] dark:text-white text-lg font-semibold leading-tight opacity-70">Solusi yang Benar:</h2>
+</div>
+<!-- Correct Solution Code Block -->
+<div class="px-8 py-6">
+<div class="bg-[#0d1c12] dark:bg-black rounded-xl p-6 overflow-hidden border border-white/5 relative group">
+<div class="absolute top-3 left-4 flex gap-1.5">
+<div class="size-2.5 rounded-full bg-error/60"></div>
+<div class="size-2.5 rounded-full bg-yellow-500/60"></div>
+<div class="size-2.5 rounded-full bg-primary/60"></div>
+</div>
+<div class="mt-4 font-mono text-sm leading-relaxed">
+<p class="text-[#499c65] italic mb-2">// Definisi Kelas Mobil</p>
+<p class="text-white"><span class="text-blue-400">public class</span> <span class="text-primary">Mobil</span> {</p>
+<div class="pl-6 border-l border-white/10 my-1">
+<p class="text-white"><span class="text-blue-400">String</span> merk = <span class="text-orange-300">"Toyota"</span>;</p>
+<p class="text-white mt-1"><span class="text-blue-400">public void</span> <span class="text-yellow-200">jalan</span>() {</p>
+<div class="pl-6 border-l border-white/10">
+<p class="text-white"><span class="text-primary">System</span>.out.println(<span class="text-orange-300">"Mobil melaju..."</span>);</p>
+</div>
+<p class="text-white">}</p>
+</div>
+<p class="text-white">}</p>
+</div>
+</div>
+<p class="mt-4 text-sm text-gray-500 dark:text-gray-400 text-center px-4 leading-relaxed">
+                        Ingat: <span class="font-semibold text-[#0d1c12] dark:text-white">Class</span> adalah cetakan (blueprint) sedangkan <span class="font-semibold text-[#0d1c12] dark:text-white">Object</span> adalah wujud nyatanya.
+                    </p>
+</div>
+<!-- Footer Action -->
+<div class="p-6 border-t border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-black/20">
+<div class="flex justify-center">
+<button class="flex min-w-[200px] w-full max-w-[400px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-8 bg-primary text-[#0d1c12] text-lg font-bold leading-normal tracking-tight shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+<span class="truncate">Lanjutkan</span>
+<span class="material-symbols-outlined ml-2">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Background Decorations (Abstract Patterns) -->
+<div class="fixed -bottom-24 -left-24 size-64 bg-primary/5 rounded-full blur-3xl -z-10"></div>
+<div class="fixed top-1/2 -right-32 size-96 bg-error/5 rounded-full blur-3xl -z-10"></div>
+</div>
+</body></html>

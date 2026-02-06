@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WiyataGo Teacher Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df259",
+                        "primary-foreground": "#0d1c12", 
+                        "background-light": "#f5f8f6",
+                        "background-dark": "#102216",
+                        "card-light": "#ffffff",
+                        "card-dark": "#1a2e22",
+                        "muted": "#71717a",
+                        "border-light": "#e4e4e7",
+                        "border-dark": "#27272a",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen text-slate-900 dark:text-slate-50 flex overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-64 h-screen border-r border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark flex flex-col flex-shrink-0 fixed left-0 top-0 z-50">
+<div class="p-6 pb-2">
+<div class="flex items-center gap-2 mb-1">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground">
+<span class="material-symbols-outlined font-bold">school</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">WiyataGo</h1>
+</div>
+<p class="text-xs text-muted font-medium ml-10">Teacher Panel</p>
+</div>
+<div class="px-4 py-4">
+<button class="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-2.5 px-4 rounded-lg transition-colors shadow-sm active:scale-95 duration-100">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Buat Kursus Baru</span>
+</button>
+</div>
+<nav class="flex-1 px-3 space-y-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 text-slate-900 dark:text-white group" href="#">
+<span class="material-symbols-outlined icon-fill text-green-700 dark:text-primary">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined">book_2</span>
+<span class="text-sm font-medium">Kursus Saya</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium">Siswa</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="text-sm font-medium">Laporan</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white transition-colors group" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Pengaturan</span>
+</a>
+</nav>
+<div class="p-4 border-t border-border-light dark:border-border-dark">
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 cursor-pointer">
+<div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden relative">
+<img alt="Pak Budi" class="w-full h-full object-cover" data-alt="Portrait of a middle-aged male teacher" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgj3AZWo9tGyQoFFJCYemoKVmMwsN4CWILoaDree3UskegjtmLXfk3omasXCATiQNbQDSRXdeAvkhBDPlOmFOSjjbbUAroWf3X-5Evj58w7q7nJyIISsX2hEkebLwXOk9P1GUg5iBluaSrA7zzx1ezpypB-Icy5S3hbVFEpl3Ku4GSb1qTsfRDTr3HyZ1UV-t3Mm1QOxDao9ds-FlnsXbx9sbNoSepZEyTBV8UMix9ErRrxWq1CaiZNRBRLgc5Bq7KFMg24DuToLg"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-slate-900 dark:text-white truncate">Pak Budi</p>
+<p class="text-xs text-muted truncate">budi@wiyatago.com</p>
+</div>
+<span class="material-symbols-outlined text-muted text-[18px]">more_vert</span>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 ml-64 overflow-y-auto h-screen bg-background-light dark:bg-background-dark">
+<div class="max-w-[1400px] mx-auto p-8">
+<!-- Page Heading & Actions -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+<div>
+<h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Selamat Datang, Pak Budi</h2>
+<p class="text-muted mt-1">Manage your OOP courses and track student progress effectively.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-card-dark border border-border-light dark:border-border-dark shadow-sm text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</div>
+<!-- Stats Overview -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl border border-border-light dark:border-border-dark shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<p class="text-sm font-medium text-muted">Total Students</p>
+<span class="material-symbols-outlined text-muted text-[20px]">groups</span>
+</div>
+<div class="flex items-baseline gap-2">
+<h3 class="text-2xl font-bold text-slate-900 dark:text-white">124</h3>
+<span class="text-xs font-medium text-green-600 dark:text-green-400 flex items-center">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                            +12%
+                        </span>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl border border-border-light dark:border-border-dark shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<p class="text-sm font-medium text-muted">Active Courses</p>
+<span class="material-symbols-outlined text-muted text-[20px]">library_books</span>
+</div>
+<div class="flex items-baseline gap-2">
+<h3 class="text-2xl font-bold text-slate-900 dark:text-white">5</h3>
+<span class="text-xs font-medium text-green-600 dark:text-green-400 flex items-center">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                            +1
+                        </span>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl border border-border-light dark:border-border-dark shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<p class="text-sm font-medium text-muted">Avg Completion</p>
+<span class="material-symbols-outlined text-muted text-[20px]">timelapse</span>
+</div>
+<div class="flex items-baseline gap-2">
+<h3 class="text-2xl font-bold text-slate-900 dark:text-white">78%</h3>
+<span class="text-xs font-medium text-green-600 dark:text-green-400 flex items-center">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+                            +5%
+                        </span>
+</div>
+</div>
+</div>
+<!-- Filters and Search -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+<div class="relative w-full md:w-96">
+<span class="absolute inset-y-0 left-3 flex items-center text-muted">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</span>
+<input class="w-full pl-10 pr-4 py-2 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary placeholder-muted" placeholder="Search courses by name or class..." type="text"/>
+</div>
+<div class="flex gap-2 flex-wrap">
+<button class="px-3 py-1.5 text-sm font-medium rounded-md bg-primary/10 text-green-800 dark:text-primary border border-primary/20 hover:bg-primary/20 transition-colors">
+                        All Semesters
+                    </button>
+<button class="px-3 py-1.5 text-sm font-medium rounded-md bg-card-light dark:bg-card-dark text-muted border border-border-light dark:border-border-dark hover:text-slate-900 dark:hover:text-white transition-colors">
+                        Active Only
+                    </button>
+<button class="px-3 py-1.5 text-sm font-medium rounded-md bg-card-light dark:bg-card-dark text-muted border border-border-light dark:border-border-dark hover:text-slate-900 dark:hover:text-white transition-colors">
+                        Drafts
+                    </button>
+</div>
+</div>
+<!-- Course Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="group bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col h-full">
+<div class="p-5 flex flex-col gap-4 flex-1">
+<div class="flex justify-between items-start">
+<div>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 mb-2">
+                                    Active
+                                </span>
+<h3 class="font-bold text-lg text-slate-900 dark:text-white group-hover:text-primary transition-colors">OOP Basics: Introduction</h3>
+<p class="text-sm text-muted">Kelas X-A</p>
+</div>
+<button class="text-muted hover:text-slate-900 dark:hover:text-white p-1 rounded-md hover:bg-slate-100 dark:hover:bg-white/5">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<div class="space-y-3 mt-auto">
+<div class="flex justify-between text-sm">
+<span class="text-muted">Completion Rate</span>
+<span class="font-bold text-slate-900 dark:text-white">85%</span>
+</div>
+<!-- Mini Sparkline visualization -->
+<div class="h-10 w-full flex items-end gap-1">
+<div class="w-1/12 bg-primary/20 h-[30%] rounded-sm"></div>
+<div class="w-1/12 bg-primary/30 h-[45%] rounded-sm"></div>
+<div class="w-1/12 bg-primary/40 h-[40%] rounded-sm"></div>
+<div class="w-1/12 bg-primary/50 h-[60%] rounded-sm"></div>
+<div class="w-1/12 bg-primary/60 h-[55%] rounded-sm"></div>
+<div class="w-1/12 bg-primary/70 h-[75%] rounded-sm"></div>
+<div class="w-1/12 bg-primary/80 h-[80%] rounded-sm"></div>
+<div class="w-1/12 bg-primary h-[85%] rounded-sm shadow-[0_0_10px_rgba(13,242,89,0.3)]"></div>
+<div class="w-1/12 bg-primary/40 h-[65%] rounded-sm"></div>
+<div class="w-1/12 bg-primary/30 h-[50%] rounded-sm"></div>
+<div class="w-1/12 bg-primary/20 h-[40%] rounded-sm"></div>
+<div class="w-1/12 bg-primary/10 h-[30%] rounded-sm"></div>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 85%"></div>
+</div>
+</div>
+</div>
+<div class="border-t border-border-light dark:border-border-dark px-5 py-3 bg-slate-50/50 dark:bg-white/[0.02] flex items-center justify-between rounded-b-xl">
+<div class="flex -space-x-2">
+<img alt="Student avatar" class="inline-block h-6 w-6 rounded-full ring-2 ring-white dark:ring-card-dark object-cover" data-alt="Small avatar of a female student" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4Vd8YlZEZ3sAiU0oZhPOGGPxK_zHf9OZcZh0gwtzRFENdxcswFk-r4chgPehZG82dJMo3H_ZI9trYbcbqCzlTRbrNMbYRFMQuNwpkMy_13NBEXRaj8_qk45R9qYKcodwEezyEuc2_IxJ8yx35-xLJVv0u71qASSqCCxymbe1cW1p4Rzr2E20bvZLb8HYuX-bhzkLpk4kxYqEMAnSuyy44lzet9sgD02itilU4dh-Plr8xrSHL21qhlLjZQiyLjyMZbskZqNJrZaU"/>
+<img alt="Student avatar" class="inline-block h-6 w-6 rounded-full ring-2 ring-white dark:ring-card-dark object-cover" data-alt="Small avatar of a male student" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgwbG_1zf0eAleGgHXFQNUMFCPxUBXBVSQKwIkNZMcQ0koipVuo7tqEnEvbWrJNoEjA2wTUyIUwv3TmxntPhLiuqDyTZZQKeMZ4yJgIQAvB93R_MY8L2bZ2bKxw_YeOE9jYY9JNQmKHhFEyIJUO4L8DmOREAogiMvcw863RCAZGg9iVv1w9t-z9irK-P-FZRWK-2t_QL4yzYAyMOwoHietRuqyM9wnkCL4cgtnynkCVP184jcOTh5jC9MpYZiqoG0dx6r3H8llnmM"/>
+<img alt="Student avatar" class="inline-block h-6 w-6 rounded-full ring-2 ring-white dark:ring-card-dark object-cover" data-alt="Small avatar of a male student" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3Q8FGtlNl4H9Wd6b2hDDMynHsD0Jw1Kyr3rv8uNUz_2DC2UjUFthJJn6EL46IpAtOTUG08prrfQUjmYHz1LfZ78sfJb5u1DymitEm73FXeY6sK9YTO3hsM766Nn0k3jFdJajbBl_mcRNz13HOFgD_bXvogHlKPSZTb4EUCgUPC5VMypG-0_2Zwr1TLJ2DOqw8YOSxMHh-f_G6idrV9x01PrIoipk0-s_HOwgZsPSQsCRdXOvyB_jT_ak_py5dOK1SOC5emgOiVQo"/>
+<span class="flex items-center justify-center h-6 w-6 rounded-full ring-2 ring-white dark:ring-card-dark bg-slate-100 dark:bg-slate-700 text-[10px] font-medium text-slate-500">
+                                +24
+                             </span>
+</div>
+<a class="text-xs font-medium text-slate-900 dark:text-white hover:text-primary flex items-center gap-1" href="#">
+                            View Analytics
+                            <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col h-full">
+<div class="p-5 flex flex-col gap-4 flex-1">
+<div class="flex justify-between items-start">
+<div>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 mb-2">
+                                    Active
+                                </span>
+<h3 class="font-bold text-lg text-slate-900 dark:text-white group-hover:text-primary transition-colors">Polymorphism Deep Dive</h3>
+<p class="text-sm text-muted">Kelas XI-B</p>
+</div>
+<button class="text-muted hover:text-slate-900 dark:hover:text-white p-1 rounded-md hover:bg-slate-100 dark:hover:bg-white/5">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<div class="space-y-3 mt-auto">
+<div class="flex justify-between text-sm">
+<span class="text-muted">Completion Rate</span>
+<span class="font-bold text-slate-900 dark:text-white">40%</span>
+</div>
+<!-- Mini Sparkline visualization -->
+<div class="h-10 w-full flex items-end gap-1">
+<div class="w-1/12 bg-yellow-500/20 h-[20%] rounded-sm"></div>
+<div class="w-1/12 bg-yellow-500/30 h-[30%] rounded-sm"></div>
+<div class="w-1/12 bg-yellow-500/40 h-[25%] rounded-sm"></div>
+<div class="w-1/12 bg-yellow-500/50 h-[35%] rounded-sm"></div>
+<div class="w-1/12 bg-yellow-500/60 h-[40%] rounded-sm shadow-[0_0_10px_rgba(234,179,8,0.3)]"></div>
+<div class="w-1/12 bg-yellow-500/30 h-[30%] rounded-sm"></div>
+<div class="w-1/12 bg-yellow-500/20 h-[20%] rounded-sm"></div>
+<div class="w-1/12 bg-slate-200 dark:bg-slate-700 h-[10%] rounded-sm"></div>
+<div class="w-1/12 bg-slate-200 dark:bg-slate-700 h-[10%] rounded-sm"></div>
+<div class="w-1/12 bg-slate-200 dark:bg-slate-700 h-[10%] rounded-sm"></div>
+<div class="w-1/12 bg-slate-200 dark:bg-slate-700 h-[10%] rounded-sm"></div>
+<div class="w-1/12 bg-slate-200 dark:bg-slate-700 h-[10%] rounded-sm"></div>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
+<div class="bg-yellow-500 h-full rounded-full" style="width: 40%"></div>
+</div>
+</div>
+</div>
+<div class="border-t border-border-light dark:border-border-dark px-5 py-3 bg-slate-50/50 dark:bg-white/[0.02] flex items-center justify-between rounded-b-xl">
+<div class="flex -space-x-2">
+<img alt="Student avatar" class="inline-block h-6 w-6 rounded-full ring-2 ring-white dark:ring-card-dark object-cover" data-alt="Small avatar of a female student" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqL_DN22O1Qppwcv2uNRYK967B65F4Ltp2Re0GKaTxcZNPNdaqcM4A87SmwIboSf2ozluFIWrOjw40XeRKQvHhFLIAB15Fm4BiACp3b8nlEEDMxvWRc0yw3XKPgLDsTF9w4HfK9G2m6wjYkHQTERs6OOkZOUy2NvNcufrrQF3Jfc29nTHXR7CrfRtmwmIt59EEiGlLEEfwLrB-DRqK5JTtUXRNzqT3SKBWDzF-CZraetD5c1aNRShS4MpbLUydmiO4qCPnZGcZHtY"/>
+<img alt="Student avatar" class="inline-block h-6 w-6 rounded-full ring-2 ring-white dark:ring-card-dark object-cover" data-alt="Small avatar of a male student" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCj5at7GcTdLrixNK6YzbNAopIxTNiaq3BDdBkEPnTy8-h99YNV96vN_-LvGhqqjgrPCe5f-eJDckR97_xj9tzJiItyOOuzJ9ixdMDHBQCaUYCl7uOpGNGwaHGd5lQaL9L9SnWRFA8TWLFL3wEjYZYNWNMM6dFdIn_VgvNd_JhVBndgA3VnLRvLH4MkYhCmY7-kHDBxXjmV74v6yUJ_oaeprF9g6MfEZYNh_YDZkBuVOhSJbIB_6qJFciyLZROMU3-O4Rjlf3ZY50Q"/>
+<span class="flex items-center justify-center h-6 w-6 rounded-full ring-2 ring-white dark:ring-card-dark bg-slate-100 dark:bg-slate-700 text-[10px] font-medium text-slate-500">
+                                +18
+                             </span>
+</div>
+<a class="text-xs font-medium text-slate-900 dark:text-white hover:text-primary flex items-center gap-1" href="#">
+                            View Analytics
+                            <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col h-full opacity-75 hover:opacity-100">
+<div class="p-5 flex flex-col gap-4 flex-1">
+<div class="flex justify-between items-start">
+<div>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-400 mb-2">
+                                    Draft
+                                </span>
+<h3 class="font-bold text-lg text-slate-900 dark:text-white group-hover:text-primary transition-colors">Java Advanced: Memory</h3>
+<p class="text-sm text-muted">Kelas XII-C</p>
+</div>
+<button class="text-muted hover:text-slate-900 dark:hover:text-white p-1 rounded-md hover:bg-slate-100 dark:hover:bg-white/5">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<div class="space-y-3 mt-auto">
+<div class="flex justify-between text-sm">
+<span class="text-muted">Completion Rate</span>
+<span class="font-bold text-slate-900 dark:text-white">0%</span>
+</div>
+<!-- Empty State Chart -->
+<div class="h-10 w-full flex items-end gap-1 border-b border-dashed border-slate-200 dark:border-slate-700">
+<p class="w-full text-center text-xs text-muted pb-2">No data available yet</p>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
+<div class="bg-slate-300 dark:bg-slate-600 h-full rounded-full" style="width: 0%"></div>
+</div>
+</div>
+</div>
+<div class="border-t border-border-light dark:border-border-dark px-5 py-3 bg-slate-50/50 dark:bg-white/[0.02] flex items-center justify-between rounded-b-xl">
+<div class="flex items-center gap-2">
+<span class="text-xs text-muted">Not published</span>
+</div>
+<a class="text-xs font-medium text-primary hover:underline flex items-center gap-1" href="#">
+                            Continue Editing
+                            <span class="material-symbols-outlined text-[14px]">edit</span>
+</a>
+</div>
+</div>
+<!-- Card 4 (Another Active) -->
+<div class="group bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col h-full">
+<div class="p-5 flex flex-col gap-4 flex-1">
+<div class="flex justify-between items-start">
+<div>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 mb-2">
+                                    Active
+                                </span>
+<h3 class="font-bold text-lg text-slate-900 dark:text-white group-hover:text-primary transition-colors">Inheritance Patterns</h3>
+<p class="text-sm text-muted">Kelas X-B</p>
+</div>
+<button class="text-muted hover:text-slate-900 dark:hover:text-white p-1 rounded-md hover:bg-slate-100 dark:hover:bg-white/5">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<div class="space-y-3 mt-auto">
+<div class="flex justify-between text-sm">
+<span class="text-muted">Completion Rate</span>
+<span class="font-bold text-slate-900 dark:text-white">62%</span>
+</div>
+<!-- Mini Sparkline visualization -->
+<div class="h-10 w-full flex items-end gap-1">
+<div class="w-1/12 bg-primary/20 h-[30%] rounded-sm"></div>
+<div class="w-1/12 bg-primary/30 h-[40%] rounded-sm"></div>
+<div class="w-1/12 bg-primary/40 h-[35%] rounded-sm"></div>
+<div class="w-1/12 bg-primary/50 h-[50%] rounded-sm"></div>
+<div class="w-1/12 bg-primary/60 h-[55%] rounded-sm shadow-[0_0_10px_rgba(13,242,89,0.3)]"></div>
+<div class="w-1/12 bg-primary/40 h-[45%] rounded-sm"></div>
+<div class="w-1/12 bg-primary/30 h-[30%] rounded-sm"></div>
+<div class="w-1/12 bg-primary/20 h-[20%] rounded-sm"></div>
+<div class="w-1/12 bg-slate-200 dark:bg-slate-700 h-[10%] rounded-sm"></div>
+<div class="w-1/12 bg-slate-200 dark:bg-slate-700 h-[10%] rounded-sm"></div>
+<div class="w-1/12 bg-slate-200 dark:bg-slate-700 h-[10%] rounded-sm"></div>
+<div class="w-1/12 bg-slate-200 dark:bg-slate-700 h-[10%] rounded-sm"></div>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 62%"></div>
+</div>
+</div>
+</div>
+<div class="border-t border-border-light dark:border-border-dark px-5 py-3 bg-slate-50/50 dark:bg-white/[0.02] flex items-center justify-between rounded-b-xl">
+<div class="flex -space-x-2">
+<img alt="Student avatar" class="inline-block h-6 w-6 rounded-full ring-2 ring-white dark:ring-card-dark object-cover" data-alt="Small avatar of a female student" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZ8UVe-YhH2vl0fPFS83dRO2VrbCMhifnUQ1NqZSqxhtZ7NkRpcR-lBCrAXXe6eelNWFjMW93jHn7UnlKuunclB7-mf7va1ktnbnKiLag-XnVLNZFLEC62VnJproqdgvMOdlJkNixIxZkXFGwzFRqcB1FN9A9LvpNRyxqV-jyRRgYP-SuYgCnxKWUDY0z4PyUX9qwpTl5dzXMaqU4qPoBzdG4THVFo4wHsIKPw-33v2c-cBKJjMNh1_SZ4w0CwpsnwLTkTl-c_egE"/>
+<img alt="Student avatar" class="inline-block h-6 w-6 rounded-full ring-2 ring-white dark:ring-card-dark object-cover" data-alt="Small avatar of a male student" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCezgPnJHTOcMVBqKrl-yObNdIO_T5rkCmwuNfnFuQ-kXi99BqksE9CGVGZcvgGBGldXFF8NDDRBJxhzuT6pTW77ZVyKbSqdbBfATwvtKamarHsXYReNOQBeqQC7qH4AVfy0JC-Vg1vZK1lLzprqWA1TfKXM4_EZuXX-hj5mbGieH263V58yoi1wVFuQA1jNDjywOhtkCGYPzwy9yjIUX5RiWzbUpg1YRp2y7ivZ38LxM71bYdu9zGocksbX3l9EWK1UpMUyOVwSEc"/>
+<span class="flex items-center justify-center h-6 w-6 rounded-full ring-2 ring-white dark:ring-card-dark bg-slate-100 dark:bg-slate-700 text-[10px] font-medium text-slate-500">
+                                +30
+                             </span>
+</div>
+<a class="text-xs font-medium text-slate-900 dark:text-white hover:text-primary flex items-center gap-1" href="#">
+                            View Analytics
+                            <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

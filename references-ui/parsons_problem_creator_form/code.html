@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Parsons Problem Creator - WiyataGo</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df259",
+                        "background-light": "#f5f8f6",
+                        "background-dark": "#102216",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2e22",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "mono": ["Fira Code", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#0d1c12] dark:text-gray-100 font-display transition-colors duration-200">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e7f4eb] dark:border-[#2a4032] bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-md px-4 sm:px-10 py-3">
+<div class="flex items-center gap-4">
+<div class="size-8 text-primary flex items-center justify-center rounded-lg bg-green-900/10 dark:bg-green-400/10">
+<span class="material-symbols-outlined text-2xl">school</span>
+</div>
+<h2 class="text-[#0d1c12] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">WiyataGo Teacher</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<div class="hidden md:flex items-center gap-9">
+<a class="text-[#0d1c12] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-[#0d1c12] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="#">Courses</a>
+<a class="text-[#0d1c12] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="#">Students</a>
+<a class="text-[#0d1c12] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="#">Settings</a>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="User profile avatar showing a smiling teacher" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCkkSLbXQIrXb33Jp2YZ27dL4pma7_3Dp4hfThy9utjGUCA2czlsuBixejT5UBuhAzE8Bpk-sQl0CBosBA2ulKmkT2kipRXzorHWe907A3eMgDs5IbTTrIOYmY3Ccfj3UNg2OjQrpfFU2V0AC0ClQCrJAlQr8R_0TQ3ak_8GcUasWKkIDF4-xuAYk4Ox3UvOYAq-tCJFJRrIUkusvXA9NaTBHldo6Vv7lGrzHEP-bjJ7jrVnv8V2moyHTniKGbGN_y8MmZKI8kSkSQ");'></div>
+</div>
+</header>
+<main class="layout-container flex h-full grow flex-col w-full max-w-[1024px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap items-center gap-2 mb-6">
+<a class="text-green-700 dark:text-green-400 text-sm font-medium hover:underline" href="#">Course Manager</a>
+<span class="material-symbols-outlined text-gray-400 text-sm">chevron_right</span>
+<a class="text-green-700 dark:text-green-400 text-sm font-medium hover:underline" href="#">OOP Module</a>
+<span class="material-symbols-outlined text-gray-400 text-sm">chevron_right</span>
+<span class="text-gray-500 dark:text-gray-400 text-sm font-medium">New Question</span>
+</div>
+<!-- Page Heading -->
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl sm:text-4xl font-black tracking-tight text-[#0d1c12] dark:text-white">Create Parsons Problem</h1>
+<p class="text-gray-600 dark:text-gray-400 text-base max-w-2xl">Design a code shuffling puzzle for students to practice logic and syntax without typing.</p>
+</div>
+<div class="flex gap-2">
+<span class="px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs font-semibold border border-green-200 dark:border-green-800 uppercase tracking-wide">Variant 1</span>
+</div>
+</div>
+<!-- Main Form Card -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-sm border border-[#e7f4eb] dark:border-[#2a4032] overflow-hidden">
+<div class="p-6 sm:p-8 flex flex-col gap-8">
+<!-- Section 1: Instruction -->
+<div class="flex flex-col gap-3">
+<label class="flex items-center gap-2 text-sm font-semibold text-[#0d1c12] dark:text-gray-200" for="instruction">
+<span class="material-symbols-outlined text-primary text-lg">description</span>
+                            Instruction Text
+                        </label>
+<div class="relative group">
+<textarea class="w-full min-h-[100px] rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 p-4 text-base text-[#0d1c12] dark:text-gray-100 placeholder:text-gray-400 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all resize-none" id="instruction" placeholder="e.g., Drag the blocks to correctly implement the Singleton pattern ensuring only one instance exists."></textarea>
+<div class="absolute bottom-3 right-3 text-xs text-gray-400 pointer-events-none">0/200</div>
+</div>
+</div>
+<!-- Section 2: Code Solution -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<label class="flex items-center gap-2 text-sm font-semibold text-[#0d1c12] dark:text-gray-200" for="code-solution">
+<span class="material-symbols-outlined text-primary text-lg">code</span>
+                                Full Correct Code Solution
+                            </label>
+<div class="flex items-center gap-2 text-xs text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-sm">info</span>
+                                Enter the solution exactly as it should appear
+                            </div>
+</div>
+<div class="relative rounded-lg border border-gray-200 dark:border-gray-700 bg-[#1e1e1e] overflow-hidden group focus-within:ring-1 focus-within:ring-primary focus-within:border-primary transition-all">
+<!-- Code Editor Header -->
+<div class="flex items-center gap-2 px-4 py-2 border-b border-gray-700 bg-[#252526]">
+<div class="flex gap-1.5">
+<div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+<div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+<div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+</div>
+<span class="ml-2 text-xs text-gray-400 font-mono">Solution.java</span>
+</div>
+<!-- Code Editor Body -->
+<div class="flex">
+<div class="flex flex-col items-end px-2 py-4 text-gray-600 bg-[#1e1e1e] select-none font-mono text-sm leading-6 border-r border-gray-800 min-w-[3rem]">
+<span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+</div>
+<textarea class="w-full min-h-[240px] bg-[#1e1e1e] p-4 text-sm font-mono text-gray-300 placeholder:text-gray-600 focus:outline-none border-none resize-y leading-6" id="code-solution" placeholder="// Enter your Java code here...
+public class Singleton {
+    private static Singleton instance;
+    ...
+}" spellcheck="false"></textarea>
+</div>
+</div>
+</div>
+<!-- Section 3: Explanation (Rich Text) -->
+<div class="flex flex-col gap-3">
+<label class="flex items-center gap-2 text-sm font-semibold text-[#0d1c12] dark:text-gray-200">
+<span class="material-symbols-outlined text-primary text-lg">lightbulb</span>
+                            Explanation &amp; Analogy
+                        </label>
+<div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-surface-light dark:bg-surface-dark overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
+<!-- Toolbar -->
+<div class="flex items-center gap-1 p-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+<button class="p-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 transition-colors" title="Bold" type="button">
+<span class="material-symbols-outlined text-xl">format_bold</span>
+</button>
+<button class="p-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 transition-colors" title="Italic" type="button">
+<span class="material-symbols-outlined text-xl">format_italic</span>
+</button>
+<div class="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-1"></div>
+<button class="p-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 transition-colors" title="Bullet List" type="button">
+<span class="material-symbols-outlined text-xl">format_list_bulleted</span>
+</button>
+<button class="p-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 transition-colors" title="Numbered List" type="button">
+<span class="material-symbols-outlined text-xl">format_list_numbered</span>
+</button>
+<div class="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-1"></div>
+<button class="p-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 transition-colors" title="Insert Code Block" type="button">
+<span class="material-symbols-outlined text-xl">code</span>
+</button>
+<button class="p-1.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 transition-colors" title="Insert Link" type="button">
+<span class="material-symbols-outlined text-xl">link</span>
+</button>
+</div>
+<textarea class="w-full min-h-[160px] p-4 text-base text-[#0d1c12] dark:text-gray-100 bg-transparent placeholder:text-gray-400 focus:outline-none resize-y" placeholder="Explain the concept using a real-world analogy. For example, explain Singleton pattern like a printer spooler..."></textarea>
+</div>
+</div>
+<!-- Metadata / Tags (Optional but fits gamified context) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-dashed border-gray-200 dark:border-gray-700">
+<label class="flex flex-col gap-2">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300">Difficulty Level</span>
+<select class="form-select w-full rounded-lg border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 py-2.5 text-sm focus:border-primary focus:ring-0">
+<option>Novice (10 XP)</option>
+<option>Apprentice (25 XP)</option>
+<option selected="">Adept (50 XP)</option>
+<option>Master (100 XP)</option>
+</select>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300">Topic Tags</span>
+<input class="form-input w-full rounded-lg border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 py-2.5 text-sm focus:border-primary focus:ring-0" placeholder="Add tags separated by comma (e.g. OOP, Java)" type="text"/>
+</label>
+</div>
+</div>
+<!-- Footer Action Bar -->
+<div class="bg-gray-50 dark:bg-gray-900/50 px-6 py-4 sm:px-8 border-t border-[#e7f4eb] dark:border-[#2a4032] flex flex-col-reverse sm:flex-row items-center justify-between gap-4">
+<button class="w-full sm:w-auto px-6 py-2.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
+                        Batal
+                    </button>
+<div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+<button class="w-full sm:w-auto px-6 py-2.5 rounded-lg text-sm font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-800 shadow-sm transition-all">
+                            Save as Draft
+                        </button>
+<button class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg text-sm font-bold bg-primary text-[#0d1c12] hover:bg-green-400 hover:shadow-md hover:shadow-green-400/20 active:translate-y-0.5 transition-all">
+<span class="material-symbols-outlined text-lg font-bold">save</span>
+                            Simpan Pertanyaan
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

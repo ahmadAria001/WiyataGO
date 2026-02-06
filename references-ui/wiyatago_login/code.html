@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WiyataGo Login</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Noto+Sans:wght@300..800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df259",
+                        "background-light": "#f5f8f6",
+                        "background-dark": "#102216",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#162b1e", // Slightly lighter than background-dark
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "Noto Sans", "sans-serif"],
+                        "sans": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.375rem", // equivalent to rounded-md for shadcn look
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar to match the clean aesthetic */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background-color: #334155;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display antialiased transition-colors duration-200">
+<div class="layout-container flex h-full grow flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
+<!-- Main Card Container -->
+<div class="w-full max-w-[420px] bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden transition-all">
+<div class="p-8 flex flex-col gap-6">
+<!-- Header / Logo Area -->
+<div class="flex flex-col items-center gap-4 text-center">
+<div class="relative w-16 h-16 rounded-xl overflow-hidden bg-primary/20 flex items-center justify-center mb-2">
+<!-- Logo Placeholder -->
+<span class="material-symbols-outlined text-primary text-4xl" data-alt="WiyataGo application logo icon showing a code block">terminal</span>
+</div>
+<div class="flex flex-col gap-1">
+<h1 class="text-zinc-900 dark:text-zinc-50 text-2xl font-bold tracking-tight">
+                            Selamat Datang Kembali
+                        </h1>
+<p class="text-zinc-500 dark:text-zinc-400 text-sm font-normal">
+                            Lanjutkan petualangan OOP-mu
+                        </p>
+</div>
+</div>
+<!-- Login Form -->
+<form class="flex flex-col gap-4" onsubmit="event.preventDefault();">
+<!-- Email Field -->
+<div class="flex flex-col gap-2">
+<label class="text-zinc-900 dark:text-zinc-200 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="email">
+                            Email
+                        </label>
+<input class="flex h-11 w-full rounded-lg border border-zinc-200 dark:border-zinc-700 bg-transparent px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 shadow-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="email" placeholder="nama@sekolah.id" type="email" value=""/>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<label class="text-zinc-900 dark:text-zinc-200 text-sm font-medium leading-none" for="password">
+                                Password
+                            </label>
+</div>
+<div class="relative">
+<input class="flex h-11 w-full rounded-lg border border-zinc-200 dark:border-zinc-700 bg-transparent px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 shadow-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50 pr-10 transition-all" id="password" placeholder="••••••••" type="password" value=""/>
+<button class="absolute right-0 top-0 h-full px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-r-lg text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300 transition-colors flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span>
+</button>
+</div>
+<div class="flex justify-end">
+<a class="text-sm font-medium text-zinc-500 hover:text-primary dark:text-zinc-400 dark:hover:text-primary transition-colors" href="#">
+                                Lupa Password?
+                            </a>
+</div>
+</div>
+<!-- Submit Button -->
+<div class="pt-2">
+<button class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-bold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-[#0d1c12] hover:bg-primary/90 h-11 px-8 w-full shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">
+                            Masuk
+                        </button>
+</div>
+</form>
+<!-- Divider -->
+<div class="relative">
+<div class="absolute inset-0 flex items-center">
+<span class="w-full border-t border-zinc-200 dark:border-zinc-700"></span>
+</div>
+<div class="relative flex justify-center text-xs uppercase">
+<span class="bg-surface-light dark:bg-surface-dark px-2 text-zinc-500 dark:text-zinc-400">
+                            Atau
+                        </span>
+</div>
+</div>
+<!-- Footer Sign Up Link -->
+<div class="text-center text-sm text-zinc-600 dark:text-zinc-400">
+                    Belum punya akun? 
+                    <a class="font-bold text-zinc-900 hover:text-primary dark:text-zinc-100 dark:hover:text-primary underline underline-offset-4 decoration-zinc-300 dark:decoration-zinc-600 hover:decoration-primary transition-all" href="#">
+                        Daftar sekarang
+                    </a>
+</div>
+</div>
+<!-- Gamified visual hint at bottom of card (optional aesthetic touch) -->
+<div class="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
+</div>
+<!-- Footer Info -->
+<div class="mt-8 text-center">
+<p class="text-xs text-zinc-400 dark:text-zinc-600">
+                © 2024 WiyataGo Learning Platform.
+            </p>
+</div>
+</div>
+<!-- Background Elements for Visual Interest -->
+<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+<!-- Abstract shapes to suggest 'structure' and 'objects' (OOP) -->
+<div class="absolute top-[-10%] left-[-5%] w-[400px] h-[400px] bg-primary/5 rounded-full blur-3xl"></div>
+<div class="absolute bottom-[-10%] right-[-5%] w-[300px] h-[300px] bg-primary/10 rounded-full blur-3xl"></div>
+</div>
+</body></html>

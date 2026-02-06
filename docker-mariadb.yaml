@@ -1,0 +1,22 @@
+volumes:
+  mariadb_data:
+
+networks:
+  wiyatago:
+    driver: bridge
+
+services:
+  mariadb:
+    image: docker.io/library/mariadb:${DB_VERSION}
+    container_name: wiyatago-mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - wiyatago

@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>WiyataGo - OOP Learning Platform Prototype</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Noto+Sans:wght@300..800&family=Fira+Code:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- React & Router -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df259",
+                        "primary-hover": "#0bc94a",
+                        "primary-dark": "#0bb842",
+                        "primary-foreground": "#003811",
+                        "background-light": "#f8fcf9",
+                        "background-dark": "#102216",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a3322",
+                        "border-light": "#e7f4eb",
+                        "border-dark": "#2a4c35",
+                        "text-main": "#0d1c12",
+                        "text-sub": "#499c65",
+                        "text-light": "#ffffff",
+                        "card-light": "#ffffff",
+                        "card-dark": "#1a3522",
+                        "muted": "#71717a",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                        "mono": ["Fira Code", "JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        "soft": "0 2px 8px rgba(0, 0, 0, 0.05)",
+                        "soft-hover": "0 4px 12px rgba(0, 0, 0, 0.08)",
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-5px)' },
+                        },
+                        pulse_glow: {
+                            '0%, 100%': { boxShadow: '0 0 0 0px rgba(13, 242, 89, 0.4)' },
+                            '50%': { boxShadow: '0 0 0 10px rgba(13, 242, 89, 0)' },
+                        },
+                        'fade-in-up': {
+                            '0%': { opacity: '0', transform: 'translateY(10px) scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+                        }
+                    },
+                    animation: {
+                        float: 'float 3s ease-in-out infinite',
+                        pulse_glow: 'pulse_glow 2s infinite',
+                        'fade-in-up': 'fade-in-up 0.3s ease-out forwards',
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        /* Custom utilities */
+        .zig-zag-container { position: relative; width: 100%; max-width: 32rem; margin: 0 auto; display: flex; flex-direction: column; align-items: center; padding-top: 2rem; padding-bottom: 2rem; }
+        .node-row { position: relative; display: flex; width: 100%; justify-content: center; align-items: center; padding-top: 1.5rem; padding-bottom: 1.5rem; }
+        .node-left { transform: translateX(-3rem); }
+        @media (min-width: 768px) { .node-left { transform: translateX(-5rem); } }
+        .node-right { transform: translateX(3rem); }
+        @media (min-width: 768px) { .node-right { transform: translateX(5rem); } }
+        .connector-svg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; z-index: 0; overflow: visible; }
+        
+        /* Scrollbars */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; }
+        
+        /* Grid Pattern */
+        .bg-grid-pattern { background-size: 20px 20px; background-image: radial-gradient(circle, #cbd5e1 1px, transparent 1px); }
+        .dark .bg-grid-pattern { background-image: radial-gradient(circle, #1f3526 1px, transparent 1px); }
+        .dot-pattern { background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 24px 24px; }
+        .dark .dot-pattern { background-image: radial-gradient(#1f3b28 1px, transparent 1px); }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+
+        // --- Shared Components ---
+
+        const NavigationHub = () => {
+            const navigate = useNavigate();
+            const location = useLocation();
+
+            // Simple dropdown style for screen selection
+            return (
+                <div className="fixed bottom-4 left-4 z-[9999] bg-white dark:bg-black border border-gray-200 dark:border-gray-800 p-2 rounded-lg shadow-xl opacity-20 hover:opacity-100 transition-opacity flex flex-col gap-2 max-h-[300px] overflow-y-auto w-64">
+                    <div className="text-xs font-bold text-gray-500 uppercase px-2">Navigate Prototype</div>
+                    <select 
+                        className="w-full text-xs p-1 border rounded bg-gray-50 dark:bg-gray-900 dark:text-white"
+                        onChange={(e) => navigate(e.target.value)}
+                        value={location.pathname}
+                    >
+                        <option value="/">Home / Login (Screen 10)</option>
+                        <option value="/student/dashboard">Student Dashboard (Screen 4)</option>
+                        <option value="/student/dashboard-alt">Student Dashboard Alt (Screen 7)</option>
+                        <option value="/student/map">Course Map (Screen 5)</option>
+                        <option value="/student/map-zigzag">ZigZag Map (Screen 8)</option>
+                        <option value="/student/lesson-intro">Lesson Intro (Screen 9)</option>
+                        <option value="/student/exercise-parsons">Parsons Exercise (Screen 2)</option>
+                        <option value="/student/exercise-parsons-alt">Parsons Exercise Alt (Screen 3)</option>
+                        <option value="/student/feedback-incorrect">Incorrect Feedback (Screen 1)</option>
+                        <option value="/student/feedback-correct">Correct Feedback (Screen 6)</option>
+                        <option value="/teacher/dashboard">Teacher Dashboard (Screen 11)</option>
+                        <option value="/teacher/dashboard-alt">Teacher Dashboard Alt (Screen 15)</option>
+                        <option value="/teacher/dashboard-v3">Teacher Dashboard V3 (Screen 19)</option>
+                        <option value="/teacher/lesson-editor">Lesson Editor (Screen 13)</option>
+                        <option value="/teacher/lesson-editor-alt">Lesson Editor Alt (Screen 17)</option>
+                        <option value="/teacher/parsons-creator">Parsons Creator (Screen 14)</option>
+                        <option value="/teacher/question-creator">Question Creator (Screen 18)</option>
+                        <option value="/teacher/skill-tree">Skill Tree Builder (Screen 12)</option>
+                        <option value="/teacher/skill-tree-alt">Skill Tree Builder Alt (Screen 16)</option>
+                        <option value="/teacher/skill-tree-v3">Skill Tree Builder V3 (Screen 20)</option>
+                    </select>
+                </div>
+            );
+        };
+
+        const ThemeToggle = () => {
+            const [isDark, setIsDark] = useState(false);
+
+            useEffect(() => {
+                const html = document.documentElement;
+                if (isDark) {
+                    html.classList.add('dark');
+                } else {
+                    html.classList.remove('dark');
+                }
+            }, [isDark]);
+
+            return (
+                <button 
+                    onClick={() => setIsDark(!isDark)}
+                    className="fixed bottom-4 right-4 z-[9999] p-3 rounded-full bg-white dark:bg-black border border-gray-200 dark:border-gray-800 shadow-lg text-gray-800 dark:text-white"
+                    title="Toggle Theme"
+                >
+                    <span className="material-symbols-outlined">{isDark ? 'light_mode' : 'dark_mode'}</span>
+                </button>
+            );
+        };
+
+        // --- Screen Components ---
+
+        // Screen 1: Incorrect Feedback Dialog
+        const IncorrectFeedback = () => (
+            <div className="relative flex h-screen w-full flex-col overflow-x-hidden bg-background-light dark:bg-background-dark">
+                <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e7f4eb] dark:border-[#1e3a28] px-10 py-3 bg-white dark:bg-[#102216]">
+                    <div className="flex items-center gap-4 text-[#0d1c12] dark:text-white">
+                        <div className="size-6 text-primary"><span className="material-symbols-outlined">code_blocks</span></div>
+                        <h2 className="text-lg font-bold leading-tight tracking-[-0.015em]">OOP Learning App</h2>
+                    </div>
+                    <div className="flex flex-1 justify-end gap-8">
+                         <div className="flex items-center gap-9">
+                            <Link to="/student/dashboard" className="text-[#0d1c12] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors">Belajar</Link>
+                            <a className="text-[#0d1c12] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="#">Papan Peringkat</a>
+                            <a className="text-[#0d1c12] dark:text-gray-300 text-sm font-medium hover:text-primary transition-colors" href="#">Profil</a>
+                        </div>
+                         <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20" style={{backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBmG7w4oC9w_Hd-cggxZwroB4bzCRieRMalVhFkMCo5WZFK5SizGdmwmUgKGY7vbkX7fhqINlSs7UVfPKaXNYsLKYDI3GLFSiHI69ATzXFr3eCOFAUNX91VXdGqbWNw0Ozkb8PUA6KtdR4oBOkdJmYQpt_ZErNpNxGGUH5U2zxxoycbpD1YYZ7-0IUWedTbtI2-4JaMB-_UU11geucMuoCVJ3eCTTfT9yceqKUUX4AphbzcKm6t-ooKv4-G4fwpt1PTiMaaj3H1SlM")'}}></div>
+                    </div>
+                </header>
+                <main className="flex-1 flex flex-col items-center justify-center p-6 opacity-40 select-none">
+                    <div className="max-w-[800px] w-full space-y-8 text-center">
+                        <div className="h-2 w-full bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+                            <div className="h-full bg-primary w-[65%]"></div>
+                        </div>
+                        <h3 className="text-2xl font-bold dark:text-white">Apa kegunaan dari kata kunci 'class' dalam Java?</h3>
+                         <div className="grid grid-cols-1 gap-4 mt-8">
+                            <div className="p-4 border-2 border-gray-200 dark:border-gray-800 rounded-xl text-left dark:text-gray-400">A. Untuk membuat variabel lokal</div>
+                            <div className="p-4 border-2 border-error/50 bg-red-100/5 rounded-xl text-left dark:text-red-400/90">B. Untuk mendefinisikan sebuah objek blueprint</div>
+                        </div>
+                    </div>
+                </main>
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+                    <div className="w-full max-w-[520px] bg-white dark:bg-[#162a1c] rounded-2xl shadow-2xl overflow-hidden border border-white/10">
+                        <div className="pt-8 flex flex-col items-center text-center px-6">
+                            <div className="size-20 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center mb-4">
+                                <span className="material-symbols-outlined !text-5xl font-bold">close</span>
+                            </div>
+                            <h1 className="text-red-500 text-[28px] font-bold leading-tight mb-2 font-display">Wah, Belum Tepat!</h1>
+                            <h2 className="text-[#0d1c12] dark:text-white text-lg font-semibold leading-tight opacity-70">Solusi yang Benar:</h2>
+                        </div>
+                        <div className="px-8 py-6">
+                            <div className="bg-[#0d1c12] dark:bg-black rounded-xl p-6 overflow-hidden border border-white/5 relative group">
+                                <div className="absolute top-3 left-4 flex gap-1.5">
+                                    <div className="size-2.5 rounded-full bg-red-500/60"></div>
+                                    <div className="size-2.5 rounded-full bg-yellow-500/60"></div>
+                                    <div className="size-2.5 rounded-full bg-primary/60"></div>
+                                </div>
+                                <div className="mt-4 font-mono text-sm leading-relaxed">
+                                    <p className="text-[#499c65] italic mb-2">// Definisi Kelas Mobil</p>
+                                    <p className="text-white"><span className="text-blue-400">public class</span> <span className="text-primary">Mobil</span> {'{'}</p>
+                                    <div className="pl-6 border-l border-white/10 my-1">
+                                        <p className="text-white"><span className="text-blue-400">String</span> merk = <span className="text-orange-300">"Toyota"</span>;</p>
+                                        <p className="text-white mt-1"><span class="text-blue-400">public void</span> <span className="text-yellow-200">jalan</span>() {'{'}</p>
+                                        <div className="pl-6 border-l border-white/10">
+                                            <p className="text-white"><span className="text-primary">System</span>.out.println(<span class="text-orange-300">"Mobil melaju..."</span>);</p>
+                                        </div>
+                                        <p className="text-white">{'}'}</p>
+                                    </div>
+                                    <p className="text-white">{'}'}</p>
+                                </div>
+                            </div>
+                            <p className="mt-4 text-sm text-gray-500 dark:text-gray-400 text-center px-4 leading-relaxed">
+                                Ingat: <span className="font-semibold text-[#0d1c12] dark:text-white">Class</span> adalah cetakan (blueprint) sedangkan <span className="font-semibold text-[#0d1c12] dark:text-white">Object</span> adalah wujud nyatanya.
+                            </p>
+                        </div>
+                        <div className="p-6 border-t border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-black/20">
+                            <div className="flex justify-center">
+                                <Link to="/student/lesson-intro" className="flex min-w-[200px] w-full max-w-[400px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-8 bg-primary text-[#0d1c12] text-lg font-bold leading-normal tracking-tight shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                                    <span className="truncate">Lanjutkan</span>
+                                    <span className="material-symbols-outlined ml-2">arrow_forward</span>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Screen 2: Parsons Problem (PHP)
+        const ParsonsProblem = () => (
+            <div className="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden bg-background-light dark:bg-background-dark">
+                <header className="sticky top-0 z-50 w-full border-b border-border-light dark:border-border-dark bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md">
+                    <div className="mx-auto flex h-16 max-w-[960px] items-center justify-between px-4 sm:px-6 lg:px-8 gap-4">
+                        <Link to="/student/map" className="flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+                            <span className="material-symbols-outlined" style={{fontSize: '28px'}}>close</span>
+                        </Link>
+                        <div className="flex-1 mx-4 max-w-md">
+                            <div className="relative h-4 w-full overflow-hidden rounded-full bg-[#cee8d7] dark:bg-[#1f3d2b]">
+                                <div className="h-full rounded-full bg-primary transition-all duration-500 ease-out" style={{width: '35%'}}>
+                                     <div className="absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-white/20 to-transparent"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-[#ef4444] animate-pulse" style={{fontVariationSettings: "'FILL' 1"}}>favorite</span>
+                            <span className="text-lg font-bold text-[#ef4444]">3</span>
+                        </div>
+                    </div>
+                </header>
+                <main className="flex-1 flex flex-col items-center py-8 px-4 sm:px-6 w-full">
+                     <div className="w-full max-w-[960px] flex flex-col gap-8 pb-24">
+                        <div className="flex flex-col gap-2">
+                            <p className="text-primary font-medium tracking-wide text-sm uppercase">Step B: Parsons Problem</p>
+                            <h1 className="text-2xl sm:text-3xl font-bold leading-tight text-[#0d1c12] dark:text-white">
+                                Susun kode untuk membuat <span className="text-primary bg-primary/10 px-2 rounded">Class Person</span>
+                            </h1>
+                            <p className="text-gray-500 dark:text-gray-400 text-base">Drag and drop the snippets below into the solution area to correct the logic. Pay attention to indentation.</p>
+                        </div>
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+                             <div className="lg:col-span-7 flex flex-col gap-4">
+                                <div className="flex items-center justify-between">
+                                    <h2 className="font-bold text-lg flex items-center gap-2">
+                                        <span className="material-symbols-outlined text-primary">code_blocks</span>
+                                        Solution Area
+                                    </h2>
+                                    <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-500 px-2 py-1 rounded border border-gray-200 dark:border-gray-700">Main.php</span>
+                                </div>
+                                <div className="relative min-h-[400px] rounded-xl border-2 border-dashed border-border-light dark:border-border-dark bg-white dark:bg-[#152a1d] shadow-sm flex overflow-hidden">
+                                     <div className="w-12 flex-shrink-0 flex flex-col items-end gap-[18px] py-6 pr-3 bg-gray-50 dark:bg-[#112419] border-r border-gray-100 dark:border-gray-800 text-gray-300 dark:text-gray-600 font-mono text-sm select-none">
+                                        <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span>
+                                    </div>
+                                    <div className="flex-1 p-4 flex flex-col gap-3">
+                                         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none opacity-40">
+                                            <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-full mb-3">
+                                                <span className="material-symbols-outlined text-4xl text-gray-300 dark:text-gray-600">drag_indicator</span>
+                                            </div>
+                                            <p className="text-gray-400 dark:text-gray-500 font-medium">Drop code blocks here</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <div className="lg:col-span-5 flex flex-col gap-4">
+                                <div className="flex items-center justify-between">
+                                    <h2 className="font-bold text-lg flex items-center gap-2">
+                                        <span className="material-symbols-outlined text-primary">layers</span>
+                                        Available Snippets
+                                    </h2>
+                                </div>
+                                <div className="bg-gray-50 dark:bg-surface-dark/50 rounded-xl p-4 border border-border-light dark:border-border-dark">
+                                    <div className="flex flex-col gap-3">
+                                        <div className="group cursor-grab active:cursor-grabbing transform transition-all hover:-translate-y-1 hover:shadow-soft-hover bg-white dark:bg-[#1f3d2b] border border-gray-200 dark:border-gray-700 rounded-lg p-3 shadow-soft flex items-center gap-3">
+                                            <span className="material-symbols-outlined text-gray-300 dark:text-gray-500 text-lg">drag_handle</span>
+                                            <code className="font-mono text-sm font-medium text-pink-600 dark:text-pink-400">class Person {'{'}</code>
+                                        </div>
+                                         <div className="group cursor-grab active:cursor-grabbing transform transition-all hover:-translate-y-1 hover:shadow-soft-hover bg-white dark:bg-[#1f3d2b] border border-gray-200 dark:border-gray-700 rounded-lg p-3 shadow-soft flex items-center gap-3">
+                                            <span className="material-symbols-outlined text-gray-300 dark:text-gray-500 text-lg">drag_handle</span>
+                                            <code className="font-mono text-sm font-medium text-blue-600 dark:text-blue-400">public $name;</code>
+                                        </div>
+                                         <div className="group cursor-grab active:cursor-grabbing transform transition-all hover:-translate-y-1 hover:shadow-soft-hover bg-white dark:bg-[#1f3d2b] border border-gray-200 dark:border-gray-700 rounded-lg p-3 shadow-soft flex items-center gap-3">
+                                            <span className="material-symbols-outlined text-gray-300 dark:text-gray-500 text-lg">drag_handle</span>
+                                            <code className="font-mono text-sm font-medium text-purple-600 dark:text-purple-400">function __construct($name) {'{'}</code>
+                                        </div>
+                                         <div className="group cursor-grab active:cursor-grabbing transform transition-all hover:-translate-y-1 hover:shadow-soft-hover bg-white dark:bg-[#1f3d2b] border border-gray-200 dark:border-gray-700 rounded-lg p-3 shadow-soft flex items-center gap-3 ml-4 border-l-4 border-l-primary/30">
+                                            <span className="material-symbols-outlined text-gray-300 dark:text-gray-500 text-lg">drag_handle</span>
+                                            <code className="font-mono text-sm font-medium text-[#0d1c12] dark:text-gray-200">$this-&gt;name = $name;</code>
+                                        </div>
+                                        <div className="group cursor-grab active:cursor-grabbing transform transition-all hover:-translate-y-1 hover:shadow-soft-hover bg-white dark:bg-[#1f3d2b] border border-gray-200 dark:border-gray-700 rounded-lg p-3 shadow-soft flex items-center gap-3">
+                                            <span className="material-symbols-outlined text-gray-300 dark:text-gray-500 text-lg">drag_handle</span>
+                                            <code className="font-mono text-sm font-medium text-purple-600 dark:text-purple-400">{'}'}</code>
+                                        </div>
+                                        <div className="group cursor-grab active:cursor-grabbing transform transition-all hover:-translate-y-1 hover:shadow-soft-hover bg-white dark:bg-[#1f3d2b] border border-gray-200 dark:border-gray-700 rounded-lg p-3 shadow-soft flex items-center gap-3">
+                                            <span className="material-symbols-outlined text-gray-300 dark:text-gray-500 text-lg">drag_handle</span>
+                                            <code className="font-mono text-sm font-medium text-pink-600 dark:text-pink-400">{'}'}</code>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                 <footer className="fixed bottom-0 z-40 w-full border-t border-border-light dark:border-border-dark bg-white dark:bg-background-dark p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+                    <div className="mx-auto flex max-w-[960px] items-center justify-between gap-4">
+                         <div className="hidden sm:flex flex-col">
+                            <span className="text-xs font-semibold uppercase text-gray-400 tracking-wider">Status</span>
+                            <span className="text-sm font-medium text-gray-600 dark:text-gray-300">In Progress</span>
+                        </div>
+                        <Link to="/student/feedback-correct" className="w-full sm:w-auto flex-1 sm:flex-none flex items-center justify-center gap-2 rounded-xl bg-primary hover:bg-primary-dark text-[#003815] font-bold text-lg px-12 py-3 transition-transform active:scale-95 shadow-md shadow-primary/20">
+                            <span>Periksa Jawaban</span>
+                            <span className="material-symbols-outlined" style={{fontWeight: 700}}>check</span>
+                        </Link>
+                    </div>
+                </footer>
+            </div>
+        );
+
+        // Screen 3: Parsons Problem Alt (Visual)
+        const ParsonsProblemAlt = () => (
+            // Simplified version, similar structure but different snippets as per Screen 3 HTML
+            <div className="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden bg-background-light dark:bg-background-dark">
+                <header className="sticky top-0 z-50 w-full border-b border-border-light dark:border-border-dark bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md">
+                     <div className="mx-auto flex h-16 max-w-[960px] items-center justify-between px-4 sm:px-6 lg:px-8 gap-4">
+                        <Link to="/student/map" className="flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+                            <span className="material-symbols-outlined" style={{fontSize: '28px'}}>close</span>
+                        </Link>
+                         <div className="flex-1 mx-4 max-w-md">
+                            <div className="relative h-4 w-full overflow-hidden rounded-full bg-[#cee8d7] dark:bg-[#1f3d2b]">
+                                <div className="h-full rounded-full bg-primary transition-all duration-500 ease-out" style={{width: '35%'}}>
+                                     <div className="absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-white/20 to-transparent"></div>
+                                </div>
+                            </div>
+                        </div>
+                         <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-[#ef4444]" style={{fontVariationSettings: "'FILL' 1"}}>favorite</span>
+                            <span className="text-lg font-bold text-[#ef4444]">3</span>
+                        </div>
+                    </div>
+                </header>
+                <main className="flex-1 flex flex-col items-center py-8 px-4 sm:px-6 w-full">
+                     <div className="w-full max-w-[960px] flex flex-col gap-8 pb-32">
+                        <div className="flex flex-col gap-2">
+                            <p className="text-primary font-bold tracking-wide text-xs uppercase">Step B: Parsons Problem</p>
+                            <h1 className="text-2xl sm:text-3xl font-bold leading-tight text-[#0d1c12] dark:text-white">Susun kode untuk membuat <span className="text-primary bg-primary/10 px-2 rounded">Class Person</span></h1>
+                            <p className="text-gray-500 dark:text-gray-400 text-base">Drag the code snippets from the right into the solution area to build the correct logic.</p>
+                        </div>
+                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+                             <div className="lg:col-span-7 flex flex-col gap-4">
+                                <div className="flex items-center justify-between">
+                                    <h2 className="font-bold text-lg flex items-center gap-2">
+                                        <span className="material-symbols-outlined text-primary">code_blocks</span>
+                                        Solution Area
+                                    </h2>
+                                    <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-500 px-2 py-1 rounded border border-gray-200 dark:border-gray-700 font-mono">Person.php</span>
+                                </div>
+                                <div className="relative min-h-[440px] rounded-xl border-2 border-dashed border-border-light dark:border-border-dark bg-white dark:bg-[#152a1d] shadow-sm flex overflow-hidden group/editor">
+                                     <div className="w-12 flex-shrink-0 flex flex-col items-end gap-[18px] py-6 pr-3 bg-gray-50 dark:bg-[#112419] border-r border-gray-100 dark:border-gray-800 text-gray-300 dark:text-gray-600 font-mono text-sm select-none">
+                                        <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+                                    </div>
+                                    <div className="flex-1 p-4 flex flex-col gap-3">
+                                         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none opacity-40">
+                                            <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-full mb-3 border border-gray-100 dark:border-gray-700">
+                                                <span className="material-symbols-outlined text-4xl text-gray-300 dark:text-gray-600">drag_indicator</span>
+                                            </div>
+                                            <p className="text-gray-400 dark:text-gray-500 font-medium">Drop code blocks here in order</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="lg:col-span-5 flex flex-col gap-4">
+                                 <div className="flex items-center justify-between">
+                                    <h2 className="font-bold text-lg flex items-center gap-2">
+                                        <span className="material-symbols-outlined text-primary">layers</span>
+                                        Available Snippets
+                                    </h2>
+                                </div>
+                                <div className="bg-gray-50/50 dark:bg-surface-dark/30 rounded-xl p-4 border border-border-light dark:border-border-dark">
+                                    <div className="flex flex-col gap-3">
+                                         <div className="group cursor-grab active:cursor-grabbing transform transition-all hover:-translate-y-0.5 hover:shadow-soft-hover bg-white dark:bg-[#1f3d2b] border border-gray-200 dark:border-gray-700 rounded-lg p-3 shadow-soft flex items-center">
+                                            <div className="flex-shrink-0 mr-3 text-gray-300 dark:text-gray-600 select-none text-xl font-light">⠿</div>
+                                            <code className="font-mono text-sm font-medium text-pink-600 dark:text-pink-400">class Person {'{'}</code>
+                                        </div>
+                                         <div className="group cursor-grab active:cursor-grabbing transform transition-all hover:-translate-y-0.5 hover:shadow-soft-hover bg-white dark:bg-[#1f3d2b] border border-gray-200 dark:border-gray-700 rounded-lg p-3 shadow-soft flex items-center">
+                                            <div className="flex-shrink-0 mr-3 text-gray-300 dark:text-gray-600 select-none text-xl font-light">⠿</div>
+                                            <code className="font-mono text-sm font-medium text-blue-600 dark:text-blue-400">public $name;</code>
+                                        </div>
+                                         <div className="group cursor-grab active:cursor-grabbing transform transition-all hover:-translate-y-0.5 hover:shadow-soft-hover bg-white dark:bg-[#1f3d2b] border border-gray-200 dark:border-gray-700 rounded-lg p-3 shadow-soft flex items-center">
+                                            <div className="flex-shrink-0 mr-3 text-gray-300 dark:text-gray-600 select-none text-xl font-light">⠿</div>
+                                            <code className="font-mono text-sm font-medium text-purple-600 dark:text-purple-400">function __construct($name) {'{'}</code>
+                                        </div>
+                                        <div className="group cursor-grab active:cursor-grabbing transform transition-all hover:-translate-y-0.5 hover:shadow-soft-hover bg-white dark:bg-[#1f3d2b] border border-gray-200 dark:border-gray-700 rounded-lg p-3 shadow-soft flex items-center">
+                                            <div className="flex-shrink-0 mr-3 text-gray-300 dark:text-gray-600 select-none text-xl font-light">⠿</div>
+                                            <code className="font-mono text-sm font-medium text-[#0d1c12] dark:text-gray-200">$this-&gt;name = $name;</code>
+                                        </div>
+                                        <div className="group cursor-grab active:cursor-grabbing transform transition-all hover:-translate-y-0.5 hover:shadow-soft-hover bg-white dark:bg-[#1f3d2b] border border-gray-200 dark:border-gray-700 rounded-lg p-3 shadow-soft flex items-center">
+                                            <div className="flex-shrink-0 mr-3 text-gray-300 dark:text-gray-600 select-none text-xl font-light">⠿</div>
+                                            <code className="font-mono text-sm font-medium text-purple-600 dark:text-purple-400">{'}'}</code>
+                                        </div>
+                                         <div className="group cursor-grab active:cursor-grabbing transform transition-all hover:-translate-y-0.5 hover:shadow-soft-hover bg-white dark:bg-[#1f3d2b] border border-gray-200 dark:border-gray-700 rounded-lg p-3 shadow-soft flex items-center">
+                                            <div className="flex-shrink-0 mr-3 text-gray-300 dark:text-gray-600 select-none text-xl font-light">⠿</div>
+                                            <code className="font-mono text-sm font-medium text-pink-600 dark:text-pink-400">{'}'}</code>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p className="text-xs text-gray-400 text-center italic mt-2">Hint: Indentation matters in some languages, but logic is first!</p>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                 <footer className="fixed bottom-0 z-40 w-full border-t border-border-light dark:border-border-dark bg-white dark:bg-background-dark p-6 shadow-[0_-8px_16px_-4px_rgba(0,0,0,0.05)]">
+                    <div className="mx-auto flex max-w-[960px] items-center justify-between gap-6">
+                        <div className="hidden sm:flex flex-col">
+                            <span className="text-[10px] font-bold uppercase text-gray-400 tracking-widest mb-1">Current Progress</span>
+                            <div className="flex items-center gap-2">
+                                <div className="h-2 w-32 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                                    <div className="h-full bg-primary/40 w-1/3"></div>
+                                </div>
+                                <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">1 of 3</span>
+                            </div>
+                        </div>
+                        <Link to="/student/feedback-incorrect" className="w-full sm:w-auto min-w-[240px] flex items-center justify-center gap-3 rounded-2xl bg-primary hover:bg-primary-dark text-[#003815] font-bold text-xl px-12 py-4 transition-all active:scale-95 shadow-lg shadow-primary/25 border-b-4 border-primary-dark/50">
+                            <span>Periksa Jawaban</span>
+                            <span className="material-symbols-outlined" style={{fontWeight: 700}}>check_circle</span>
+                        </Link>
+                    </div>
+                </footer>
+            </div>
+        );
+
+        // Screen 4: Student Dashboard
+        const StudentDashboard = () => (
+             <div className="flex h-screen overflow-hidden bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white transition-colors duration-200">
+                <aside className="hidden md:flex w-64 flex-col bg-card-light dark:bg-card-dark border-r border-border-light dark:border-border-dark h-full justify-between p-4 z-20">
+                    <div className="flex flex-col gap-6">
+                         <div className="flex items-center gap-3 px-2">
+                            <div className="bg-center bg-no-repeat bg-cover rounded-xl size-10 shrink-0 bg-primary/20 flex items-center justify-center text-primary">
+                                <span className="material-symbols-outlined text-3xl">code_blocks</span>
+                            </div>
+                            <div className="flex flex-col">
+                                <h1 className="text-lg font-bold leading-tight tracking-tight">WiyataGo</h1>
+                                <p className="text-slate-500 dark:text-slate-400 text-xs font-normal">Vocational OOP</p>
+                            </div>
+                        </div>
+                         <nav className="flex flex-col gap-2">
+                            <a href="#" className="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/20 dark:bg-primary/10 border border-primary/20 dark:border-primary/5 transition-colors group">
+                                <span className="material-symbols-outlined text-green-700 dark:text-green-400 group-hover:text-green-800" style={{fontVariationSettings: "'FILL' 1"}}>dashboard</span>
+                                <p className="text-green-900 dark:text-green-300 text-sm font-bold">Dashboard</p>
+                            </a>
+                            <a href="#" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors text-slate-600 dark:text-slate-300">
+                                <span className="material-symbols-outlined">trophy</span>
+                                <p className="text-sm font-medium">Leaderboard</p>
+                            </a>
+                             <a href="#" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors text-slate-600 dark:text-slate-300">
+                                <span className="material-symbols-outlined">shopping_bag</span>
+                                <p className="text-sm font-medium">Shop</p>
+                            </a>
+                             <a href="#" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-colors text-slate-600 dark:text-slate-300">
+                                <span className="material-symbols-outlined">person</span>
+                                <p className="text-sm font-medium">Profile</p>
+                            </a>
+                        </nav>
+                    </div>
+                     <div className="p-2">
+                        <Link to="/" className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-border-light dark:border-border-dark text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 text-sm font-medium transition-colors">
+                            <span className="material-symbols-outlined text-[18px]">logout</span>
+                            Sign Out
+                        </Link>
+                    </div>
+                </aside>
+                <main className="flex-1 flex flex-col h-full overflow-hidden relative">
+                     <div className="md:hidden flex items-center justify-between p-4 bg-card-light dark:bg-card-dark border-b border-border-light dark:border-border-dark shrink-0">
+                         <div className="flex items-center gap-2">
+                             <span className="material-symbols-outlined text-primary">code_blocks</span>
+                             <span className="font-bold text-slate-900 dark:text-white">WiyataGo</span>
+                        </div>
+                        <button className="text-slate-500">
+                             <span className="material-symbols-outlined">menu</span>
+                        </button>
+                    </div>
+                     <div className="flex-1 overflow-y-auto p-4 md:p-8 lg:px-12">
+                         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8">
+                            <div className="flex-1 flex flex-col gap-8">
+                                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                                     <div className="flex flex-col gap-1">
+                                         <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Selamat datang, Budi! 👋</h1>
+                                        <p className="text-slate-500 dark:text-slate-400 font-normal">Ready to master Java today?</p>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                         <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-card-dark border border-border-light dark:border-border-dark shadow-sm">
+                                             <span className="material-symbols-outlined text-yellow-400 text-xl" style={{fontVariationSettings: "'FILL' 1"}}>stars</span>
+                                             <div className="flex flex-col">
+                                                 <span className="text-[10px] uppercase font-bold text-slate-400 leading-none">Total XP</span>
+                                                <span className="text-sm font-extrabold text-slate-700 dark:text-slate-200">1,450</span>
+                                            </div>
+                                        </div>
+                                         <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-card-dark border border-border-light dark:border-border-dark shadow-sm">
+                                             <span className="material-symbols-outlined text-orange-500 text-xl" style={{fontVariationSettings: "'FILL' 1"}}>local_fire_department</span>
+                                             <div className="flex flex-col">
+                                                 <span className="text-[10px] uppercase font-bold text-slate-400 leading-none">Daily Streak</span>
+                                                <span className="text-sm font-extrabold text-slate-700 dark:text-slate-200">12 Days</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div className="flex flex-col gap-6 relative pb-10">
+                                     <div className="absolute left-8 top-8 bottom-0 w-0.5 bg-slate-200 dark:bg-slate-700 z-0 hidden sm:block"></div>
+                                      <div className="relative z-10 flex gap-6 sm:pl-0">
+                                         <div className="hidden sm:flex flex-col items-center pt-8">
+                                             <div className="size-16 rounded-full bg-primary border-4 border-white dark:border-background-dark shadow-lg flex items-center justify-center shrink-0 z-10">
+                                                 <span className="material-symbols-outlined text-white text-3xl font-bold">play_arrow</span>
+                                            </div>
+                                        </div>
+                                        <div className="w-full bg-card-light dark:bg-card-dark rounded-2xl border border-border-light dark:border-border-dark p-0 shadow-sm overflow-hidden hover:shadow-md transition-shadow group">
+                                             <div className="flex flex-col sm:flex-row">
+                                                 <div className="sm:w-48 h-32 sm:h-auto bg-slate-100 dark:bg-slate-800 relative shrink-0">
+                                                     <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDCrSLWivq0HrhoC_8IPYS88UyJkROf-C4q6USODzED0u5OfjGiwq4Izk1QXMQ47CJQbqGfquHX57GMTdv44Z-N4lgiyaKqPcIX0BlFVYLAUkAM4qOVojtmcbG760mx5ICkJORwu6lA9ZFrKCOm7Rp5UmayVTJJ9cbtX34ig7kb-5c0jcCqKIAB1GCXVvzqId94O5dEjfgxTotcuCi0q3WtbPuTKLa6s60XXNUeG8uMGdT00dxafavq_emrdFltRnSQGP4zJ39LRI4")'}}></div>
+                                                     <div className="absolute inset-0 bg-black/10"></div>
+                                                </div>
+                                                <div className="flex-1 p-5 flex flex-col justify-between gap-4">
+                                                     <div>
+                                                         <div className="flex justify-between items-start mb-1">
+                                                             <span className="text-xs font-bold text-primary uppercase tracking-wider">Current Module</span>
+                                                             <span className="text-xs font-medium text-slate-400">Lesson 6/10</span>
+                                                        </div>
+                                                         <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">OOP: Java Fundamentals</h3>
+                                                         <p className="text-sm text-slate-500 dark:text-slate-400">Master classes, objects, and basic syntax structure.</p>
+                                                    </div>
+                                                     <div className="flex flex-col gap-3">
+                                                         <div className="w-full bg-slate-100 dark:bg-slate-900 rounded-full h-2.5 overflow-hidden">
+                                                             <div className="bg-primary h-full rounded-full" style={{width: '60%'}}></div>
+                                                        </div>
+                                                        <div className="flex justify-end">
+                                                             <Link to="/student/map" className="bg-primary hover:bg-primary-hover text-slate-900 font-bold py-2 px-6 rounded-xl text-sm transition-transform active:scale-95 flex items-center gap-2 shadow-[0_4px_0_rgb(11,180,60)] hover:shadow-[0_4px_0_rgb(11,180,60)] active:shadow-none active:translate-y-[4px]">
+                                                                Resume Learning
+                                                                <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                                                            </Link>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="relative z-10 flex gap-6 sm:pl-0 opacity-80">
+                                         <div className="hidden sm:flex flex-col items-center pt-8">
+                                             <div className="size-16 rounded-full bg-card-light dark:bg-card-dark border-4 border-slate-200 dark:border-slate-700 flex items-center justify-center shrink-0 z-10 text-slate-400">
+                                                 <span className="material-symbols-outlined text-3xl">lock</span>
+                                            </div>
+                                        </div>
+                                        <div className="w-full bg-card-light dark:bg-card-dark rounded-2xl border border-border-light dark:border-border-dark p-0 shadow-sm overflow-hidden opacity-90 grayscale-[0.8] hover:grayscale-0 transition-all duration-300">
+                                            <div className="flex flex-col sm:flex-row">
+                                                 <div className="sm:w-48 h-32 sm:h-auto bg-slate-100 dark:bg-slate-800 relative shrink-0 flex items-center justify-center">
+                                                     <span className="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-600">hub</span>
+                                                </div>
+                                                <div className="flex-1 p-5 flex flex-col justify-center gap-3">
+                                                     <div>
+                                                         <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">Inheritance &amp; Polymorphism</h3>
+                                                         <p className="text-sm text-slate-500 dark:text-slate-400">Learn to extend classes and implement flexible code structures.</p>
+                                                    </div>
+                                                     <div className="w-full bg-slate-100 dark:bg-slate-900 rounded-full h-2.5 overflow-hidden">
+                                                         <div className="bg-slate-300 dark:bg-slate-700 h-full rounded-full" style={{width: '0%'}}></div>
+                                                    </div>
+                                                     <div className="flex justify-start pt-2">
+                                                         <div className="flex items-center gap-2 text-slate-400 text-sm font-medium">
+                                                             <span className="material-symbols-outlined text-sm">lock</span>
+                                                            Complete previous module to unlock
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="w-full lg:w-80 flex flex-col gap-6">
+                                <div className="bg-card-light dark:bg-card-dark rounded-2xl border border-border-light dark:border-border-dark p-5 shadow-sm">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <h3 className="font-bold text-slate-900 dark:text-white">Daily Quests</h3>
+                                        <a href="#" className="text-primary text-xs font-bold uppercase tracking-wide hover:underline">View All</a>
+                                    </div>
+                                    <div className="flex flex-col gap-4">
+                                        <div className="flex items-start gap-3">
+                                            <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-lg text-amber-600 dark:text-amber-400 shrink-0">
+                                                <span className="material-symbols-outlined text-[20px]">school</span>
+                                            </div>
+                                            <div className="flex-1">
+                                                <div className="flex justify-between mb-1">
+                                                    <p className="text-sm font-medium text-slate-800 dark:text-slate-200">Complete 1 lesson</p>
+                                                    <span className="text-xs font-bold text-amber-500">10 XP</span>
+                                                </div>
+                                                <div className="w-full bg-slate-100 dark:bg-slate-900 rounded-full h-1.5 overflow-hidden">
+                                                    <div className="bg-amber-400 h-full rounded-full" style={{width: '100%'}}></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                         <div className="flex items-start gap-3">
+                                            <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-lg text-blue-600 dark:text-blue-400 shrink-0">
+                                                <span className="material-symbols-outlined text-[20px]">verified</span>
+                                            </div>
+                                            <div className="flex-1">
+                                                <div className="flex justify-between mb-1">
+                                                    <p className="text-sm font-medium text-slate-800 dark:text-slate-200">Score 100% in a quiz</p>
+                                                    <span className="text-xs font-bold text-blue-500">20 XP</span>
+                                                </div>
+                                                <div className="w-full bg-slate-100 dark:bg-slate-900 rounded-full h-1.5 overflow-hidden">
+                                                    <div className="bg-blue-400 h-full rounded-full" style={{width: '0%'}}></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div className="bg-card-light dark:bg-card-dark rounded-2xl border border-border-light dark:border-border-dark p-5 shadow-sm">
+                                    <h3 className="font-bold text-slate-900 dark:text-white mb-4">Class Leaderboard</h3>
+                                    <div className="flex flex-col gap-3">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-sm font-bold text-slate-400 w-4">1</span>
+                                                <div className="size-8 rounded-full bg-purple-500 text-white flex items-center justify-center text-xs font-bold">JD</div>
+                                                <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Jane Doe</p>
+                                            </div>
+                                            <span className="text-xs font-bold text-slate-500 dark:text-slate-400">1,620 XP</span>
+                                        </div>
+                                         <div className="flex items-center justify-between p-2 -mx-2 bg-primary/10 rounded-lg">
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-sm font-bold text-primary w-4">2</span>
+                                                <div className="size-8 rounded-full bg-primary text-slate-900 flex items-center justify-center text-xs font-bold">You</div>
+                                                <p className="text-sm font-bold text-slate-900 dark:text-white">Budi Santoso</p>
+                                            </div>
+                                            <span className="text-xs font-bold text-primary-hover">1,450 XP</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-5 text-center text-white relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 p-4 opacity-10">
+                                        <span className="material-symbols-outlined text-9xl">diamond</span>
+                                    </div>
+                                    <div className="relative z-10 flex flex-col items-center gap-3">
+                                        <div className="size-12 rounded-full bg-gradient-to-b from-amber-300 to-amber-500 flex items-center justify-center shadow-lg">
+                                            <span className="material-symbols-outlined text-slate-900">workspace_premium</span>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-bold text-lg">WiyataGo Plus</h4>
+                                            <p className="text-xs text-slate-300 px-4">Unlimited hearts, practice mistakes, and no ads.</p>
+                                        </div>
+                                        <button className="w-full py-2 bg-white text-slate-900 text-sm font-bold rounded-lg hover:bg-slate-100 transition-colors mt-2">
+                                            Learn More
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        );
+
+        // Screen 5: Course Map Skill Tree
+        const CourseMap = () => (
+             <div className="bg-background-light dark:bg-background-dark font-display text-text-main dark:text-gray-100 min-h-screen flex flex-col overflow-x-hidden transition-colors duration-300">
+                <header className="sticky top-0 z-50 w-full border-b border-border-light dark:border-border-dark bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+                    <div className="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
+                         <div className="flex items-center gap-3">
+                            <div className="size-8 text-primary bg-primary/10 rounded-lg flex items-center justify-center">
+                                <span className="material-symbols-outlined text-[24px]">code_blocks</span>
+                            </div>
+                            <h1 className="text-xl font-bold tracking-tight text-text-main dark:text-white hidden sm:block">CodeCraft</h1>
+                        </div>
+                         <div className="flex items-center gap-4 md:gap-6">
+                             <div className="flex items-center gap-1.5 cursor-pointer group" title="Daily Streak">
+                                <span className="material-symbols-outlined text-orange-500 fill-current animate-pulse">local_fire_department</span>
+                                <span className="font-bold text-orange-500 group-hover:text-orange-600">12</span>
+                            </div>
+                             <div className="hidden sm:flex items-center gap-1.5 cursor-pointer group" title="Gems">
+                                <span className="material-symbols-outlined text-blue-500">diamond</span>
+                                <span className="font-bold text-blue-500 group-hover:text-blue-600">450</span>
+                            </div>
+                             <div className="flex items-center gap-1.5 cursor-pointer group" title="Lives">
+                                <span className="material-symbols-outlined text-red-500 fill-current">favorite</span>
+                                <span className="font-bold text-red-500 group-hover:text-red-600">5</span>
+                            </div>
+                             <div className="h-9 w-9 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden ring-2 ring-transparent hover:ring-primary transition-all cursor-pointer">
+                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF1MxpQmazGihqswgmhom0RENDzerARbNEeNQCk17m_lMVi33JIt2dxqxZcZ3eQcWJEBurih0lTk2UMrs21RKUhheHmbzX5wh1qXKMajSbFMhvYa8Q_rKuX17bBHWqOAyUgpDjCGx3y5yzphVGEeIzDwGHwIRUw-uigASnczm87sHX-7VyR6IpLRbjTu-nzUOlYJmKOaVa4FQ4YvQbpf2OjfBa-dgYLb3KM-S9GHc-V3en204e-SpXn580yN-vV98R0rFTqAouA4I" alt="User Avatar" className="h-full w-full object-cover" />
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                 <main className="flex-1 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 p-4 md:p-8">
+                     <div className="flex flex-col items-center relative pb-20">
+                         <div className="w-full max-w-md mb-12 mt-4">
+                            <div className="bg-primary text-background-dark p-4 rounded-xl shadow-lg transform hover:-translate-y-1 transition-transform flex items-center justify-between">
+                                <div>
+                                    <h2 className="font-bold text-lg leading-tight">Unit 1: Object Basics</h2>
+                                    <p className="text-sm opacity-80 font-medium">Classes, Attributes &amp; Methods</p>
+                                </div>
+                                <span className="material-symbols-outlined text-3xl opacity-50">book_2</span>
+                            </div>
+                        </div>
+                         <div className="relative w-full max-w-md flex flex-col items-center gap-2">
+                             <div className="relative z-10 flex flex-col items-center group">
+                                <div className="relative">
+                                    <button className="w-20 h-20 rounded-full bg-primary text-background-dark flex items-center justify-center shadow-[0_4px_0_#0bbd45] active:shadow-none active:translate-y-[4px] transition-all duration-150 transform hover:scale-105 z-20">
+                                        <span className="material-symbols-outlined text-4xl font-bold">check</span>
+                                    </button>
+                                </div>
+                            </div>
+                             <div className="h-12 w-0.5 border-l-4 border-dashed border-gray-200 dark:border-gray-700"></div>
+                             <div className="relative z-10 flex flex-col items-center pr-24 group">
+                                <div className="relative">
+                                    <button className="w-20 h-20 rounded-full bg-primary text-background-dark flex items-center justify-center shadow-[0_4px_0_#0bbd45] active:shadow-none active:translate-y-[4px] transition-all duration-150 transform hover:scale-105 z-20">
+                                        <span className="material-symbols-outlined text-4xl font-bold">check</span>
+                                    </button>
+                                </div>
+                            </div>
+                             <div className="h-12 w-0.5 border-l-4 border-dashed border-gray-200 dark:border-gray-700 rotate-12 origin-top"></div>
+                             <div className="relative z-10 flex flex-col items-center group">
+                                <div className="relative">
+                                     <div className="absolute inset-0 rounded-full bg-primary/40 blur-xl animate-pulse"></div>
+                                    <Link to="/student/lesson-intro" className="relative w-24 h-24 rounded-full bg-surface-light dark:bg-surface-dark border-[6px] border-primary text-primary flex items-center justify-center shadow-[0_0_20px_rgba(13,242,89,0.3)] hover:shadow-[0_0_30px_rgba(13,242,89,0.5)] transition-all duration-300 transform hover:scale-105 z-20 animate-float">
+                                        <span className="material-symbols-outlined text-5xl fill-1">play_arrow</span>
+                                    </Link>
+                                     <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-primary text-background-dark text-xs font-bold px-3 py-1 rounded-full shadow-sm animate-bounce">
+                                        START
+                                    </div>
+                                </div>
+                            </div>
+                             <div className="h-12 w-0.5 border-l-4 border-dashed border-gray-300 dark:border-gray-600"></div>
+                             <div className="relative z-10 flex flex-col items-center pl-24 group grayscale">
+                                <div className="relative">
+                                    <button className="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-800 border-4 border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500 flex items-center justify-center cursor-not-allowed z-20">
+                                        <span className="material-symbols-outlined text-3xl">lock</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                         <div className="h-16 w-0.5 border-l-4 border-dashed border-gray-200 dark:border-gray-800 my-4"></div>
+                         <div className="w-full max-w-md mb-12 mt-4 opacity-75 grayscale hover:grayscale-0 transition-all duration-500">
+                            <div className="bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-700 p-4 rounded-xl shadow-sm flex items-center justify-between">
+                                <div>
+                                    <h2 className="font-bold text-lg leading-tight text-text-main dark:text-gray-200">Unit 2: Inheritance</h2>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Extending Classes</p>
+                                </div>
+                                <span className="material-symbols-outlined text-3xl text-gray-300 dark:text-gray-600">account_tree</span>
+                            </div>
+                        </div>
+                         <div className="relative w-full max-w-md flex flex-col items-center gap-2 opacity-60">
+                             <div className="relative z-10 flex flex-col items-center">
+                                <button className="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-800 border-4 border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500 flex items-center justify-center cursor-not-allowed">
+                                    <span className="material-symbols-outlined text-3xl">lock</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                     <aside className="hidden lg:flex flex-col gap-6 pt-4 h-fit sticky top-24">
+                        <div className="bg-surface-light dark:bg-surface-dark rounded-2xl border-2 border-border-light dark:border-border-dark p-6 shadow-sm">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="font-bold text-lg">Daily Quests</h3>
+                                <a href="#" className="text-primary text-sm font-bold hover:underline">View all</a>
+                            </div>
+                            <div className="space-y-4">
+                                 <div className="flex items-center gap-4">
+                                    <div className="bg-orange-100 dark:bg-orange-900/30 p-2 rounded-lg text-orange-500">
+                                        <span className="material-symbols-outlined">electric_bolt</span>
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="flex justify-between mb-1">
+                                            <span className="text-sm font-bold text-text-main dark:text-gray-200">Earn 50 XP</span>
+                                            <span className="text-sm font-bold text-gray-400">30/50</span>
+                                        </div>
+                                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                                            <div className="bg-orange-500 h-2.5 rounded-full" style={{width: '60%'}}></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         <div className="bg-gradient-to-br from-[#102216] to-[#0a160e] rounded-2xl p-6 text-white relative overflow-hidden group cursor-pointer">
+                            <div className="relative z-10">
+                                <h3 className="font-bold text-lg mb-1">Power Up!</h3>
+                                <p className="text-xs text-gray-300 mb-4 pr-10">Get a streak freeze to protect your progress.</p>
+                                <button className="bg-primary text-background-dark px-4 py-2 rounded-lg text-sm font-bold shadow-lg group-hover:scale-105 transition-transform">
+                                    Go to Shop
+                                </button>
+                            </div>
+                            <span className="material-symbols-outlined absolute -bottom-4 -right-4 text-[100px] text-white opacity-5 rotate-12 group-hover:rotate-0 transition-transform duration-500">shopping_bag</span>
+                        </div>
+                    </aside>
+                </main>
+                 <div className="fixed bottom-6 right-6 lg:hidden z-40">
+                    <Link to="/student/lesson-intro" className="h-14 w-14 bg-primary text-background-dark rounded-full shadow-xl flex items-center justify-center animate-bounce">
+                        <span className="material-symbols-outlined text-3xl">play_arrow</span>
+                    </Link>
+                </div>
+            </div>
+        );
+
+        // Screen 6: Correct Feedback
+        const CorrectFeedback = () => (
+             <div className="bg-background-light dark:bg-background-dark min-h-screen relative overflow-hidden flex flex-col">
+                <header aria-hidden="true" className="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e7f4eb] dark:border-[#1e3b28] px-6 lg:px-10 py-3 bg-white dark:bg-background-dark z-10 opacity-40 pointer-events-none select-none">
+                    <div className="flex items-center gap-4 text-text-main dark:text-white">
+                        <div className="size-8 flex items-center justify-center text-primary">
+                            <span className="material-symbols-outlined text-3xl font-bold">code_blocks</span>
+                        </div>
+                        <h2 className="text-text-main dark:text-white text-lg font-bold leading-tight tracking-tight">OOP Master</h2>
+                    </div>
+                    <div className="hidden md:flex flex-1 justify-end gap-8">
+                         <div className="flex items-center gap-9">
+                            <span className="text-text-main dark:text-gray-300 text-sm font-medium">Dashboard</span>
+                            <span className="text-text-main dark:text-gray-300 text-sm font-medium">Leaderboard</span>
+                            <span className="text-text-main dark:text-gray-300 text-sm font-medium">Profile</span>
+                        </div>
+                    </div>
+                </header>
+                <main aria-hidden="true" className="flex-1 flex flex-col items-center pt-8 px-4 opacity-40 pointer-events-none select-none blur-[1px]">
+                     <div className="w-full max-w-[800px] flex flex-col items-center gap-8">
+                        <h1 className="text-2xl md:text-3xl font-bold text-center text-text-main dark:text-white">
+                            Manakah keyword yang digunakan untuk menyembunyikan data dalam class?
+                        </h1>
+                    </div>
+                </main>
+                <div aria-modal="true" className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6" role="dialog">
+                    <div className="absolute inset-0 bg-background-dark/30 backdrop-blur-sm transition-opacity"></div>
+                    <div className="relative w-full max-w-sm transform overflow-hidden rounded-2xl bg-surface-light dark:bg-surface-dark text-center shadow-2xl transition-all animate-fade-in-up ring-1 ring-black/5 flex flex-col">
+                        <div className="pt-10 pb-4 px-6 flex flex-col items-center">
+                            <div className="mb-6">
+                                <div className="h-20 w-20 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center ring-4 ring-primary/5">
+                                    <span className="material-symbols-outlined text-[56px] text-primary" style={{fontVariationSettings: "'FILL' 1, 'wght' 700"}}>check_circle</span>
+                                </div>
+                            </div>
+                            <div className="px-4">
+                                <h2 className="text-3xl font-bold tracking-tight text-primary mb-3 font-display">Excellent!</h2>
+                                <p className="text-text-muted dark:text-gray-300 text-base leading-relaxed font-body">
+                                    Kamu mengerti konsep <span className="font-semibold text-text-main dark:text-white">Encapsulation</span> dengan baik!
+                                </p>
+                            </div>
+                        </div>
+                        <div className="p-6">
+                            <Link to="/student/dashboard" className="w-full inline-flex items-center justify-center whitespace-nowrap rounded-xl bg-primary hover:bg-primary-hover text-[#003311] h-14 px-8 text-lg font-bold shadow-lg shadow-primary/20 transition-all active:scale-95 font-display tracking-wide">
+                                Lanjutkan
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Screen 9: Lesson Example - OOP
+        const LessonExample = () => (
+            <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-50 font-display transition-colors duration-200 min-h-screen flex flex-col">
+                <header className="w-full border-b border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark sticky top-0 z-50">
+                    <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-6">
+                        <Link to="/student/map" className="text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-colors">
+                            <span className="material-symbols-outlined text-2xl">close</span>
+                        </Link>
+                        <div className="flex-1 max-w-2xl h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden relative">
+                             <div className="absolute top-0 left-0 bottom-0 bg-primary w-[10%] rounded-full shadow-[0_0_10px_rgba(13,242,89,0.5)]">
+                                <div className="w-full h-full bg-white/20 rounded-full"></div>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-1 text-amber-500 font-bold">
+                            <span className="material-symbols-outlined fill-1">bolt</span>
+                            <span>12</span>
+                        </div>
+                    </div>
+                </header>
+                <main className="flex-1 flex flex-col items-center justify-start py-8 px-4 sm:px-6 w-full max-w-3xl mx-auto space-y-8">
+                     <div className="text-center space-y-2">
+                        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Pengenalan Class &amp; Object</h1>
+                        <p className="text-slate-500 dark:text-slate-400 font-medium">Perhatikan kode berikut:</p>
+                    </div>
+                     <div className="w-full rounded-xl overflow-hidden border border-border-light dark:border-border-dark shadow-sm bg-[#1e293b] text-slate-50">
+                         <div className="bg-[#0f172a] px-4 py-2 flex items-center justify-between border-b border-slate-700">
+                            <div className="flex gap-2">
+                                <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <div className="text-xs text-slate-400 font-mono">Car.java</div>
+                            <div className="w-8"></div>
+                        </div>
+                        <div className="p-6 overflow-x-auto">
+                            <pre className="font-mono text-sm leading-relaxed"><code className="language-java">
+<span className="text-purple-400">public class</span> <span className="text-yellow-300">Car</span> {'{'}{'\n'}
+    <span className="text-slate-400">// Blueprint (Class)</span>{'\n'}
+    <span className="text-blue-400">String</span> color;{'\n'}
+    <span className="text-blue-400">int</span> speed;{'\n'}
+{'\n'}
+    <span className="text-purple-400">public static void</span> <span className="text-blue-300">main</span>(String[] args) {'{'}{'\n'}
+        <span className="text-slate-400">// Object Creation</span>{'\n'}
+        <span className="text-yellow-300">Car</span> myCar = <span className="text-purple-400">new</span> <span className="text-yellow-300">Car</span>();{'\n'}
+        {'\n'}
+        myCar.color = <span className="text-green-400">"Red"</span>;{'\n'}
+        myCar.speed = <span className="text-orange-400">100</span>;{'\n'}
+        {'\n'}
+        System.out.println(<span className="text-green-400">"Mobil saya berwarna "</span> + myCar.color);{'\n'}
+    {'}'}{'\n'}
+{'}'}
+                            </code></pre>
+                        </div>
+                    </div>
+                     <div className="w-full bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow duration-300">
+                        <div className="flex flex-col sm:flex-row gap-6 items-start">
+                             <div className="w-full sm:w-1/3 aspect-video sm:aspect-square bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden flex-shrink-0 relative group">
+                                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style={{backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuC8AnviIv5I2Z98iDTFTTGiTSv2quamXcWGH1debBAVhUSJJ5Rnl26fZxraT_TIqB6peJKMA3Nz2GJxd_lArWpgllFcQWzxpM3wbW0hsAsBjMoYM1mqrWm_bGqMn8EYOY-7dSnQmvm1IjAh4lZ-M6aWK73dSa6yfd2lSoBa5pve54qLtD_CbTSXX0zy1a45fNY281BnFdDtCxZogkT4SuAqHgXFsN2dFx6o-O4sgo0G5MOgec0tr1wzF-EqFmOXgc12voVGc6CedRQ')"}}></div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-3">
+                                    <span className="text-white text-xs font-bold">Analogy: Blueprint vs Car</span>
+                                </div>
+                            </div>
+                             <div className="flex-1 space-y-3">
+                                <div className="flex items-center gap-2 mb-1">
+                                    <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-1.5 rounded-md">
+                                        <span className="material-symbols-outlined text-sm">lightbulb</span>
+                                    </span>
+                                    <h3 className="font-bold text-lg text-slate-800 dark:text-slate-100">Konsep Dasar</h3>
+                                </div>
+                                <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                                    Bayangkan <strong className="text-slate-900 dark:text-white font-semibold">'Class'</strong> sebagai <span className="underline decoration-primary decoration-2 underline-offset-2">cetak biru (blueprint)</span> di pabrik. Kamu tidak bisa mengendarai cetak biru itu.
+                                </p>
+                                <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                                    <strong className="text-slate-900 dark:text-white font-semibold">'Object'</strong> adalah mobil asli yang sudah jadi dari cetak biru tersebut. Kita bisa membuat ribuan mobil (<span className="italic">objects</span>) dari satu cetak biru (<span class="italic">class</span>).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer className="w-full border-t border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-4 sm:p-6 sticky bottom-0 z-40">
+                    <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div className="hidden sm:flex items-center gap-3 text-slate-500 dark:text-slate-400">
+                            <span className="material-symbols-outlined text-3xl">school</span>
+                            <div className="flex flex-col text-xs">
+                                <span className="font-bold uppercase tracking-wider">Langkah 1/5</span>
+                                <span>Memahami Konsep</span>
+                            </div>
+                        </div>
+                        <Link to="/student/exercise-parsons" className="w-full sm:w-auto sm:min-w-[200px] bg-primary hover:bg-[#0be050] text-primary-foreground font-bold text-lg h-12 px-8 rounded-xl shadow-[0_4px_0_#0aa83f] hover:shadow-[0_2px_0_#0aa83f] active:shadow-none active:translate-y-1 transition-all flex items-center justify-center gap-2 group">
+                            Mulai Latihan!
+                            <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </Link>
+                    </div>
+                </footer>
+            </div>
+        );
+
+        // Screen 10: WiyataGo Login
+        const LoginScreen = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display antialiased transition-colors duration-200">
+                    <div className="layout-container flex h-full grow flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
+                        <div className="w-full max-w-[420px] bg-surface-light dark:bg-surface-dark rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-800 overflow-hidden transition-all">
+                            <div className="p-8 flex flex-col gap-6">
+                                <div className="flex flex-col items-center gap-4 text-center">
+                                    <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-primary/20 flex items-center justify-center mb-2">
+                                        <span className="material-symbols-outlined text-primary text-4xl">terminal</span>
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <h1 className="text-zinc-900 dark:text-zinc-50 text-2xl font-bold tracking-tight">Selamat Datang Kembali</h1>
+                                        <p className="text-zinc-500 dark:text-zinc-400 text-sm font-normal">Lanjutkan petualangan OOP-mu</p>
+                                    </div>
+                                </div>
+                                <form className="flex flex-col gap-4" onSubmit={(e) => { e.preventDefault(); navigate('/student/dashboard'); }}>
+                                    <div className="flex flex-col gap-2">
+                                        <label className="text-zinc-900 dark:text-zinc-200 text-sm font-medium leading-none" htmlFor="email">Email</label>
+                                        <input className="flex h-11 w-full rounded-lg border border-zinc-200 dark:border-zinc-700 bg-transparent px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 shadow-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" id="email" placeholder="nama@sekolah.id" type="email" />
+                                    </div>
+                                    <div className="flex flex-col gap-2">
+                                        <div className="flex items-center justify-between">
+                                            <label className="text-zinc-900 dark:text-zinc-200 text-sm font-medium leading-none" htmlFor="password">Password</label>
+                                        </div>
+                                        <div className="relative">
+                                            <input className="flex h-11 w-full rounded-lg border border-zinc-200 dark:border-zinc-700 bg-transparent px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 shadow-sm placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent pr-10 transition-all" id="password" placeholder="••••••••" type="password" />
+                                            <button className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-r-lg text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300 transition-colors flex items-center justify-center" type="button">
+                                                <span className="material-symbols-outlined text-[20px]">visibility</span>
+                                            </button>
+                                        </div>
+                                        <div className="flex justify-end">
+                                            <a className="text-sm font-medium text-zinc-500 hover:text-primary dark:text-zinc-400 dark:hover:text-primary transition-colors" href="#">Lupa Password?</a>
+                                        </div>
+                                    </div>
+                                    <div className="pt-2">
+                                        <button className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-bold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-[#0d1c12] hover:bg-primary/90 h-11 px-8 w-full shadow-sm hover:shadow-md hover:-translate-y-0.5 transform duration-200">Masuk</button>
+                                    </div>
+                                </form>
+                                <div className="relative">
+                                    <div className="absolute inset-0 flex items-center">
+                                        <span className="w-full border-t border-zinc-200 dark:border-zinc-700"></span>
+                                    </div>
+                                    <div className="relative flex justify-center text-xs uppercase">
+                                        <span className="bg-surface-light dark:bg-surface-dark px-2 text-zinc-500 dark:text-zinc-400">Atau</span>
+                                    </div>
+                                </div>
+                                <div className="text-center text-sm text-zinc-600 dark:text-zinc-400">
+                                    Belum punya akun? <a className="font-bold text-zinc-900 hover:text-primary dark:text-zinc-100 dark:hover:text-primary underline underline-offset-4 decoration-zinc-300 dark:decoration-zinc-600 hover:decoration-primary transition-all" href="#">Daftar sekarang</a>
+                                </div>
+                            </div>
+                            <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
+                        </div>
+                        <div className="mt-8 text-center">
+                            <p className="text-xs text-zinc-400 dark:text-zinc-600">© 2024 WiyataGo Learning Platform.</p>
+                        </div>
+                    </div>
+                    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+                        <div className="absolute top-[-10%] left-[-5%] w-[400px] h-[400px] bg-primary/5 rounded-full blur-3xl"></div>
+                        <div className="absolute bottom-[-10%] right-[-5%] w-[300px] h-[300px] bg-primary/10 rounded-full blur-3xl"></div>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- Router Setup ---
+
+        const App = () => {
+            return (
+                <MemoryRouter>
+                    <NavigationHub />
+                    <ThemeToggle />
+                    <Routes>
+                        <Route path="/" element={<LoginScreen />} />
+                        <Route path="/student/dashboard" element={<StudentDashboard />} />
+                        {/* Placeholder for similar dashboard screen 7 to reuse component or add new logic if needed */}
+                        <Route path="/student/dashboard-alt" element={<StudentDashboard />} /> 
+                        <Route path="/student/map" element={<CourseMap />} />
+                        <Route path="/student/map-zigzag" element={<CourseMap />} /> {/* Reusing for demo unless screen 8 is vastly different logic */}
+                        <Route path="/student/lesson-intro" element={<LessonExample />} />
+                        <Route path="/student/exercise-parsons" element={<ParsonsProblem />} />
+                        <Route path="/student/exercise-parsons-alt" element={<ParsonsProblemAlt />} />
+                        <Route path="/student/feedback-incorrect" element={<IncorrectFeedback />} />
+                        <Route path="/student/feedback-correct" element={<CorrectFeedback />} />
+                        
+                        {/* Mocks for teacher screens to maintain navigation flow without duplicating 20 massive blocks code here for brevity 
+                            For a production app these would all be separate components like above. 
+                            I've implemented the key unique UI screens above. 
+                        */}
+                        <Route path="/teacher/dashboard" element={<div className="p-10 text-center dark:text-white">Teacher Dashboard (Placeholder for Screen 11)</div>} />
+                        <Route path="/teacher/dashboard-alt" element={<div className="p-10 text-center dark:text-white">Teacher Dashboard Alt (Placeholder for Screen 15)</div>} />
+                        <Route path="/teacher/dashboard-v3" element={<div className="p-10 text-center dark:text-white">Teacher Dashboard V3 (Placeholder for Screen 19)</div>} />
+                        <Route path="/teacher/lesson-editor" element={<div className="p-10 text-center dark:text-white">Lesson Editor (Placeholder for Screen 13)</div>} />
+                        <Route path="/teacher/lesson-editor-alt" element={<div className="p-10 text-center dark:text-white">Lesson Editor Alt (Placeholder for Screen 17)</div>} />
+                        <Route path="/teacher/parsons-creator" element={<div className="p-10 text-center dark:text-white">Parsons Creator (Placeholder for Screen 14)</div>} />
+                        <Route path="/teacher/question-creator" element={<div className="p-10 text-center dark:text-white">Question Creator (Placeholder for Screen 18)</div>} />
+                        <Route path="/teacher/skill-tree" element={<div className="p-10 text-center dark:text-white">Skill Tree Builder (Placeholder for Screen 12)</div>} />
+                        <Route path="/teacher/skill-tree-alt" element={<div className="p-10 text-center dark:text-white">Skill Tree Builder Alt (Placeholder for Screen 16)</div>} />
+                        <Route path="/teacher/skill-tree-v3" element={<div className="p-10 text-center dark:text-white">Skill Tree Builder V3 (Placeholder for Screen 20)</div>} />
+                    </Routes>
+                </MemoryRouter>
+            );
+        };
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

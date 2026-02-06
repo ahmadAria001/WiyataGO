@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lesson Example - OOP</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df259",
+                        "primary-foreground": "#003811",
+                        "background-light": "#f8fcf9",
+                        "background-dark": "#102216",
+                        "card-light": "#ffffff",
+                        "card-dark": "#1a2e22",
+                        "border-light": "#e2e8f0",
+                        "border-dark": "#2d4a3e",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem", 
+                        "lg": "0.75rem", 
+                        "xl": "1rem", 
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-50 font-display transition-colors duration-200 min-h-screen flex flex-col">
+<!-- Header Navigation -->
+<header class="w-full border-b border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark sticky top-0 z-50">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-6">
+<!-- Close Button -->
+<button class="text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-colors">
+<span class="material-symbols-outlined text-2xl">close</span>
+</button>
+<!-- Progress Bar Container -->
+<div class="flex-1 max-w-2xl h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden relative">
+<!-- Highlight/Shine effect on progress bar -->
+<div class="absolute top-0 left-0 bottom-0 bg-primary w-[10%] rounded-full shadow-[0_0_10px_rgba(13,242,89,0.5)]">
+<div class="w-full h-full bg-white/20 rounded-full"></div>
+</div>
+</div>
+<!-- Gem/Points Counter (Gamification Element) -->
+<div class="flex items-center gap-1 text-amber-500 font-bold">
+<span class="material-symbols-outlined fill-1">bolt</span>
+<span>12</span>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col items-center justify-start py-8 px-4 sm:px-6 w-full max-w-3xl mx-auto space-y-8">
+<!-- Title Section -->
+<div class="text-center space-y-2">
+<h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
+                Pengenalan Class &amp; Object
+            </h1>
+<p class="text-slate-500 dark:text-slate-400 font-medium">
+                Perhatikan kode berikut:
+            </p>
+</div>
+<!-- Code Viewer Card (IDE Style) -->
+<div class="w-full rounded-xl overflow-hidden border border-border-light dark:border-border-dark shadow-sm bg-[#1e293b] text-slate-50">
+<!-- IDE Header -->
+<div class="bg-[#0f172a] px-4 py-2 flex items-center justify-between border-b border-slate-700">
+<div class="flex gap-2">
+<div class="w-3 h-3 rounded-full bg-red-500"></div>
+<div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+<div class="w-3 h-3 rounded-full bg-green-500"></div>
+</div>
+<div class="text-xs text-slate-400 font-mono">Car.java</div>
+<div class="w-8"></div> <!-- Spacer for centering -->
+</div>
+<!-- Code Content -->
+<div class="p-6 overflow-x-auto">
+<pre class="font-mono text-sm leading-relaxed"><code class="language-java"><span class="text-purple-400">public class</span> <span class="text-yellow-300">Car</span> {
+    <span class="text-slate-400">// Blueprint (Class)</span>
+    <span class="text-blue-400">String</span> color;
+    <span class="text-blue-400">int</span> speed;
+
+    <span class="text-purple-400">public static void</span> <span class="text-blue-300">main</span>(String[] args) {
+        <span class="text-slate-400">// Object Creation</span>
+        <span class="text-yellow-300">Car</span> myCar = <span class="text-purple-400">new</span> <span class="text-yellow-300">Car</span>();
+        
+        myCar.color = <span class="text-green-400">"Red"</span>;
+        myCar.speed = <span class="text-orange-400">100</span>;
+        
+        System.out.println(<span class="text-green-400">"Mobil saya berwarna "</span> + myCar.color);
+    }
+}</code></pre>
+</div>
+</div>
+<!-- Concept Card (Analogy) -->
+<div class="w-full bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow duration-300">
+<div class="flex flex-col sm:flex-row gap-6 items-start">
+<!-- Visual Analogy -->
+<div class="w-full sm:w-1/3 aspect-video sm:aspect-square bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden flex-shrink-0 relative group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110" data-alt="Blueprint of a car vs a real red car illustration" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC8AnviIv5I2Z98iDTFTTGiTSv2quamXcWGH1debBAVhUSJJ5Rnl26fZxraT_TIqB6peJKMA3Nz2GJxd_lArWpgllFcQWzxpM3wbW0hsAsBjMoYM1mqrWm_bGqMn8EYOY-7dSnQmvm1IjAh4lZ-M6aWK73dSa6yfd2lSoBa5pve54qLtD_CbTSXX0zy1a45fNY281BnFdDtCxZogkT4SuAqHgXFsN2dFx6o-O4sgo0G5MOgec0tr1wzF-EqFmOXgc12voVGc6CedRQ');">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-3">
+<span class="text-white text-xs font-bold">Analogy: Blueprint vs Car</span>
+</div>
+</div>
+<!-- Explanation Text -->
+<div class="flex-1 space-y-3">
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-1.5 rounded-md">
+<span class="material-symbols-outlined text-sm">lightbulb</span>
+</span>
+<h3 class="font-bold text-lg text-slate-800 dark:text-slate-100">Konsep Dasar</h3>
+</div>
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                        Bayangkan <strong class="text-slate-900 dark:text-white font-semibold">'Class'</strong> sebagai <span class="underline decoration-primary decoration-2 underline-offset-2">cetak biru (blueprint)</span> di pabrik. Kamu tidak bisa mengendarai cetak biru itu.
+                    </p>
+<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+<strong class="text-slate-900 dark:text-white font-semibold">'Object'</strong> adalah mobil asli yang sudah jadi dari cetak biru tersebut. Kita bisa membuat ribuan mobil (<span class="italic">objects</span>) dari satu cetak biru (<span class="italic">class</span>).
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Action Area -->
+<footer class="w-full border-t border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-4 sm:p-6 sticky bottom-0 z-40">
+<div class="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+<!-- Hidden on mobile, visible on desktop for extra context if needed -->
+<div class="hidden sm:flex items-center gap-3 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-3xl">school</span>
+<div class="flex flex-col text-xs">
+<span class="font-bold uppercase tracking-wider">Langkah 1/5</span>
+<span>Memahami Konsep</span>
+</div>
+</div>
+<!-- Primary Action Button -->
+<button class="w-full sm:w-auto sm:min-w-[200px] bg-primary hover:bg-[#0be050] text-primary-foreground font-bold text-lg h-12 px-8 rounded-xl shadow-[0_4px_0_#0aa83f] hover:shadow-[0_2px_0_#0aa83f] active:shadow-none active:translate-y-1 transition-all flex items-center justify-center gap-2 group">
+                Mulai Latihan!
+                <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</footer>
+</body></html>

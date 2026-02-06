@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Skill Tree Builder - WiyataGo</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+                colors: {
+                "primary": "#0df259",
+                "background-light": "#f5f8f6",
+                "background-dark": "#102216",
+                },
+                fontFamily: {
+                "display": ["Lexend", "sans-serif"],
+                "body": ["Noto Sans", "sans-serif"],
+                },
+                borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for inspector if needed */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Grid pattern for canvas */
+        .bg-grid-pattern {
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .dark .bg-grid-pattern {
+            background-image: radial-gradient(#1e3a2f 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#0d1c12] dark:text-gray-100 font-display h-screen flex overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-64 flex-shrink-0 border-r border-gray-200 dark:border-gray-800 bg-[#f8fcf9] dark:bg-[#0d1c12] flex flex-col h-full z-20">
+<div class="flex flex-col h-full p-4">
+<!-- App Logo -->
+<div class="flex gap-3 mb-8 px-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 shadow-sm" data-alt="Abstract green geometric logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCYmS5KM4qS1XkA-dZ3iyMvzy-0c6eDNnlnkWFZSbA9WeflVworR-xo8Xt1raVKlTEUFWPBQwq_djTsbFSqD3jF2SqjfJowFyL6Fmb7Qx-A_c2K5sRtmk4fAMQeDOxTg9jVTGCn8p6FLkhPNit2ZfnJSEnX9tXFiu9OZRzO733YW2w-vT0odDsOhFFCrkTFsKEhSaKZLaCtvUBo-Ssi0ebS67-Ne9jYa3isq4GsKBdu5aqsFCu1eDDwJRb5bPFcwQswh1DJ_WR-shQ");'></div>
+<div class="flex flex-col justify-center">
+<h1 class="text-[#0d1c12] dark:text-white text-base font-bold leading-normal">WiyataGo</h1>
+<p class="text-[#499c65] text-xs font-normal leading-normal">Teacher Portal</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex flex-col gap-2 flex-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#0d1c12] dark:text-gray-300 hover:bg-[#e7f4eb] dark:hover:bg-[#1a3522] transition-colors group" href="#">
+<span class="material-symbols-outlined text-gray-500 group-hover:text-[#0d1c12] dark:group-hover:text-primary">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#e7f4eb] dark:bg-[#1a3522] border border-transparent dark:border-[#2a4532]" href="#">
+<span class="material-symbols-outlined text-[#0d1c12] dark:text-primary fill-1">book</span>
+<p class="text-[#0d1c12] dark:text-white text-sm font-medium leading-normal">Course Manager</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#0d1c12] dark:text-gray-300 hover:bg-[#e7f4eb] dark:hover:bg-[#1a3522] transition-colors group" href="#">
+<span class="material-symbols-outlined text-gray-500 group-hover:text-[#0d1c12] dark:group-hover:text-primary">group</span>
+<p class="text-sm font-medium leading-normal">Students</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#0d1c12] dark:text-gray-300 hover:bg-[#e7f4eb] dark:hover:bg-[#1a3522] transition-colors group" href="#">
+<span class="material-symbols-outlined text-gray-500 group-hover:text-[#0d1c12] dark:group-hover:text-primary">bar_chart</span>
+<p class="text-sm font-medium leading-normal">Analytics</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#0d1c12] dark:text-gray-300 hover:bg-[#e7f4eb] dark:hover:bg-[#1a3522] transition-colors group" href="#">
+<span class="material-symbols-outlined text-gray-500 group-hover:text-[#0d1c12] dark:group-hover:text-primary">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</div>
+<!-- User Profile (Bottom) -->
+<div class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-800">
+<div class="flex items-center gap-3 px-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8" data-alt="User avatar profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuARhJtQ0PFxQIxJy3Kr8RS8-XVW994yxKHN9J6i2sjq3SaQJCfj8NphcuFcnbRXdlV_U8QrixnCezccViw8k95-jG4BMdHCaKVG66_o7Pop2zx9aeL44Z33FzgWLZVZFQwmfEYIklZNjPUgbjnV76eAuQcV9BNqjd2MvE-hCGb-PCBDyzam-46eJyOG_fPiLdBOkOKgxJQAmcsunKZCp8_9O_6RwClszH8SeIVHwfKXfVA_zu_KuWA2BxH8ij6rsrS6CatH1ouGO5c");'></div>
+<div class="flex flex-col">
+<p class="text-sm font-medium text-[#0d1c12] dark:text-white">Alex Johnson</p>
+<p class="text-xs text-gray-500">Instructor</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-[#102216]">
+<!-- Header -->
+<header class="h-16 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-6 bg-white dark:bg-[#102216] z-10 shrink-0">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 items-center">
+<a class="text-gray-500 hover:text-primary text-sm font-medium transition-colors" href="#">Dashboard</a>
+<span class="text-gray-300 text-sm font-medium">/</span>
+<a class="text-gray-500 hover:text-primary text-sm font-medium transition-colors" href="#">Java Basics</a>
+<span class="text-gray-300 text-sm font-medium">/</span>
+<span class="text-[#0d1c12] dark:text-white text-sm font-medium bg-[#e7f4eb] dark:bg-[#1a3522] px-2 py-0.5 rounded text-primary-800">Skill Tree</span>
+</div>
+<!-- Action Buttons -->
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-9 px-4 hover:bg-gray-100 dark:hover:bg-gray-800 text-[#0d1c12] dark:text-gray-300 text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[20px] mr-2">visibility</span>
+                    Preview
+                </button>
+<button class="flex items-center justify-center rounded-lg h-9 px-4 bg-primary hover:bg-[#0be050] text-[#0d1c12] text-sm font-bold shadow-sm transition-colors transition-transform active:scale-95">
+<span class="material-symbols-outlined text-[20px] mr-2">save</span>
+                    Save Changes
+                </button>
+<button class="flex items-center justify-center rounded-lg h-9 px-4 border border-gray-200 dark:border-gray-700 text-[#0d1c12] dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                    Publish
+                </button>
+</div>
+</header>
+<!-- Builder Workspace (Split View) -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Canvas Area (Left) -->
+<div class="relative flex-grow bg-[#f8fcf9] dark:bg-[#0d1c12] overflow-hidden group/canvas">
+<!-- Grid Background -->
+<div class="absolute inset-0 bg-grid-pattern opacity-60"></div>
+<!-- Connection Lines (SVG Layer) -->
+<!-- Coordinates are illustrative -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none z-0">
+<!-- Line from Intro to Classes -->
+<path d="M 400 180 C 400 230, 400 230, 400 280" fill="none" stroke="#0df259" stroke-width="2"></path>
+<!-- Line from Classes to Inheritance -->
+<path d="M 400 380 C 400 430, 400 430, 400 480" fill="none" stroke="#0df259" stroke-width="2"></path>
+<!-- Line from Classes to Methods (Right) -->
+<path d="M 450 330 C 550 330, 550 330, 600 330" fill="none" stroke="#0df259" stroke-width="2"></path>
+<!-- Line from Classes to Attributes (Left) -->
+<path d="M 350 330 C 250 330, 250 330, 200 330" fill="none" stroke="#0df259" stroke-width="2"></path>
+</svg>
+<!-- Floating Toolbar -->
+<div class="absolute top-6 left-6 flex flex-col gap-2 z-20">
+<div class="bg-white dark:bg-[#1a3522] rounded-lg shadow-md border border-gray-100 dark:border-gray-800 p-1.5 flex flex-col gap-1">
+<button class="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors" title="Zoom In">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+<button class="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors" title="Zoom Out">
+<span class="material-symbols-outlined text-[20px]">remove</span>
+</button>
+<button class="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors" title="Fit to Screen">
+<span class="material-symbols-outlined text-[20px]">center_focus_strong</span>
+</button>
+</div>
+<button class="flex items-center justify-center gap-2 bg-white dark:bg-[#1a3522] text-[#0d1c12] dark:text-white p-3 rounded-lg shadow-md border border-gray-100 dark:border-gray-800 hover:shadow-lg transition-all font-medium text-sm mt-2">
+<span class="material-symbols-outlined text-primary">add_circle</span>
+<span>New Node</span>
+</button>
+</div>
+<!-- Nodes Container (Absolute Positioning Simulation) -->
+<div class="absolute inset-0 z-10 p-10 transform origin-top-left">
+<!-- Node 1: Root -->
+<div class="absolute top-[80px] left-[325px] w-[150px] bg-white dark:bg-[#1a3522] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md cursor-pointer transition-all hover:scale-105 group">
+<div class="h-1.5 w-full bg-gray-300 dark:bg-gray-600 rounded-t-lg"></div>
+<div class="p-3 flex flex-col items-center gap-2">
+<div class="p-2 bg-gray-100 dark:bg-gray-800 rounded-full">
+<span class="material-symbols-outlined text-gray-600 dark:text-gray-400 text-[20px]">flag</span>
+</div>
+<div class="text-center">
+<p class="text-xs font-semibold text-[#0d1c12] dark:text-white">Intro to OOP</p>
+<p class="text-[10px] text-gray-500">Published</p>
+</div>
+</div>
+</div>
+<!-- Node 2: Classes (Branch Hub) -->
+<div class="absolute top-[280px] left-[325px] w-[150px] bg-white dark:bg-[#1a3522] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md cursor-pointer transition-all hover:scale-105">
+<div class="h-1.5 w-full bg-blue-400 rounded-t-lg"></div>
+<div class="p-3 flex flex-col items-center gap-2">
+<div class="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-full">
+<span class="material-symbols-outlined text-blue-500 text-[20px]">category</span>
+</div>
+<div class="text-center">
+<p class="text-xs font-semibold text-[#0d1c12] dark:text-white">Classes &amp; Objects</p>
+<p class="text-[10px] text-gray-500">Published</p>
+</div>
+</div>
+</div>
+<!-- Node 3: Inheritance (Selected) -->
+<!-- Active State: Glow border, slightly elevated -->
+<div class="absolute top-[480px] left-[325px] w-[150px] bg-white dark:bg-[#1a3522] rounded-lg shadow-[0_0_15px_rgba(13,242,89,0.3)] border-2 border-primary cursor-pointer transition-all transform scale-105 z-20">
+<div class="h-1.5 w-full bg-primary rounded-t-[4px]"></div>
+<div class="p-3 flex flex-col items-center gap-2">
+<div class="p-2 bg-primary/20 rounded-full">
+<span class="material-symbols-outlined text-[#0d1c12] text-[20px]">account_tree</span>
+</div>
+<div class="text-center">
+<p class="text-xs font-bold text-[#0d1c12] dark:text-white">Inheritance</p>
+<div class="flex items-center justify-center gap-1 mt-1">
+<span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
+<p class="text-[10px] text-gray-500 font-medium">Draft</p>
+</div>
+</div>
+</div>
+<!-- Connector Dots -->
+<div class="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-2 border-primary rounded-full"></div>
+<div class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-primary rounded-full"></div>
+</div>
+<!-- Node 4: Attributes (Leaf) -->
+<div class="absolute top-[280px] left-[100px] w-[130px] bg-white dark:bg-[#1a3522] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md cursor-pointer opacity-80 hover:opacity-100 transition-all">
+<div class="h-1 w-full bg-purple-400 rounded-t-lg"></div>
+<div class="p-2 flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-purple-500 text-[18px]">data_object</span>
+<p class="text-[11px] font-semibold text-[#0d1c12] dark:text-white">Attributes</p>
+</div>
+</div>
+<!-- Node 5: Methods (Leaf) -->
+<div class="absolute top-[280px] left-[570px] w-[130px] bg-white dark:bg-[#1a3522] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md cursor-pointer opacity-80 hover:opacity-100 transition-all">
+<div class="h-1 w-full bg-purple-400 rounded-t-lg"></div>
+<div class="p-2 flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-purple-500 text-[18px]">functions</span>
+<p class="text-[11px] font-semibold text-[#0d1c12] dark:text-white">Methods</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Inspector Panel (Right) -->
+<div class="w-[380px] shrink-0 bg-white dark:bg-[#102216] border-l border-gray-200 dark:border-gray-800 flex flex-col overflow-y-auto scrollbar-hide z-30 shadow-xl">
+<!-- Inspector Header -->
+<div class="p-6 border-b border-gray-100 dark:border-gray-800">
+<div class="flex items-start justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-[#e7f4eb] dark:bg-primary/20 flex items-center justify-center text-primary border border-primary/20">
+<span class="material-symbols-outlined">account_tree</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-[#0d1c12] dark:text-white leading-tight">Inheritance</h2>
+<p class="text-xs text-gray-500 font-medium uppercase tracking-wide">Concept Node</p>
+</div>
+</div>
+<button class="text-gray-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+<!-- Tabs -->
+<div class="flex p-1 bg-gray-100 dark:bg-gray-800/50 rounded-lg">
+<button class="flex-1 py-1.5 text-xs font-semibold text-[#0d1c12] bg-white dark:bg-[#1a3522] dark:text-white rounded shadow-sm transition-all">Content</button>
+<button class="flex-1 py-1.5 text-xs font-semibold text-gray-500 hover:text-[#0d1c12] dark:text-gray-400 dark:hover:text-white transition-all">Settings</button>
+<button class="flex-1 py-1.5 text-xs font-semibold text-gray-500 hover:text-[#0d1c12] dark:text-gray-400 dark:hover:text-white transition-all">Rewards</button>
+</div>
+</div>
+<!-- Inspector Body (Form) -->
+<div class="p-6 flex flex-col gap-6">
+<!-- Title Input -->
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Node Title</label>
+<input class="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1a3522] text-[#0d1c12] dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all shadow-sm" type="text" value="Understanding Inheritance"/>
+</div>
+<!-- Description Textarea -->
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Description</label>
+<textarea class="w-full h-24 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1a3522] text-[#0d1c12] dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none shadow-sm leading-relaxed">Learn how child classes inherit properties from parents in Java OOP structure.</textarea>
+</div>
+<!-- Properties Row -->
+<div class="flex gap-4">
+<div class="flex-1 flex flex-col gap-1.5">
+<label class="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide">XP Reward</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-[18px]">bolt</span>
+<input class="w-full h-10 pl-9 pr-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1a3522] text-[#0d1c12] dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary shadow-sm font-medium" type="number" value="500"/>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-1.5">
+<label class="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Difficulty</label>
+<div class="relative">
+<select class="w-full h-10 px-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1a3522] text-[#0d1c12] dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary shadow-sm appearance-none">
+<option>Easy</option>
+<option selected="">Medium</option>
+<option>Hard</option>
+<option>Boss</option>
+</select>
+<span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-[20px] pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Media Upload -->
+<div class="flex flex-col gap-1.5">
+<label class="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Lesson Thumbnail</label>
+<div class="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-xl p-6 flex flex-col items-center justify-center gap-3 bg-gray-50 dark:bg-[#1a3522]/50 hover:bg-gray-100 dark:hover:bg-[#1a3522] transition-colors cursor-pointer group">
+<div class="size-12 rounded-full bg-white dark:bg-[#102216] shadow-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-[24px]">cloud_upload</span>
+</div>
+<div class="text-center">
+<p class="text-sm font-medium text-[#0d1c12] dark:text-white">Click to upload</p>
+<p class="text-xs text-gray-500">SVG, PNG, JPG (max 2MB)</p>
+</div>
+</div>
+</div>
+<!-- Toggles -->
+<div class="flex flex-col gap-3 pt-2 border-t border-gray-100 dark:border-gray-800">
+<label class="flex items-center justify-between cursor-pointer group">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-[#0d1c12] dark:text-white">Prerequisites Lock</span>
+<span class="text-xs text-gray-500">Require previous nodes?</span>
+</div>
+<div class="relative inline-flex h-6 w-11 items-center rounded-full bg-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+<span class="translate-x-6 inline-block h-4 w-4 transform rounded-full bg-white transition-transform"></span>
+</div>
+</label>
+<label class="flex items-center justify-between cursor-pointer group mt-2">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-[#0d1c12] dark:text-white">Timed Challenge</span>
+<span class="text-xs text-gray-500">Students have limited time</span>
+</div>
+<div class="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-200 dark:bg-gray-700 transition-colors focus:outline-none">
+<span class="translate-x-1 inline-block h-4 w-4 transform rounded-full bg-white transition-transform"></span>
+</div>
+</label>
+</div>
+<!-- Gamification Preview (Mini Card) -->
+<div class="mt-4 p-4 bg-gradient-to-br from-[#102216] to-[#1a3522] rounded-xl text-white shadow-lg relative overflow-hidden">
+<div class="absolute right-0 top-0 p-3 opacity-10">
+<span class="material-symbols-outlined text-[60px]">emoji_events</span>
+</div>
+<p class="text-xs font-medium text-primary mb-1">Student Preview</p>
+<h3 class="font-bold text-lg mb-2">Inheritance Badge</h3>
+<div class="flex items-center gap-2">
+<div class="bg-white/20 p-1.5 rounded-md backdrop-blur-sm">
+<span class="material-symbols-outlined text-[16px]">military_tech</span>
+</div>
+<span class="text-sm">+500 XP Earned</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

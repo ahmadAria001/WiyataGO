@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Zig-Zag Course Map</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df259",
+                        "primary-dark": "#0bbd45",
+                        "background-light": "#f8fcf9",
+                        "background-dark": "#0d1c12",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#162b1e",
+                        "text-main": "#0d1c12",
+                        "text-light": "#ffffff",
+                        "border-light": "#e7f4eb",
+                        "border-dark": "#1f3a29"
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"}
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .zig-zag-container {
+                @apply relative w-full max-w-lg mx-auto flex flex-col items-center py-8;
+            }
+            .node-row {
+                @apply relative flex w-full justify-center items-center py-6;
+            }
+            .node-left {
+                @apply -translate-x-12 md:-translate-x-20;
+            }
+            .node-right {
+                @apply translate-x-12 md:translate-x-20;
+            }
+            .connector-svg {
+                @apply absolute top-1/2 left-1/2 -translate-x-1/2 pointer-events-none z-0 overflow-visible;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-main dark:text-gray-100 min-h-screen flex flex-col overflow-x-hidden transition-colors duration-300">
+<header class="sticky top-0 z-50 w-full border-b border-border-light dark:border-border-dark bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="size-8 text-primary bg-primary/10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">code_blocks</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-text-main dark:text-white hidden sm:block">CodeCraft</h1>
+</div>
+<div class="flex items-center gap-4 md:gap-6">
+<div class="flex items-center gap-1.5 cursor-pointer group" title="Daily Streak">
+<span class="material-symbols-outlined text-orange-500 fill-current">local_fire_department</span>
+<span class="font-bold text-orange-500">12</span>
+</div>
+<div class="hidden sm:flex items-center gap-1.5 cursor-pointer group" title="Gems">
+<span class="material-symbols-outlined text-blue-500">diamond</span>
+<span class="font-bold text-blue-500">450</span>
+</div>
+<div class="flex items-center gap-1.5 cursor-pointer group" title="Lives">
+<span class="material-symbols-outlined text-red-500 fill-current">favorite</span>
+<span class="font-bold text-red-500">5</span>
+</div>
+<div class="h-9 w-9 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden ring-2 ring-transparent hover:ring-primary transition-all cursor-pointer">
+<img alt="User Avatar" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF1MxpQmazGihqswgmhom0RENDzerARbNEeNQCk17m_lMVi33JIt2dxqxZcZ3eQcWJEBurih0lTk2UMrs21RKUhheHmbzX5wh1qXKMajSbFMhvYa8Q_rKuX17bBHWqOAyUgpDjCGx3y5yzphVGEeIzDwGHwIRUw-uigASnczm87sHX-7VyR6IpLRbjTu-nzUOlYJmKOaVa4FQ4YvQbpf2OjfBa-dgYLb3KM-S9GHc-V3en204e-SpXn580yN-vV98R0rFTqAouA4I"/>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 p-4 md:p-8">
+<div class="flex flex-col items-center">
+<div class="w-full max-w-md mb-12 mt-4">
+<div class="bg-primary text-background-dark p-6 rounded-2xl shadow-lg flex items-center justify-between">
+<div>
+<h2 class="font-bold text-xl leading-tight">Unit 1: Object Basics</h2>
+<p class="text-sm opacity-80 font-medium">Classes, Attributes &amp; Methods</p>
+</div>
+<span class="material-symbols-outlined text-4xl opacity-50">book_2</span>
+</div>
+</div>
+<div class="zig-zag-container">
+<svg class="connector-svg h-[700px] w-64 md:w-80" fill="none" preserveAspectRatio="none" viewBox="0 0 100 400">
+<path class="text-gray-200 dark:text-gray-700" d="M 50 20 Q 80 50 50 80 Q 20 110 50 140 Q 80 170 50 200 Q 20 230 50 260 Q 80 290 50 320" stroke="currentColor" stroke-dasharray="6" stroke-width="2.5"></path>
+</svg>
+<div class="node-row z-10">
+<div class="relative group">
+<button class="w-20 h-20 rounded-full bg-primary text-background-dark flex items-center justify-center shadow-[0_4px_0_#0bbd45] active:translate-y-[4px] active:shadow-none transition-all duration-150">
+<span class="material-symbols-outlined text-4xl font-bold">check</span>
+</button>
+<div class="absolute top-1/2 left-full ml-4 -translate-y-1/2 bg-surface-dark text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 pointer-events-none">
+                        Intro to Classes <br/> <span class="text-primary font-bold">Completed</span>
+</div>
+</div>
+</div>
+<div class="node-row node-left z-10">
+<div class="relative group">
+<button class="w-20 h-20 rounded-full bg-primary text-background-dark flex items-center justify-center shadow-[0_4px_0_#0bbd45] active:translate-y-[4px] active:shadow-none transition-all duration-150">
+<span class="material-symbols-outlined text-4xl font-bold">check</span>
+</button>
+<div class="absolute top-1/2 left-full ml-4 -translate-y-1/2 bg-surface-dark text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 pointer-events-none">
+                        Defining Attributes <br/> <span class="text-primary font-bold">Completed</span>
+</div>
+</div>
+</div>
+<div class="node-row z-10">
+<div class="relative group">
+<div class="absolute inset-0 rounded-full bg-primary/40 blur-xl animate-pulse"></div>
+<button class="relative w-24 h-24 rounded-full bg-surface-light dark:bg-surface-dark border-[6px] border-primary text-primary flex items-center justify-center shadow-[0_0_20px_rgba(13,242,89,0.3)] transition-all duration-300">
+<span class="material-symbols-outlined text-5xl fill-1">play_arrow</span>
+</button>
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-primary text-background-dark text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                        START
+                    </div>
+<div class="absolute top-1/2 left-full ml-6 -translate-y-1/2 bg-surface-dark text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 pointer-events-none">
+                        Methods &amp; Functions <br/> <span class="text-primary font-bold">Current Lesson</span>
+</div>
+</div>
+</div>
+<div class="node-row node-right z-10 grayscale opacity-70">
+<div class="relative group">
+<button class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-800 border-4 border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500 flex items-center justify-center cursor-not-allowed">
+<span class="material-symbols-outlined text-3xl">lock</span>
+</button>
+<div class="absolute top-1/2 left-full ml-4 -translate-y-1/2 text-gray-400 dark:text-gray-500 text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                        Constructors
+                    </div>
+</div>
+</div>
+<div class="node-row z-10 grayscale opacity-50">
+<div class="relative group">
+<button class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-800 border-4 border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500 flex items-center justify-center cursor-not-allowed">
+<span class="material-symbols-outlined text-3xl">lock</span>
+</button>
+</div>
+</div>
+<div class="w-full max-w-md my-16 opacity-75 grayscale hover:grayscale-0 transition-all duration-500">
+<div class="bg-surface-light dark:bg-surface-dark border-2 border-dashed border-gray-200 dark:border-gray-700 p-4 rounded-xl flex items-center justify-between">
+<div>
+<h2 class="font-bold text-lg leading-tight text-text-main dark:text-gray-200">Unit 2: Inheritance</h2>
+<p class="text-sm text-gray-500 dark:text-gray-400 font-medium">Extending Classes</p>
+</div>
+<span class="material-symbols-outlined text-3xl text-gray-300 dark:text-gray-600">account_tree</span>
+</div>
+</div>
+<div class="node-row node-left z-10 grayscale opacity-40">
+<div class="relative">
+<button class="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-800 border-4 border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500 flex items-center justify-center cursor-not-allowed">
+<span class="material-symbols-outlined text-3xl">lock</span>
+</button>
+</div>
+</div>
+<div class="mt-8 flex flex-col items-center gap-2 grayscale opacity-30">
+<div class="w-24 h-24 bg-[url('https://cdn-icons-png.flaticon.com/512/2953/2953363.png')] bg-contain bg-no-repeat bg-center"></div>
+<span class="text-sm font-bold text-gray-400">Unit Reward</span>
+</div>
+</div>
+</div>
+<aside class="hidden lg:flex flex-col gap-6 pt-4 h-fit sticky top-24">
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl border-2 border-border-light dark:border-border-dark p-6 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-bold text-lg">Daily Quests</h3>
+<a class="text-primary text-sm font-bold hover:underline" href="#">View all</a>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-4">
+<div class="bg-orange-100 dark:bg-orange-900/30 p-2 rounded-lg text-orange-500">
+<span class="material-symbols-outlined">electric_bolt</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between mb-1">
+<span class="text-sm font-bold">Earn 50 XP</span>
+<span class="text-sm font-bold text-gray-400">30/50</span>
+</div>
+<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+<div class="bg-orange-500 h-2.5 rounded-full" style="width: 60%"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="bg-primary/20 p-2 rounded-lg text-primary-dark">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between mb-1">
+<span class="text-sm font-bold">Complete 2 Lessons</span>
+<span class="text-sm font-bold text-gray-400">1/2</span>
+</div>
+<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+<div class="bg-primary h-2.5 rounded-full" style="width: 50%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl border-2 border-border-light dark:border-border-dark p-6 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-bold text-lg">Leaderboard</h3>
+<span class="text-xs font-medium px-2 py-1 bg-yellow-100 text-yellow-700 rounded-md">Ruby League</span>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3 p-2 rounded-xl bg-primary/10 border border-primary/20">
+<span class="text-gray-500 dark:text-gray-400 font-bold w-4">2</span>
+<div class="h-8 w-8 rounded-full bg-primary overflow-hidden ring-2 ring-primary ring-offset-1 dark:ring-offset-background-dark">
+<img alt="User Avatar" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4LpraZvZcrGQm7VNBxVz6ID59_pO3BxEffxAnceEGRlL2-LVbjlQgqzrlO5_K_khKz0_PA7Mj-hOylEUdFR1ZS_X0v8I6iqI0RZn41NhswN22ghvHBBa6mEBHdQN6me79at83dhLu5azfy4NZwtP6LPR2R_Dpm7Q2NxoVidwssE7csuFcBG_rl5B8AZH6t3R1bHZ9dN51OR0BRjeaAg00tuTHNVIZvtmFPX5VFI-bKAiIs7BAMT6CLP2zJSTN-Io2czpbAG5ysgk"/>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold">Alex Dev (You)</p>
+<p class="text-xs text-primary-dark font-medium">980 XP</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-4 py-2 text-sm font-bold text-primary hover:bg-primary/10 rounded-lg transition-colors">
+                View League
+            </button>
+</div>
+</aside>
+</main>
+<div class="fixed bottom-6 right-6 lg:hidden">
+<button class="h-14 w-14 bg-primary text-background-dark rounded-full shadow-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">play_arrow</span>
+</button>
+</div>
+
+</body></html>

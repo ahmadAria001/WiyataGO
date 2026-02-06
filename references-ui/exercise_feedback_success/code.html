@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Exercise Feedback Success</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df259",
+                        "primary-hover": "#0be052",
+                        "background-light": "#f8fcf9",
+                        "background-dark": "#102216",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2e22",
+                        "text-main": "#0d1c12",
+                        "text-muted": "#4a5950",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    keyframes: {
+                        'fade-in-up': {
+                            '0%': { opacity: '0', transform: 'translateY(10px) scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fade-in-up 0.3s ease-out forwards',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', 'Noto Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen relative overflow-hidden flex flex-col">
+<header aria-hidden="true" class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e7f4eb] dark:border-[#1e3b28] px-6 lg:px-10 py-3 bg-white dark:bg-background-dark z-10 opacity-40 pointer-events-none select-none">
+<div class="flex items-center gap-4 text-text-main dark:text-white">
+<div class="size-8 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl font-bold">code_blocks</span>
+</div>
+<h2 class="text-text-main dark:text-white text-lg font-bold leading-tight tracking-tight">OOP Master</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<span class="text-text-main dark:text-gray-300 text-sm font-medium">Dashboard</span>
+<span class="text-text-main dark:text-gray-300 text-sm font-medium">Leaderboard</span>
+<span class="text-text-main dark:text-gray-300 text-sm font-medium">Profile</span>
+</div>
+<div class="flex items-center justify-center rounded-lg h-10 bg-[#e7f4eb] dark:bg-[#1e3b28] text-text-main dark:text-white px-2.5">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</div>
+</div>
+</header>
+<main aria-hidden="true" class="flex-1 flex flex-col items-center pt-8 px-4 opacity-40 pointer-events-none select-none blur-[1px]">
+<div class="w-full max-w-[800px] flex flex-col gap-3 mb-10">
+<div class="flex gap-6 justify-between items-end">
+<p class="text-text-main dark:text-white text-base font-medium">Level 4: Encapsulation</p>
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined">favorite</span>
+<span class="text-sm font-bold">5</span>
+</div>
+</div>
+<div class="h-4 w-full bg-[#cee8d7] dark:bg-[#1e3b28] rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-500 ease-out" style="width: 85%;"></div>
+</div>
+</div>
+<div class="w-full max-w-[800px] flex flex-col items-center gap-8">
+<h1 class="text-2xl md:text-3xl font-bold text-center text-text-main dark:text-white">
+                Manakah keyword yang digunakan untuk menyembunyikan data dalam class?
+            </h1>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+<div class="p-6 rounded-2xl border-2 border-transparent bg-white dark:bg-surface-dark shadow-sm text-center font-medium text-lg text-text-muted dark:text-gray-300">
+                    public
+                </div>
+<div class="p-6 rounded-2xl border-2 border-primary bg-primary/10 shadow-sm text-center font-bold text-lg text-primary relative">
+                    private
+                    <div class="absolute top-1/2 right-4 -translate-y-1/2 text-primary">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+</div>
+<div class="p-6 rounded-2xl border-2 border-transparent bg-white dark:bg-surface-dark shadow-sm text-center font-medium text-lg text-text-muted dark:text-gray-300">
+                    static
+                </div>
+<div class="p-6 rounded-2xl border-2 border-transparent bg-white dark:bg-surface-dark shadow-sm text-center font-medium text-lg text-text-muted dark:text-gray-300">
+                    void
+                </div>
+</div>
+</div>
+</main>
+<div aria-modal="true" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6" role="dialog">
+<div class="absolute inset-0 bg-background-dark/30 backdrop-blur-sm transition-opacity"></div>
+<div class="relative w-full max-w-sm transform overflow-hidden rounded-2xl bg-surface-light dark:bg-surface-dark text-center shadow-2xl transition-all animate-fade-in-up ring-1 ring-black/5 flex flex-col">
+<div class="pt-10 pb-4 px-6 flex flex-col items-center">
+<div class="mb-6">
+<div class="h-20 w-20 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center ring-4 ring-primary/5">
+<span class="material-symbols-outlined text-[56px] text-primary" style="font-variation-settings: 'FILL' 1, 'wght' 700;">
+                            check_circle
+                        </span>
+</div>
+</div>
+<div class="px-4">
+<h2 class="text-3xl font-bold tracking-tight text-primary mb-3 font-display">
+                        Excellent!
+                    </h2>
+<p class="text-text-muted dark:text-gray-300 text-base leading-relaxed font-body">
+                        Kamu mengerti konsep <span class="font-semibold text-text-main dark:text-white">Encapsulation</span> dengan baik!
+                    </p>
+</div>
+</div>
+<div class="p-6">
+<button class="w-full inline-flex items-center justify-center whitespace-nowrap rounded-xl bg-primary hover:bg-primary-hover text-[#003311] h-14 px-8 text-lg font-bold shadow-lg shadow-primary/20 transition-all active:scale-95 font-display tracking-wide">
+                    Lanjutkan
+                </button>
+</div>
+</div>
+</div>
+
+</body></html>

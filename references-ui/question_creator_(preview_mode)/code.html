@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Question Creator - WiyataGo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0df259",
+                        "primary-dark": "#0bb842",
+                        "background-light": "#f8fcf9",
+                        "background-dark": "#102216",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a3322",
+                        "border-light": "#e7f4eb",
+                        "border-dark": "#2a4a35",
+                        "text-main": "#0d1c12",
+                        "text-sub": "#499c65",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    borderRadius: { "DEFAULT": "0.375rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+        /* Custom scrollbar for code editor */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main flex flex-col min-h-screen overflow-hidden">
+<!-- Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-light dark:border-border-dark px-6 py-3 bg-surface-light dark:bg-surface-dark shrink-0">
+<div class="flex items-center gap-4 text-text-main dark:text-white">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-xl">school</span>
+</div>
+<h2 class="text-text-main dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">WiyataGo</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-text-main dark:text-white text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-text-main dark:text-white text-sm font-medium hover:text-primary transition-colors" href="#">Courses</a>
+<a class="text-text-main dark:text-white text-sm font-medium hover:text-primary transition-colors" href="#">Library</a>
+<a class="text-text-main dark:text-white text-sm font-medium hover:text-primary transition-colors" href="#">Settings</a>
+</nav>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9 ring-2 ring-primary/20" data-alt="Teacher profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD9_mmQjFQ30S49_RswmiVE7sEAHdXoO2o_sig7ocqh_-LnRQT9p-XbWUL2vgYedDMK6O_67Bc6sY9rZg2drQSW3lVmPJSfQXO3AU2ryFTYlZKyKWnIXwJUU1LkEByvskifF6Zt8kk-8jTS-JyuDvj-pHDmKm58qfBhO1ZGwLmX32AT7rkhWT-welN1uoGlnubNYvCGfouJpQ5iYHMRvLHLjmaa44r7a5lFuaB3xoGAz94GgGa1vmTHj4PUdN7prEMy-N1e5bju0vg");'></div>
+</div>
+</header>
+<!-- Breadcrumbs & Title Bar -->
+<div class="shrink-0 px-6 py-4 bg-background-light dark:bg-background-dark border-b border-border-light dark:border-border-dark">
+<div class="max-w-[1600px] mx-auto w-full">
+<div class="flex flex-col gap-1 mb-2">
+<div class="flex flex-wrap gap-2 items-center text-sm">
+<a class="text-text-sub hover:text-primary transition-colors font-medium" href="#">Courses</a>
+<span class="text-text-sub font-medium">/</span>
+<a class="text-text-sub hover:text-primary transition-colors font-medium" href="#">Module 3: OOP Principles</a>
+<span class="text-text-sub font-medium">/</span>
+<span class="text-text-main dark:text-gray-200 font-medium">Edit Question</span>
+</div>
+</div>
+<div class="flex flex-wrap justify-between items-center gap-4">
+<div>
+<h1 class="text-text-main dark:text-white text-2xl md:text-3xl font-bold tracking-tight">Edit Question: Polymorphism Basics #2</h1>
+<div class="flex items-center gap-2 mt-1">
+<span class="w-2 h-2 rounded-full bg-yellow-400"></span>
+<p class="text-text-sub text-sm font-normal">Draft - Last saved 2 mins ago</p>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 rounded-lg border border-border-dark/20 dark:border-border-light/20 text-text-main dark:text-white text-sm font-medium hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                        Preview as Student
+                    </button>
+<button class="px-4 py-2 rounded-lg bg-red-50 text-red-600 text-sm font-medium hover:bg-red-100 transition-colors border border-red-100">
+                        Delete
+                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Workspace -->
+<main class="flex-1 overflow-hidden flex flex-col md:flex-row relative">
+<!-- Left Column: Content Inputs -->
+<div class="w-full md:w-1/2 lg:w-5/12 overflow-y-auto custom-scrollbar border-r border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark p-6 pb-24">
+<div class="max-w-2xl mx-auto flex flex-col gap-6">
+<!-- Section: Question Details -->
+<div class="space-y-4">
+<label class="block">
+<div class="flex justify-between items-center mb-2">
+<span class="text-text-main dark:text-white text-sm font-semibold">Instructions</span>
+<span class="text-xs text-text-sub">Markdown supported</span>
+</div>
+<div class="relative group">
+<!-- Simple Rich Text Toolbar Simulation -->
+<div class="flex items-center gap-1 p-2 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark rounded-t-lg border-x border-t">
+<button class="p-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-sub"><span class="material-symbols-outlined text-lg">format_bold</span></button>
+<button class="p-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-sub"><span class="material-symbols-outlined text-lg">format_italic</span></button>
+<button class="p-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-sub"><span class="material-symbols-outlined text-lg">code</span></button>
+<div class="w-px h-4 bg-border-light dark:bg-border-dark mx-1"></div>
+<button class="p-1 rounded hover:bg-black/5 dark:hover:bg-white/10 text-text-sub"><span class="material-symbols-outlined text-lg">list</span></button>
+</div>
+<textarea class="w-full min-h-[160px] p-4 rounded-b-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-main dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-y text-sm leading-relaxed" placeholder="Write the instructions for the student here...">Complete the `Animal` class method to demonstrate polymorphism. Make sure the `sound()` method is overridden correctly in the subclass.</textarea>
+</div>
+</label>
+<label class="block">
+<span class="text-text-main dark:text-white text-sm font-semibold block mb-2">Explanation (Revealed after solving)</span>
+<textarea class="w-full min-h-[100px] p-4 rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-main dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-y text-sm" placeholder="Explain the concept...">Polymorphism allows objects to be treated as instances of their parent class rather than their actual class.</textarea>
+</label>
+</div>
+<div class="h-px bg-border-light dark:bg-border-dark w-full my-2"></div>
+<!-- Section: Settings -->
+<div class="space-y-5">
+<h3 class="text-text-main dark:text-white font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">tune</span>
+                        Settings
+                    </h3>
+<div>
+<div class="flex justify-between mb-2">
+<span class="text-sm font-medium text-text-main dark:text-white">Difficulty (XP Reward)</span>
+<span class="text-sm font-bold text-primary">150 XP</span>
+</div>
+<input class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary" max="500" min="10" type="range" value="150"/>
+<div class="flex justify-between text-xs text-text-sub mt-1">
+<span>Easy</span>
+<span>Medium</span>
+<span>Hard</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<label class="block">
+<span class="text-sm font-medium text-text-main dark:text-white mb-2 block">Time Limit (Seconds)</span>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-text-sub text-lg">timer</span>
+<input class="w-full pl-10 pr-4 py-2 rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-main dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary text-sm" type="number" value="120"/>
+</div>
+</label>
+<label class="block">
+<span class="text-sm font-medium text-text-main dark:text-white mb-2 block">Tags</span>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-text-sub text-lg">label</span>
+<input class="w-full pl-10 pr-4 py-2 rounded-lg border border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark text-text-main dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary text-sm" placeholder="e.g. OOP, Java" type="text"/>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Code & Preview -->
+<div class="w-full md:w-1/2 lg:w-7/12 bg-[#F3F4F6] dark:bg-[#0c1610] flex flex-col h-full relative">
+<!-- Tabs -->
+<div class="flex items-center px-6 pt-4 gap-2 border-b border-gray-200 dark:border-gray-800 bg-surface-light dark:bg-surface-dark shrink-0">
+<button class="flex items-center gap-2 px-4 py-3 border-b-2 border-primary text-primary font-medium text-sm transition-colors">
+<span class="material-symbols-outlined text-lg">code</span>
+                    Solution Code
+                </button>
+<button class="flex items-center gap-2 px-4 py-3 border-b-2 border-transparent text-text-sub hover:text-text-main font-medium text-sm transition-colors">
+<span class="material-symbols-outlined text-lg">preview</span>
+                    Puzzle Preview
+                </button>
+<div class="ml-auto flex items-center gap-2 text-xs text-text-sub">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+                    All tests passing
+                </div>
+</div>
+<!-- Editor Area -->
+<div class="flex-1 p-6 overflow-hidden flex flex-col">
+<div class="flex-1 bg-white dark:bg-[#1e1e1e] rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 flex flex-col overflow-hidden">
+<!-- Fake Monaco Editor Header -->
+<div class="flex items-center justify-between px-4 py-2 bg-gray-50 dark:bg-[#252526] border-b border-gray-200 dark:border-gray-800">
+<span class="text-xs font-mono text-gray-500">Animal.java</span>
+<div class="flex gap-1.5">
+<div class="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+</div>
+</div>
+<!-- Code Content -->
+<div class="flex-1 p-4 font-mono text-sm overflow-auto custom-scrollbar bg-white dark:bg-[#1e1e1e] text-gray-800 dark:text-gray-300 leading-relaxed">
+<pre><span class="text-purple-600 dark:text-purple-400">public class</span> <span class="text-yellow-600 dark:text-yellow-400">Animal</span> {
+    
+    <span class="text-gray-500 italic">// This method should be overridden</span>
+    <span class="text-purple-600 dark:text-purple-400">public void</span> <span class="text-blue-600 dark:text-blue-400">sound</span>() {
+        <span class="text-text-main dark:text-white">System.out.println(</span><span class="text-green-600 dark:text-green-400">"Some generic animal sound"</span><span class="text-text-main dark:text-white">);</span>
+    }
+}
+
+<span class="text-purple-600 dark:text-purple-400">class</span> <span class="text-yellow-600 dark:text-yellow-400">Dog</span> <span class="text-purple-600 dark:text-purple-400">extends</span> <span class="text-yellow-600 dark:text-yellow-400">Animal</span> {
+    
+    <span class="text-gray-500 italic">// Complete the overriding here</span>
+    <span class="bg-primary/10 border-l-2 border-primary pl-2 block my-1"><span class="text-purple-600 dark:text-purple-400">@Override</span>
+    <span class="text-purple-600 dark:text-purple-400">public void</span> <span class="text-blue-600 dark:text-blue-400">sound</span>() {
+        <span class="text-text-main dark:text-white">System.out.println(</span><span class="text-green-600 dark:text-green-400">"Bark"</span><span class="text-text-main dark:text-white">);</span>
+    }</span>
+}
+
+<span class="text-purple-600 dark:text-purple-400">public class</span> <span class="text-yellow-600 dark:text-yellow-400">Main</span> {
+    <span class="text-purple-600 dark:text-purple-400">public static void</span> <span class="text-blue-600 dark:text-blue-400">main</span>(String[] args) {
+        Animal myDog = <span class="text-purple-600 dark:text-purple-400">new</span> Dog();
+        myDog.sound(); 
+    }
+}
+</pre>
+</div>
+</div>
+<!-- Preview Mini Card (Floating or Bottom) -->
+<div class="mt-4 p-4 bg-white dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-sm">
+<div class="flex items-center justify-between mb-3">
+<h4 class="text-sm font-semibold text-text-main dark:text-white">Student View Preview</h4>
+<span class="text-xs px-2 py-1 bg-primary/10 text-primary rounded font-medium">Mobile</span>
+</div>
+<!-- Mock Mobile Phone Frame -->
+<div class="relative mx-auto w-full max-w-[320px] h-[180px] border-8 border-gray-800 rounded-[2rem] bg-gray-100 overflow-hidden shadow-xl">
+<!-- Top notch -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-4 bg-gray-800 rounded-b-xl z-10"></div>
+<!-- Screen Content -->
+<div class="w-full h-full bg-white flex flex-col pt-6 px-2">
+<div class="w-full h-2 bg-gray-200 rounded mb-2"></div>
+<div class="w-2/3 h-2 bg-gray-200 rounded mb-4"></div>
+<div class="flex flex-col gap-1">
+<div class="p-2 bg-blue-50 border border-blue-100 rounded text-[10px] font-mono text-blue-800">System.out.println("Bark");</div>
+<div class="p-2 bg-gray-50 border border-gray-100 rounded text-[10px] font-mono text-gray-400 dashed border-2 flex justify-center items-center">Drop code here</div>
+</div>
+<div class="mt-auto mb-2 bg-primary h-6 rounded-full w-full flex items-center justify-center text-[8px] text-white font-bold">RUN CODE</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Footer -->
+<footer class="shrink-0 bg-surface-light dark:bg-surface-dark border-t border-border-light dark:border-border-dark px-6 py-4 z-20 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+<div class="flex items-center justify-between max-w-[1600px] mx-auto w-full">
+<div class="flex items-center gap-2">
+<span class="text-text-sub text-sm">Status:</span>
+<span class="inline-flex items-center rounded-full bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">Draft</span>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-2.5 rounded-lg border border-border-dark/20 dark:border-border-light/20 text-text-main dark:text-white font-medium hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                    Save as Draft
+                </button>
+<button class="px-8 py-2.5 rounded-lg bg-primary hover:bg-primary-dark text-white font-semibold shadow-sm hover:shadow-md transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-xl">save</span>
+                    Simpan
+                </button>
+</div>
+</div>
+</footer>
+</body></html>
