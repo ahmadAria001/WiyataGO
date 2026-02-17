@@ -3,13 +3,55 @@
 use App\DataTransferObjects\ModelData;
 use App\Enums\Operation;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
+/**
+ * Create a concrete test DTO to satisfy ModelData's abstract methods.
+ */
+function createModelTestDto(array $data, Operation $operation = Operation::Create): ModelData
+{
+    return new class($data, $operation) extends ModelData
+    {
+        public function getOrCreateModel(): Model
+        {
+            return $this->model ?? new class extends Model
+            {
+                protected $guarded = [];
+            };
+        }
+
+        /**
+         * @return array<string, mixed>
+         */
+        public function getFillableData(): array
+        {
+            return $this->data;
+        }
+
+        // Helper methods to access static factory methods for testing
+        public static function makeForCreate(array $data): static
+        {
+            return self::forCreate($data);
+        }
+
+        public static function makeForUpdate(Model $model, array $data): static
+        {
+            return self::forUpdate($model, $data);
+        }
+
+        public static function makeForDelete(Model $model): static
+        {
+            return self::forDelete($model);
+        }
+    };
+}
+
 it('can be created with data and operation', function () {
     $data = ['name' => 'John Doe', 'email' => 'john@example.com'];
-    $dto = new class($data, Operation::Create) extends ModelData {};
+    $dto = createModelTestDto($data);
 
     expect($dto->toArray())->toBe($data)
         ->and($dto->getOperation())->toBe(Operation::Create)
@@ -17,7 +59,7 @@ it('can be created with data and operation', function () {
 });
 
 it('can set and get model', function () {
-    $dto = new class([], Operation::Create) extends ModelData {};
+    $dto = createModelTestDto([]);
     $user = User::factory()->make();
 
     $dto->setModel($user);
@@ -26,14 +68,14 @@ it('can set and get model', function () {
 });
 
 it('can get data value by key', function () {
-    $dto = new class(['name' => 'Jane'], Operation::Create) extends ModelData {};
+    $dto = createModelTestDto(['name' => 'Jane']);
 
     expect($dto->get('name'))->toBe('Jane')
         ->and($dto->get('missing', 'default'))->toBe('default');
 });
 
 it('can set data value by key', function () {
-    $dto = new class([], Operation::Create) extends ModelData {};
+    $dto = createModelTestDto([]);
 
     $dto->set('name', 'Alice');
 
@@ -41,7 +83,7 @@ it('can set data value by key', function () {
 });
 
 it('can check if key exists', function () {
-    $dto = new class(['name' => 'Bob'], Operation::Create) extends ModelData {};
+    $dto = createModelTestDto(['name' => 'Bob']);
 
     expect($dto->has('name'))->toBeTrue()
         ->and($dto->has('missing'))->toBeFalse();
@@ -49,15 +91,9 @@ it('can check if key exists', function () {
 
 it('creates forCreate instance correctly', function () {
     $data = ['name' => 'Test'];
-    $dto = new class([], Operation::Create) extends ModelData
-    {
-        public static function makeForCreate(array $data): static
-        {
-            return self::forCreate($data);
-        }
-    };
+    $tempDto = createModelTestDto([]); // Just to access the class
 
-    $created = $dto::makeForCreate($data);
+    $created = $tempDto::makeForCreate($data);
 
     expect($created->toArray())->toBe($data)
         ->and($created->getOperation())->toBe(Operation::Create);
@@ -66,15 +102,9 @@ it('creates forCreate instance correctly', function () {
 it('creates forUpdate instance correctly', function () {
     $user = User::factory()->make();
     $data = ['name' => 'Updated'];
-    $dto = new class([], Operation::Create) extends ModelData
-    {
-        public static function makeForUpdate($model, array $data): static
-        {
-            return self::forUpdate($model, $data);
-        }
-    };
+    $tempDto = createModelTestDto([]);
 
-    $updated = $dto::makeForUpdate($user, $data);
+    $updated = $tempDto::makeForUpdate($user, $data);
 
     expect($updated->toArray())->toBe($data)
         ->and($updated->getOperation())->toBe(Operation::Update)
@@ -83,15 +113,9 @@ it('creates forUpdate instance correctly', function () {
 
 it('creates forDelete instance correctly', function () {
     $user = User::factory()->make();
-    $dto = new class([], Operation::Create) extends ModelData
-    {
-        public static function makeForDelete($model): static
-        {
-            return self::forDelete($model);
-        }
-    };
+    $tempDto = createModelTestDto([]);
 
-    $deleted = $dto::makeForDelete($user);
+    $deleted = $tempDto::makeForDelete($user);
 
     expect($deleted->toArray())->toBe([])
         ->and($deleted->getOperation())->toBe(Operation::Delete)

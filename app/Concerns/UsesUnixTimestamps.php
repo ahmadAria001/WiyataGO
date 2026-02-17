@@ -11,6 +11,20 @@ use DateTimeInterface;
  */
 trait UsesUnixTimestamps
 {
+    public function initializeUsesUnixTimestamps()
+    {
+        $this->makeHidden('id');
+        $this->makeVisible('ulid');
+    }
+
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'ulid';
+    }
+
     /**
      * Get the format for database stored dates.
      */

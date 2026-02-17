@@ -4,6 +4,9 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import '../css/app.css';
 import { initializeTheme } from './hooks/use-appearance';
+import { TooltipProvider } from './components/ui/tooltip';
+import { Toaster } from './components/ui/sonner';
+import { AlertDialogProvider } from './hooks/use-alert-dialog';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -19,7 +22,12 @@ createInertiaApp({
 
         root.render(
             <StrictMode>
-                <App {...props} />
+                <AlertDialogProvider>
+                    <TooltipProvider delayDuration={0}>
+                        <App {...props} />
+                        <Toaster position="top-right" />
+                    </TooltipProvider>
+                </AlertDialogProvider>
             </StrictMode>,
         );
     },

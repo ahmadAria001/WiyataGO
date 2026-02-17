@@ -1,5 +1,6 @@
-import { useState } from 'react';
 import { Form, Head } from '@inertiajs/react';
+import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
@@ -9,7 +10,6 @@ import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
-import { Eye, EyeOff } from 'lucide-react';
 
 export default function Register() {
     const [showPassword, setShowPassword] = useState(false);

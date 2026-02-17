@@ -3,9 +3,35 @@
 use App\DataTransferObjects\ModelData;
 use App\Enums\Operation;
 use App\Pipes\SanitizeDataPipe;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * Create a concrete test DTO to satisfy ModelData's abstract methods.
+ */
+function createTestDto(array $data, Operation $operation = Operation::Create): ModelData
+{
+    return new class($data, $operation) extends ModelData
+    {
+        public function getOrCreateModel(): Model
+        {
+            return $this->model ?? new class extends Model
+            {
+                protected $guarded = [];
+            };
+        }
+
+        /**
+         * @return array<string, mixed>
+         */
+        public function getFillableData(): array
+        {
+            return $this->data;
+        }
+    };
+}
 
 it('trims string values', function () {
-    $dto = new class(['name' => '  John Doe  ', 'email' => ' test@example.com '], Operation::Create) extends ModelData {};
+    $dto = createTestDto(['name' => '  John Doe  ', 'email' => ' test@example.com ']);
     $pipe = new SanitizeDataPipe;
 
     $result = $pipe->handle($dto, fn ($dto) => $dto);
@@ -15,7 +41,7 @@ it('trims string values', function () {
 });
 
 it('handles nested arrays', function () {
-    $dto = new class(['user' => ['name' => '  Jane  ', 'details' => ['bio' => '  Hello World  ']]], Operation::Create) extends ModelData {};
+    $dto = createTestDto(['user' => ['name' => '  Jane  ', 'details' => ['bio' => '  Hello World  ']]]);
     $pipe = new SanitizeDataPipe;
 
     $result = $pipe->handle($dto, fn ($dto) => $dto);
@@ -25,7 +51,7 @@ it('handles nested arrays', function () {
 });
 
 it('preserves non-string values', function () {
-    $dto = new class(['count' => 42, 'active' => true, 'items' => null], Operation::Create) extends ModelData {};
+    $dto = createTestDto(['count' => 42, 'active' => true, 'items' => null]);
     $pipe = new SanitizeDataPipe;
 
     $result = $pipe->handle($dto, fn ($dto) => $dto);
@@ -36,7 +62,7 @@ it('preserves non-string values', function () {
 });
 
 it('handles empty data gracefully', function () {
-    $dto = new class([], Operation::Create) extends ModelData {};
+    $dto = createTestDto([]);
     $pipe = new SanitizeDataPipe;
 
     $result = $pipe->handle($dto, fn ($dto) => $dto);
