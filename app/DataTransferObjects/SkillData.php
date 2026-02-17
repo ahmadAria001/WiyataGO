@@ -22,6 +22,10 @@ class SkillData extends ModelData
             'name',
             'description',
             'remedial_material_url',
+            'position_x',
+            'position_y',
+            'difficulty',
+            'xp_reward',
         ]), ARRAY_FILTER_USE_KEY);
     }
 

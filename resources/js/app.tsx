@@ -3,6 +3,9 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import '../css/app.css';
+import { Toaster } from './components/ui/sonner';
+import { TooltipProvider } from './components/ui/tooltip';
+import { AlertDialogProvider } from './hooks/use-alert-dialog';
 import { initializeTheme } from './hooks/use-appearance';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
@@ -19,7 +22,12 @@ createInertiaApp({
 
         root.render(
             <StrictMode>
-                <App {...props} />
+                <AlertDialogProvider>
+                    <TooltipProvider delayDuration={0}>
+                        <App {...props} />
+                        <Toaster position="top-right" />
+                    </TooltipProvider>
+                </AlertDialogProvider>
             </StrictMode>,
         );
     },

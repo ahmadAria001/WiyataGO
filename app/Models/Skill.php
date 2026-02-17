@@ -26,6 +26,10 @@ class Skill extends Model
         'name',
         'description',
         'remedial_material_url',
+        'position_x',
+        'position_y',
+        'difficulty',
+        'xp_reward',
     ];
 
     /**
@@ -60,7 +64,7 @@ class Skill extends Model
             'skill_prerequisites',
             'skill_id',
             'prerequisite_skill_id'
-        )->withTimestamps();
+        )->using(SkillPrerequisite::class)->withTimestamps();
     }
 
     /**
@@ -75,7 +79,7 @@ class Skill extends Model
             'skill_prerequisites',
             'prerequisite_skill_id',
             'skill_id'
-        )->withTimestamps();
+        )->using(SkillPrerequisite::class)->withTimestamps();
     }
 
     /**
@@ -102,6 +106,46 @@ class Skill extends Model
     public function problems(): HasMany
     {
         return $this->hasMany(ParsonsProblem::class);
+    }
+
+    /**
+     * Check if adding a prerequisite would create a cycle in the DAG.
+     *
+     * If we add "prerequisite -> this", we need to check if "this" is already
+     * an ancestor of "prerequisite" (i.e., can we reach "this" by following
+     * the prerequisites of the proposed prerequisite skill).
+     *
+     * In other words: we traverse UP from prerequisiteId following its
+     * prerequisites to see if we ever reach $this->id.
+     */
+    public function wouldCreateCycle(string $prerequisiteId): bool
+    {
+        $visited = [];
+        $stack = [$prerequisiteId];
+
+        while (! empty($stack)) {
+            $currentId = array_pop($stack);
+
+            if ($currentId === $this->id) {
+                return true;
+            }
+
+            if (in_array($currentId, $visited)) {
+                continue;
+            }
+
+            $visited[] = $currentId;
+
+            // Get the prerequisites OF the current skill (traverse upward)
+            $nextIds = \DB::table('skill_prerequisites')
+                ->where('skill_id', $currentId)
+                ->pluck('prerequisite_skill_id')
+                ->toArray();
+
+            $stack = array_merge($stack, $nextIds);
+        }
+
+        return false;
     }
 
     /**

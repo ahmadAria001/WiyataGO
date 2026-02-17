@@ -42,4 +42,21 @@ interface DataTransferObjectInterface
      * Check if a data key exists.
      */
     public function has(string $key): bool;
+
+    /**
+     * Get the operation being performed.
+     */
+    public function getOperation(): \App\Enums\Operation;
+
+    /**
+     * Get or create the model instance.
+     */
+    public function getOrCreateModel(): \Illuminate\Database\Eloquent\Model;
+
+    /**
+     * Get only the fillable data for the model.
+     *
+     * @return array<string, mixed>
+     */
+    public function getFillableData(): array;
 }

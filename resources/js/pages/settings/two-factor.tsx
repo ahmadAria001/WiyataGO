@@ -96,7 +96,10 @@ export default function TwoFactor({
                             <div>
                                 {hasSetupData ? (
                                     <Button
-                                        onClick={() => setShowSetupModal(true)}
+                                        onClick={() => {
+                                            if (!qrCodeSvg) fetchSetupData();
+                                            setShowSetupModal(true);
+                                        }}
                                     >
                                         <ShieldCheck />
                                         Continue Setup
@@ -104,9 +107,10 @@ export default function TwoFactor({
                                 ) : (
                                     <Form
                                         {...enable.form()}
-                                        onSuccess={() =>
-                                            setShowSetupModal(true)
-                                        }
+                                        onSuccess={() => {
+                                            setShowSetupModal(true);
+                                            fetchSetupData();
+                                        }}
                                     >
                                         {({ processing }) => (
                                             <Button
@@ -131,7 +135,6 @@ export default function TwoFactor({
                         qrCodeSvg={qrCodeSvg}
                         manualSetupKey={manualSetupKey}
                         clearSetupData={clearSetupData}
-                        fetchSetupData={fetchSetupData}
                         errors={errors}
                     />
                 </div>
