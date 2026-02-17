@@ -1,8 +1,8 @@
 import { render, screen, fireEvent, act } from '@testing-library/react';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { NodeSidebar } from '@/components/skill-tree/node-sidebar';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import type { SkillNodeData } from '@/components/skill-tree/skill-node';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Mock useIsMobile hook
 vi.mock('@/hooks/use-mobile', () => ({
@@ -17,7 +17,7 @@ global.ResizeObserver = vi.fn().mockImplementation(() => ({
 }));
 
 // Mock PointerEvents for Sheet
-window.PointerEvent = MouseEvent as any;
+window.PointerEvent = MouseEvent as unknown as typeof PointerEvent;
 Object.assign(window.navigator, {
     clipboard: {
         writeText: vi.fn(),
@@ -53,7 +53,7 @@ describe('NodeSidebar', () => {
     beforeEach(() => {
         vi.clearAllMocks();
         // Default to desktop
-        (useIsMobile as any).mockReturnValue(false);
+        vi.mocked(useIsMobile).mockReturnValue(false);
     });
 
     it('renders null when no skill is selected', () => {
@@ -65,7 +65,7 @@ describe('NodeSidebar', () => {
 
     describe('Desktop View', () => {
         beforeEach(() => {
-            (useIsMobile as any).mockReturnValue(false);
+            vi.mocked(useIsMobile).mockReturnValue(false);
         });
 
         it('renders as a sidebar div', () => {
@@ -129,7 +129,7 @@ describe('NodeSidebar', () => {
 
     describe('Mobile View', () => {
         beforeEach(() => {
-            (useIsMobile as any).mockReturnValue(true);
+            vi.mocked(useIsMobile).mockReturnValue(true);
         });
 
         it('renders using Sheet component', () => {

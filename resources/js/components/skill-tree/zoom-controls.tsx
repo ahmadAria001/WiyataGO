@@ -1,8 +1,8 @@
 import { Plus, Minus, Maximize } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useKeyboardShortcut } from '@/hooks/use-keyboard-shortcut';
-import { Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
 import { Kbd } from '../ui/kbd';
+import { Tooltip, TooltipTrigger, TooltipContent } from '../ui/tooltip';
 
 interface ZoomControlsProps {
     zoom: number;

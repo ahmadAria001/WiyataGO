@@ -1,3 +1,4 @@
+import { Trash2Icon, AlertCircleIcon } from 'lucide-react';
 import React, {
     createContext,
     useCallback,
@@ -16,7 +17,7 @@ import {
     AlertDialogMedia,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { Trash2Icon, AlertCircleIcon } from 'lucide-react';
+import { useKeyboardShortcut } from './use-keyboard-shortcut';
 
 /**
  * Options for confirm dialog
@@ -81,6 +82,10 @@ const AlertDialogContext = createContext<AlertDialogContextValue | null>(null);
  */
 export function AlertDialogProvider({ children }: { children: ReactNode }) {
     const [dialogState, setDialogState] = useState<DialogState | null>(null);
+
+    useKeyboardShortcut(['Escape'], () => {
+        setDialogState(null);
+    });
 
     const confirm = useCallback((options: ConfirmDialogOptions) => {
         return new Promise<boolean>((resolve) => {

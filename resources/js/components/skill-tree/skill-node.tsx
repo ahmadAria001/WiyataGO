@@ -1,7 +1,7 @@
+import { Tooltip } from '@radix-ui/react-tooltip';
 import { Flag, Blocks, GitBranch, Puzzle } from 'lucide-react';
 import { memo, useCallback, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Tooltip } from '@radix-ui/react-tooltip';
 import { TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 export interface SkillNodeData {
@@ -119,15 +119,12 @@ export const SkillNode = memo(function SkillNode({
         [isDragging, onDragEnd],
     );
 
-    const handleClick = useCallback(
-        (e: React.MouseEvent) => {
-            // Only trigger click if we haven't dragged
-            if (!hasDraggedRef.current) {
-                onClick();
-            }
-        },
-        [onClick],
-    );
+    const handleClick = useCallback(() => {
+        // Only trigger click if we haven't dragged
+        if (!hasDraggedRef.current) {
+            onClick();
+        }
+    }, [onClick]);
 
     return (
         <div

@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { reloadData, skillsApi } from '@/api/skills';
-import { wouldCreateCycle } from '@/lib/skill-tree-utils';
 import type { SkillNodeData } from '@/components/skill-tree';
+import { wouldCreateCycle } from '@/lib/skill-tree-utils';
 
 /**
  * Hook for managing prerequisite relationships

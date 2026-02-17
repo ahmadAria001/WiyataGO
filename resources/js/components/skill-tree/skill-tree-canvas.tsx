@@ -1,8 +1,9 @@
 import { AlertCircle, X } from 'lucide-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { useKeyboardShortcut } from '@/hooks/use-keyboard-shortcut';
+import { usePinchZoom } from '@/hooks/use-pinch-zoom';
 import { CanvasToolbar, type ToolMode } from './canvas-toolbar';
 import { ConnectionLayer } from './connection-layer';
 import { SkillNode, type SkillNodeData } from './skill-node';
@@ -29,7 +30,6 @@ export function SkillTreeCanvas({
     onUpdatePosition,
     onSavePositions,
     onAddPrerequisite,
-    onRemovePrerequisite,
     onAddSkill,
     onDragStart,
     connectionError,
@@ -58,37 +58,6 @@ export function SkillTreeCanvas({
         setPanY(0);
     }, []);
 
-    const handlePointerDown = useCallback(
-        (e: React.PointerEvent) => {
-            if (toolMode === 'pan' || e.button === 1) {
-                e.preventDefault();
-                setIsPanning(true);
-                setDragStart({ x: e.clientX - panX, y: e.clientY - panY });
-            } else if (toolMode === 'select') {
-                // Clicking on empty canvas deselects
-                if (e.target === containerRef.current) {
-                    onSelectSkill(null);
-                }
-            }
-        },
-        [toolMode, panX, panY, onSelectSkill],
-    );
-
-    const handlePointerMove = useCallback(
-        (e: React.PointerEvent) => {
-            if (isPanning) {
-                e.preventDefault();
-                setPanX(e.clientX - dragStart.x);
-                setPanY(e.clientY - dragStart.y);
-            }
-        },
-        [isPanning, dragStart],
-    );
-
-    const handlePointerUp = useCallback(() => {
-        setIsPanning(false);
-    }, []);
-
     const handleNodeClick = useCallback(
         (skill: SkillNodeData) => {
             if (toolMode === 'connect') {
@@ -103,6 +72,107 @@ export function SkillTreeCanvas({
             }
         },
         [toolMode, connectSource, onAddPrerequisite, onSelectSkill],
+    );
+
+    // Pinch-to-Zoom
+    const {
+        handlePointerDown: handlePinchDown,
+        handlePointerMove: handlePinchMove,
+        handlePointerUp: handlePinchUp,
+        isPinching,
+    } = usePinchZoom({
+        onZoom: (ratio, center) => {
+            setZoom((prevZoom) => {
+                const newZoom = Math.min(Math.max(prevZoom * ratio, 0.5), 2);
+
+                // Adjust pan to zoom towards center
+                // Formula: newPan = center - (center - oldPan) * (newZoom / oldZoom)
+                // We need to account that panX/Y are transforms, not scroll offsets.
+                // The center in client coordinates needs to be mapped to the canvas space.
+
+                // Let's simplify:
+                // We need to keep the point under the 'center' at the same screen position.
+                // ScreenPoint = (CanvasPoint * Zoom) + Pan
+                // CanvasPoint = (ScreenPoint - Pan) / Zoom
+
+                // We want: ScreenPoint_New = ScreenPoint_Old
+                // (CanvasPoint * NewZoom) + NewPan = (CanvasPoint * OldZoom) + OldPan
+                // NewPan = OldPan + CanvasPoint * (OldZoom - NewZoom)
+                // NewPan = OldPan + ((ScreenPoint - OldPan) / OldZoom) * (OldZoom - NewZoom)
+
+                // Let's verify this math.
+                // Center relative to container
+                if (containerRef.current) {
+                    const rect = containerRef.current.getBoundingClientRect();
+                    const centerX = center.x - rect.left;
+                    const centerY = center.y - rect.top;
+
+                    setPanX(
+                        (prevPanX) =>
+                            prevPanX +
+                            ((centerX - prevPanX) / prevZoom) *
+                                (prevZoom - newZoom),
+                    );
+                    setPanY(
+                        (prevPanY) =>
+                            prevPanY +
+                            ((centerY - prevPanY) / prevZoom) *
+                                (prevZoom - newZoom),
+                    );
+                }
+
+                return newZoom;
+            });
+        },
+        onPan: (dx, dy) => {
+            setPanX((p) => p + dx);
+            setPanY((p) => p + dy);
+        },
+    });
+
+    const handlePointerDown = useCallback(
+        (e: React.PointerEvent) => {
+            handlePinchDown(e);
+
+            if (isPinching()) return;
+
+            if (toolMode === 'pan' || e.button === 1) {
+                e.preventDefault();
+                setIsPanning(true);
+                setDragStart({ x: e.clientX - panX, y: e.clientY - panY });
+            } else if (toolMode === 'select') {
+                // Clicking on empty canvas deselects
+                if (e.target === containerRef.current) {
+                    onSelectSkill(null);
+                }
+            }
+        },
+        [toolMode, panX, panY, onSelectSkill, handlePinchDown, isPinching],
+    );
+
+    const handlePointerMove = useCallback(
+        (e: React.PointerEvent) => {
+            handlePinchMove(e);
+
+            if (isPinching()) return;
+
+            if (isPanning) {
+                e.preventDefault();
+                setPanX(e.clientX - dragStart.x);
+                setPanY(e.clientY - dragStart.y);
+            }
+        },
+        [isPanning, dragStart, handlePinchMove, isPinching],
+    );
+
+    const handlePointerUp = useCallback(
+        (e: React.PointerEvent) => {
+            handlePinchUp(e);
+            if (!isPinching()) {
+                setIsPanning(false);
+            }
+        },
+        [handlePinchUp, isPinching],
     );
 
     const handleNodeDrag = useCallback(
@@ -129,9 +199,13 @@ export function SkillTreeCanvas({
         setToolMode((current) => (current === 'pan' ? 'select' : 'pan'));
     });
 
-    useKeyboardShortcut(['ctrl+n', 'meta+n'], () => {
-        onAddSkill();
-    });
+    useKeyboardShortcut(
+        ['ctrl+e', 'meta+e'],
+        () => {
+            onAddSkill();
+        },
+        { preventDefault: true },
+    );
 
     return (
         <div className="relative h-full w-full overflow-hidden bg-slate-50 dark:bg-slate-900">

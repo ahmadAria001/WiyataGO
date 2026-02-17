@@ -1,3 +1,5 @@
+import { GripVertical } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
     Sheet,
     SheetContent,
@@ -5,13 +7,11 @@ import {
     SheetDescription,
 } from '@/components/ui/sheet';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { cn } from '@/lib/utils';
 import {
     NodeSidebarContent,
     type NodeSidebarContentProps,
 } from './node-sidebar-content';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { cn } from '@/lib/utils';
-import { GripVertical } from 'lucide-react';
 
 /* eslint-disable-next-line @typescript-eslint/no-empty-object-type */
 interface NodeSidebarProps extends NodeSidebarContentProps {}

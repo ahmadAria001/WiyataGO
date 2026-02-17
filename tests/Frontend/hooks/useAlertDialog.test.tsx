@@ -1,15 +1,8 @@
 // @vitest-environment jsdom
-import {
-    render,
-    screen,
-    act,
-    renderHook,
-    fireEvent,
-} from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen, fireEvent } from '@testing-library/react';
+import React from 'react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { AlertDialogProvider, useAlertDialog } from '@/hooks/use-alert-dialog';
-import React from 'react';
 
 // Mock the UI components to simplify DOM structure for testing
 // We only need to check if the correct props are passed and events triggered
@@ -27,7 +20,7 @@ vi.mock('@/components/ui/alert-dialog', () => ({
     AlertDialogHeader: ({ children }: { children: React.ReactNode }) => (
         <div>{children}</div>
     ),
-    // eslint-disable-next-line
+
     AlertDialogMedia: ({ children }: { children: React.ReactNode }) => (
         <div data-testid="alert-media">{children}</div>
     ),
@@ -109,7 +102,12 @@ describe('useAlertDialog', () => {
             .mockImplementation(() => {});
 
         expect(() => {
-            renderHook(() => useAlertDialog());
+            // Using a simple component that calls the hook to test the error
+            const TestHook = () => {
+                useAlertDialog();
+                return null;
+            };
+            render(<TestHook />);
         }).toThrow('useAlertDialog must be used within AlertDialogProvider');
 
         consoleSpy.mockRestore();

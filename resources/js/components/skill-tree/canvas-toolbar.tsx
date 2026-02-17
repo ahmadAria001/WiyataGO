@@ -1,8 +1,10 @@
 import { Plus, GitBranch, Hand, Undo, Redo } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useKeyboardShortcut } from '@/hooks/use-keyboard-shortcut';
 import { cn } from '@/lib/utils';
-import { Toggle } from '../ui/toggle';
+import { useSkillStore } from '@/stores/use-skill-store';
 import { Kbd } from '../ui/kbd';
+import { Toggle } from '../ui/toggle';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 export type ToolMode = 'select' | 'connect' | 'pan';
@@ -12,9 +14,6 @@ interface CanvasToolbarProps {
     onModeChange: (mode: ToolMode) => void;
     onAddNode: () => void;
 }
-
-import { useSkillStore } from '@/stores/use-skill-store';
-import { useKeyboardShortcut } from '@/hooks/use-keyboard-shortcut';
 
 export function CanvasToolbar({
     mode,
@@ -59,7 +58,7 @@ export function CanvasToolbar({
                     </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                    <p>Add Node</p> <Kbd>Ctrl + N</Kbd>
+                    <p>Add Node</p> <Kbd>Ctrl + E</Kbd>
                 </TooltipContent>
             </Tooltip>
 

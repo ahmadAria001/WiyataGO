@@ -5,7 +5,7 @@ import { usePage } from '@inertiajs/react';
  *
  * @returns CSRF token string
  */
-export function getCSRFToken(): string {
+export function useCSRFToken(): string {
     const { props } = usePage();
     return (props as { csrf?: string }).csrf || '';
 }

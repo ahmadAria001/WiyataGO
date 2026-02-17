@@ -9,7 +9,6 @@ import {
     destroy,
 } from '@/actions/App/Http/Controllers/SkillController';
 import { Button } from '@/components/ui/button';
-import { useAlertDialog } from '@/hooks/use-alert-dialog';
 import {
     Card,
     CardContent,
@@ -27,6 +26,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { useAlertDialog } from '@/hooks/use-alert-dialog';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
 

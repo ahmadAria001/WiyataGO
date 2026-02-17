@@ -4,6 +4,7 @@ import {
     edit,
     destroy,
 } from '@/actions/App/Http/Controllers/CourseController';
+import { index as skillsIndex } from '@/actions/App/Http/Controllers/SkillController';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -12,10 +13,9 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
+import { useAlertDialog } from '@/hooks/use-alert-dialog';
 import AppLayout from '@/layouts/app-layout';
 import type { BreadcrumbItem } from '@/types';
-import { index as skillsIndex } from '@/actions/App/Http/Controllers/SkillController';
-import { useAlertDialog } from '@/hooks/use-alert-dialog';
 
 interface Skill {
     ulid: string;

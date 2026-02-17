@@ -1,11 +1,7 @@
 import { Head, router } from '@inertiajs/react';
-import {
-    startTransition,
-    useCallback,
-    useEffect,
-    useMemo,
-    useState,
-} from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
+import { flushSync } from 'react-dom';
+import { toast } from 'sonner';
 import {
     index as coursesIndex,
     show as showCourse,
@@ -16,11 +12,6 @@ import {
     type SkillNodeData,
 } from '@/components/skill-tree';
 import { Button } from '@/components/ui/button';
-import AppLayout from '@/layouts/app-layout';
-import { useSkillPositions } from '@/hooks/use-skill-positions';
-import { usePrerequisites } from '@/hooks/use-prerequisites';
-import { useSkillCRUD } from '@/hooks/use-skill-crud';
-import type { BreadcrumbItem } from '@/types';
 import { Kbd } from '@/components/ui/kbd';
 import {
     Tooltip,
@@ -28,9 +19,12 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useAlertDialog } from '@/hooks/use-alert-dialog';
+import { usePrerequisites } from '@/hooks/use-prerequisites';
+import { useSkillCRUD } from '@/hooks/use-skill-crud';
+import { useSkillPositions } from '@/hooks/use-skill-positions';
+import AppLayout from '@/layouts/app-layout';
 import { useSkillStore } from '@/stores/use-skill-store';
-import { toast } from 'sonner';
-import { flushSync } from 'react-dom';
+import type { BreadcrumbItem } from '@/types';
 
 interface Course {
     ulid: string;
@@ -56,12 +50,12 @@ export default function SkillBuilder({ course, skills: initialSkills }: Props) {
     useEffect(() => {
         setCourseId(course.ulid);
         resetHistory();
-    }, [course.ulid]);
+    }, [course.ulid, resetHistory, setCourseId]);
 
     // Sync props to store when server data changes
     useEffect(() => {
         setSkills(initialSkills, false); // Update data without creating a history entry
-    }, [initialSkills]);
+    }, [initialSkills, setSkills]);
 
     const currentCursorSkill = useMemo(
         () => skills.find((s) => s.ulid == selectedSkillId) || null,
@@ -87,23 +81,26 @@ export default function SkillBuilder({ course, skills: initialSkills }: Props) {
         { title: 'Skill Builder', href: '#' },
     ];
 
-    const handleSelectSkill = useCallback((skill: SkillNodeData | null) => {
-        if (!skill) {
-            setSelectedSkillId(null);
-            return;
-        }
-        flushSync(() => setSelectedSkillId(skill.ulid));
-    }, []);
+    const handleSelectSkill = useCallback(
+        (skill: SkillNodeData | null) => {
+            if (!skill) {
+                setSelectedSkillId(null);
+                return;
+            }
+            flushSync(() => setSelectedSkillId(skill.ulid));
+        },
+        [setSelectedSkillId],
+    );
 
     const alertDialog = useAlertDialog();
 
-    const reloadData = () => {
+    const reloadData = useCallback(() => {
         router.reload({
             only: ['skills'],
             onSuccess: (res) =>
                 setSkills((res.props as unknown as Props).skills, false),
         });
-    };
+    }, [setSkills]);
 
     const addSkill = async () => {
         const confirmed = await alertDialog.confirm({
@@ -134,7 +131,7 @@ export default function SkillBuilder({ course, skills: initialSkills }: Props) {
 
         crud.updateSkill(currentCursorSkill.ulid, currentCursorSkill);
         reloadData();
-    }, [currentCursorSkill]);
+    }, [currentCursorSkill, crud, reloadData]);
 
     useEffect(() => {
         const removeListener = router.on('invalid', (event) => {
@@ -155,7 +152,7 @@ export default function SkillBuilder({ course, skills: initialSkills }: Props) {
         return () => {
             removeListener();
         };
-    }, []);
+    }, [reloadData]);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -213,60 +210,62 @@ export default function SkillBuilder({ course, skills: initialSkills }: Props) {
                     </div>
 
                     {/* Sidebar */}
-                    <NodeSidebar
-                        skill={currentCursorSkill}
-                        onClose={() => {
-                            setSelectedSkillId(null);
-                        }}
-                        onUpdate={handleUpdateSkill}
-                        onEditStart={checkpoint}
-                        onDuplicate={() => {
-                            if (!currentCursorSkill) return;
-                            checkpoint();
-                            crud.duplicateSkill(currentCursorSkill);
-                            reloadData();
-                        }}
-                        onDelete={async () => {
-                            if (!selectedSkillId) return;
-
-                            const confirmed = await alertDialog.confirm({
-                                title: 'Delete skill',
-                                description:
-                                    'Are you sure you want to delete this skill? This action cannot be undone.',
-                                confirmText: 'Delete',
-                                variant: 'destructive',
-                            });
-
-                            if (confirmed) {
-                                checkpoint(); // Save state before deletion
-                                crud.deleteBuilderSkill(selectedSkillId);
+                    {currentCursorSkill && (
+                        <NodeSidebar
+                            skill={currentCursorSkill}
+                            onClose={() => {
                                 setSelectedSkillId(null);
-                                reloadData();
-                            }
-                        }}
-                        onSave={handleSaveSkill}
-                        onRemovePrerequisite={async (prereqId) => {
-                            if (!selectedSkillId) return;
-
-                            const confirmed = await alertDialog.confirm({
-                                title: 'Remove prerequisite',
-                                description:
-                                    'Are you sure you want to remove this prerequisite? This action cannot be undone.',
-                                confirmText: 'Remove',
-                                variant: 'destructive',
-                            });
-
-                            if (confirmed) {
+                            }}
+                            onUpdate={handleUpdateSkill}
+                            onEditStart={checkpoint}
+                            onDuplicate={() => {
+                                if (!currentCursorSkill) return;
                                 checkpoint();
-                                prerequisites.removePrerequisite(
-                                    selectedSkillId,
-                                    prereqId,
-                                );
+                                crud.duplicateSkill(currentCursorSkill);
                                 reloadData();
-                            }
-                        }}
-                        isSaving={crud.isSaving}
-                    />
+                            }}
+                            onDelete={async () => {
+                                if (!selectedSkillId) return;
+
+                                const confirmed = await alertDialog.confirm({
+                                    title: 'Delete skill',
+                                    description:
+                                        'Are you sure you want to delete this skill? This action cannot be undone.',
+                                    confirmText: 'Delete',
+                                    variant: 'destructive',
+                                });
+
+                                if (confirmed) {
+                                    checkpoint(); // Save state before deletion
+                                    crud.deleteBuilderSkill(selectedSkillId);
+                                    setSelectedSkillId(null);
+                                    reloadData();
+                                }
+                            }}
+                            onSave={handleSaveSkill}
+                            onRemovePrerequisite={async (prereqId) => {
+                                if (!selectedSkillId) return;
+
+                                const confirmed = await alertDialog.confirm({
+                                    title: 'Remove prerequisite',
+                                    description:
+                                        'Are you sure you want to remove this prerequisite? This action cannot be undone.',
+                                    confirmText: 'Remove',
+                                    variant: 'destructive',
+                                });
+
+                                if (confirmed) {
+                                    checkpoint();
+                                    prerequisites.removePrerequisite(
+                                        selectedSkillId,
+                                        prereqId,
+                                    );
+                                    reloadData();
+                                }
+                            }}
+                            isSaving={crud.isSaving}
+                        />
+                    )}
                 </div>
             </div>
         </AppLayout>

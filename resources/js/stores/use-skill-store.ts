@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import type { SkillNodeData } from '@/components/skill-tree';
 import { skillsApi } from '@/api/skills';
+import type { SkillNodeData } from '@/components/skill-tree';
 
 interface HistoryState {
     past: SkillNodeData[][];

@@ -76,7 +76,7 @@ it('rejects cycle creation via API', function () {
     // Try to make A require B via API (should fail)
     $response = $this->actingAs($user)->postJson(
         route('courses.skills.prerequisites.store', [$course, $skillA]),
-        ['prerequisite_id' => $skillB->id]
+        ['prerequisite_id' => $skillB->ulid]
     );
 
     $response->assertStatus(422);

@@ -1,6 +1,6 @@
+import { type VisitOptions } from '@inertiajs/core';
 import { router } from '@inertiajs/react';
 import type { SkillNodeData } from '@/components/skill-tree';
-import { type VisitOptions } from '@inertiajs/core';
 
 export const reloadData = (dataKey: Array<string>) => {
     router.reload({ only: dataKey });
@@ -96,6 +96,7 @@ export const skillsApi = {
     ): void {
         router.post(
             `/courses/${courseId}/skills/sync`,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             { skills: skills as any },
             {
                 preserveState: true,

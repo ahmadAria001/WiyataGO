@@ -1,7 +1,7 @@
+import { act } from '@testing-library/react';
 import { describe, it, expect, beforeEach } from 'vitest';
-import { act, renderHook } from '@testing-library/react';
-import { useSkillStore } from '@/stores/use-skill-store';
 import type { SkillNodeData } from '@/components/skill-tree';
+import { useSkillStore } from '@/stores/use-skill-store';
 
 // Helper to create mock skills
 const createMockSkill = (id: string, name: string): SkillNodeData => ({
