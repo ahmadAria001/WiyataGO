@@ -9,5 +9,6 @@ node_pkgs.mkShell {
   nativeBuildInputs = [
     node_pkgs.nodejs_24
     node_pkgs.pnpm
+    node_pkgs.typescript
   ];
 }

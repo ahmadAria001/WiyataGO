@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\SkillCategory;
 use App\Models\Course;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -34,6 +35,8 @@ class SkillFactory extends Factory
             'course_id' => Course::factory(),
             'name' => fake()->randomElement($skillNames),
             'description' => fake()->paragraph(),
+            'category' => fake()->randomElement(SkillCategory::cases()),
+            'content' => null,
             'remedial_material_url' => fake()->optional(0.5)->url(),
         ];
     }

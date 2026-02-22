@@ -3,11 +3,14 @@ import { Flag, Blocks, GitBranch, Puzzle } from 'lucide-react';
 import { memo, useCallback, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import type { Value as EditorValue } from 'platejs';
 
 export interface SkillNodeData {
     ulid: string;
     name: string;
     description: string | null;
+    category: 'theory' | 'practice' | 'review';
+    content: EditorValue | null;
     position_x: number;
     position_y: number;
     difficulty: 'beginner' | 'intermediate' | 'advanced';

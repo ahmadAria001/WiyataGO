@@ -212,6 +212,7 @@ export default function SkillBuilder({ course, skills: initialSkills }: Props) {
                     {/* Sidebar */}
                     {currentCursorSkill && (
                         <NodeSidebar
+                            key={currentCursorSkill.ulid}
                             skill={currentCursorSkill}
                             onClose={() => {
                                 setSelectedSkillId(null);

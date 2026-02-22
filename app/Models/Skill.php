@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Concerns\UsesUnixTimestamps;
+use App\Enums\SkillCategory;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,12 +26,27 @@ class Skill extends Model
         'course_id',
         'name',
         'description',
+        'category',
+        'content',
         'remedial_material_url',
         'position_x',
         'position_y',
         'difficulty',
         'xp_reward',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'category' => SkillCategory::class,
+            'content' => 'array',
+        ];
+    }
 
     /**
      * Get the columns that should receive a unique identifier.

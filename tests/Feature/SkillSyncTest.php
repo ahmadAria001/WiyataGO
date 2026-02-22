@@ -198,3 +198,71 @@ test('it restores soft deleted skills when synced', function () {
         'deleted_at' => null,
     ]);
 });
+
+test('it can sync skills with category and content', function () {
+    $user = User::factory()->create();
+    $course = Course::factory()->create(['teacher_id' => $user->id]);
+
+    $contentJson = [
+        ['type' => 'h1', 'children' => [['text' => 'Introduction']]],
+        ['type' => 'p', 'children' => [['text' => 'This is a lesson about OOP.']]],
+    ];
+
+    $payload = [
+        'skills' => [
+            [
+                'ulid' => (string) \Illuminate\Support\Str::ulid(),
+                'name' => 'OOP Basics',
+                'description' => 'Learn about OOP',
+                'category' => 'practice',
+                'content' => $contentJson,
+                'position_x' => 100,
+                'position_y' => 200,
+                'difficulty' => 'beginner',
+                'xp_reward' => 50,
+                'remedial_material_url' => null,
+                'prerequisites' => [],
+            ],
+        ],
+    ];
+
+    $response = $this->actingAs($user)
+        ->postJson(route('courses.skills.sync', $course), $payload);
+
+    $response->assertStatus(200);
+
+    $this->assertDatabaseHas('skills', [
+        'name' => 'OOP Basics',
+        'category' => 'practice',
+    ]);
+
+    $skill = Skill::query()->where('name', 'OOP Basics')->first();
+    expect($skill->content)->toBe($contentJson);
+});
+
+test('it rejects invalid category in sync', function () {
+    $user = User::factory()->create();
+    $course = Course::factory()->create(['teacher_id' => $user->id]);
+
+    $payload = [
+        'skills' => [
+            [
+                'ulid' => (string) \Illuminate\Support\Str::ulid(),
+                'name' => 'Some Skill',
+                'description' => null,
+                'category' => 'invalid_category',
+                'position_x' => 100,
+                'position_y' => 200,
+                'difficulty' => 'beginner',
+                'xp_reward' => 50,
+                'remedial_material_url' => null,
+                'prerequisites' => [],
+            ],
+        ],
+    ];
+
+    $this->actingAs($user)
+        ->postJson(route('courses.skills.sync', $course), $payload)
+        ->assertStatus(422)
+        ->assertJsonValidationErrors(['skills.0.category']);
+});

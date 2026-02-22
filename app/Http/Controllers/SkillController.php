@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTransferObjects\SkillData;
+use App\Enums\SkillCategory;
 use App\Http\Requests\StoreSkillRequest;
 use App\Http\Requests\UpdateSkillRequest;
 use App\Http\Utils;
@@ -15,6 +16,7 @@ use App\Services\ModelPipelineService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -234,6 +236,8 @@ class SkillController extends Controller
             'skills.*.position_x' => ['required', 'integer'],
             'skills.*.position_y' => ['required', 'integer'],
             'skills.*.description' => ['nullable', 'string'],
+            'skills.*.category' => ['nullable', Rule::enum(SkillCategory::class)],
+            'skills.*.content' => ['nullable', 'array'],
             'skills.*.difficulty' => ['required', 'in:beginner,intermediate,advanced'],
             'skills.*.xp_reward' => ['required', 'integer', 'min:0'],
             'skills.*.remedial_material_url' => ['nullable', 'string'],
@@ -273,6 +277,8 @@ class SkillController extends Controller
                 $attributes = [
                     'name' => $skillData['name'],
                     'description' => $skillData['description'] ?? '',
+                    'category' => $skillData['category'] ?? 'theory',
+                    'content' => $skillData['content'] ?? null,
                     'position_x' => $skillData['position_x'],
                     'position_y' => $skillData['position_y'],
                     'difficulty' => $skillData['difficulty'],
