@@ -17,7 +17,7 @@ import {
 interface NodeSidebarProps extends NodeSidebarContentProps {}
 
 const MIN_WIDTH = 300;
-const MAX_WIDTH = 600;
+const MAX_WIDTH = 1000;
 const DEFAULT_WIDTH = 320;
 
 export function NodeSidebar(props: NodeSidebarProps) {

@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
+@plugin 'tailwind-scrollbar-hide';
+
 @import 'tailwindcss';
 
 @import 'tw-animate-css';
@@ -121,6 +123,8 @@
 
     --skill-tree-dots-color: oklch(0.922 0 0);
     --softer-primary: #00bc7d;
+    --brand: oklch(0.623 0.214 259.815);
+    --highlight: oklch(0.852 0.199 91.936);
 }
 
 .dark {
@@ -161,6 +165,10 @@
     --skill-tree-dots-color: oklch(36.386% 0.00004 271.152);
 
     --softer-primary: #00bc7d;
+
+    --brand: oklch(0.707 0.165 254.624);
+
+    --highlight: oklch(0.852 0.199 91.936);
 }
 
 @layer base {
@@ -181,6 +189,22 @@
 }
 
 @layer utilities {
+    .scrollbar::-webkit-scrollbar {
+        @apply h-2 w-2;
+    }
+
+    .scrollbar::-webkit-scrollbar-track {
+        @apply rounded-full bg-secondary;
+    }
+
+    .scrollbar::-webkit-scrollbar-thumb {
+        @apply rounded-full bg-primary;
+    }
+
+    .scrollbar::-webkit-scrollbar-thumb:hover {
+        @apply bg-primary;
+    }
+
     [data-slot='tooltip-content'] {
         @apply bg-softer-primary text-primary-foreground;
     }
@@ -194,4 +218,9 @@
     .primary-toggle[aria-pressed='true'] {
         @apply bg-primary text-primary-foreground;
     }
+}
+
+@theme inline {
+    --color-brand: var(--brand);
+    --color-highlight: var(--highlight);
 }
