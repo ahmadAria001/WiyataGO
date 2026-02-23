@@ -21,6 +21,8 @@ class SkillData extends ModelData
             'course_id',
             'name',
             'description',
+            'category',
+            'content',
             'remedial_material_url',
             'position_x',
             'position_y',

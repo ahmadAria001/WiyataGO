@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { NodeSidebar } from '@/components/skill-tree/node-sidebar';
-import type { SkillNodeData } from '@/components/skill-tree/skill-node';
+import { type SkillNodeData } from '@/components/skill-tree/skill-node';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 // Mock useIsMobile hook
@@ -34,10 +34,10 @@ const mockSkill: SkillNodeData = {
     description: 'Test Description',
     difficulty: 'beginner',
     xp_reward: 100,
+    remedial_material_url: '',
+    position_x: 0,
+    position_y: 0,
     prerequisites: [],
-    x: 0,
-    y: 0,
-    category: 'concept',
 };
 
 const defaultProps = {

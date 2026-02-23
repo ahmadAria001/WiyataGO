@@ -1,5 +1,8 @@
 import { X, Copy, Trash2, Zap, Blocks } from 'lucide-react';
+import { Plate, usePlateEditor } from 'platejs/react';
+import { KEYS, type Value as EditorValue } from 'platejs';
 import { Button } from '@/components/ui/button';
+import { Editor, EditorContainer } from '@/components/ui/editor';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -10,7 +13,10 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { SidebarEditorKit } from '../editor/sidebar-editor-kit';
 import type { SkillNodeData } from './skill-node';
+import { useEffect } from 'react';
+import { toEditorValue } from '@/lib/utils';
 
 export interface NodeSidebarContentProps {
     skill: SkillNodeData;
@@ -37,6 +43,18 @@ export function NodeSidebarContent({
 }: NodeSidebarContentProps) {
     const descriptionLength = skill.description?.length || 0;
     const maxDescriptionLength = 150;
+    const initialValue: EditorValue = [
+        {
+            type: 'p',
+            children: [{ text: 'This is starting content for the new node.' }],
+        },
+    ];
+
+    const editor = usePlateEditor({
+        plugins: [...SidebarEditorKit],
+        value: toEditorValue(skill.content || initialValue),
+        // skill.content || [{ type: 'p', children: [{ text: '' }] }],
+    });
 
     return (
         <div className="flex h-full flex-col bg-background">
@@ -99,6 +117,53 @@ export function NodeSidebarContent({
                             </span>
                             /{maxDescriptionLength} characters
                         </div>
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label htmlFor="content">Content (Rich Text)</Label>
+                        <Plate
+                            editor={editor}
+                            onChange={(e) =>
+                                onUpdate({
+                                    content: e.value as Record<
+                                        string,
+                                        unknown
+                                    >[],
+                                })
+                            }
+                        >
+                            <EditorContainer>
+                                <Editor
+                                    placeholder="Type your detailed explanation here..."
+                                    className="border-2 border-slate-200 px-0"
+                                    variant="default"
+                                />
+                            </EditorContainer>
+                        </Plate>
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label>Category</Label>
+                        <Select
+                            value={skill.category}
+                            onValueChange={(value) =>
+                                onUpdate({
+                                    category:
+                                        value as SkillNodeData['category'],
+                                })
+                            }
+                        >
+                            <SelectTrigger>
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="theory">Theory</SelectItem>
+                                <SelectItem value="practice">
+                                    Practice
+                                </SelectItem>
+                                <SelectItem value="review">Review</SelectItem>
+                            </SelectContent>
+                        </Select>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
